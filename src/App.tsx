@@ -1,3 +1,4 @@
+import RatingSelector from "./assets/components/RatingSelector";
 import Select from "./assets/components/Select";
 import logo from "./assets/logo.jpg";
 import React from "react";
@@ -9,14 +10,14 @@ const App: React.FC = () => {
 		{ value: "rest3", label: "Rest3" },
 		{ value: "rest4", label: "Rest4" },
 	];
-	interface Option {
-		value: string;
-		label: string;
-	}
 
-	const handleSelect = (selectedOption: Option) => {
+	const handleSelect = (selectedOption: any) => {
 		console.log("Selected option:", selectedOption);
 	};
+
+	 const handleRatingSelect = (rating: string) => {
+			console.log("Selected rating:", rating);
+		};
 
 	return (
 		<>
@@ -35,8 +36,9 @@ const App: React.FC = () => {
 				<h1 className='text-red-400'>
 					نأمل أن تكون وجبتك كانت ممتعة كما تمنيت
 				</h1>
+
 				<div>
-					<div className="flex justify-between">
+					<div className='flex justify-between'>
 						<h1>Choose the outlet</h1>
 						<h1> اختصر المطعم</h1>
 					</div>
@@ -44,6 +46,35 @@ const App: React.FC = () => {
 						options={options}
 						onSelect={handleSelect}
 					/>
+				</div>
+
+				<div>
+					<div className='w-screen flex justify-between'>
+						<h1>Food Quality</h1>
+						<h1>جودة الطعام</h1>
+					</div>
+
+					<div>
+						<RatingSelector onSelect={handleRatingSelect} />
+					</div>
+
+					<div className='w-screen flex justify-between'>
+						<h1>Service Quality</h1>
+						<h1>جودة الخدمة</h1>
+					</div>
+
+					<div>
+						<RatingSelector onSelect={handleRatingSelect} />
+					</div>
+
+					<div className='w-screen flex justify-between'>
+						<h1>Food Price</h1>
+						<h1>سعر الوجبات</h1>
+					</div>
+
+					<div>
+						<RatingSelector onSelect={handleRatingSelect} />
+					</div>
 				</div>
 			</div>
 		</>
