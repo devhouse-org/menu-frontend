@@ -8,11 +8,15 @@ interface Option {
 interface DropdownProps {
 	options: Option[];
 	onSelect: (selectedOption: Option) => void;
+	titleEn: string;
+	titleAr: string;
 }
 
 const Select: React.FC<DropdownProps> = ({
 	options,
 	onSelect,
+	titleEn,
+	titleAr,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedOption, setSelectedOption] =
@@ -25,11 +29,20 @@ const Select: React.FC<DropdownProps> = ({
 	};
 
 	return (
-		<div className='relative inline-block text-left'>
+		<div className='relative inline-block text-left w-full'>
 			<div>
+				<div className='flex justify-between'>
+					<h1 className='text-lg font-bold mb-2'>
+						{titleEn}
+					</h1>
+					<h1 className='text-lg font-bold mb-2'>
+						{titleAr}
+					</h1>
+				</div>
+
 				<button
 					type='button'
-					className='inline-flex justify-between w-screen rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'
+					className='w-full inline-flex justify-between rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'
 					onClick={() => setIsOpen(!isOpen)}
 				>
 					{selectedOption
@@ -51,7 +64,7 @@ const Select: React.FC<DropdownProps> = ({
 				</button>
 			</div>
 			{isOpen && (
-				<div className='origin-top-right absolute right-0 mt-2 w-screen rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'>
+				<div className='w-full origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'>
 					<div
 						className='py-1'
 						role='menu'
