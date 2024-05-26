@@ -35,14 +35,14 @@ const Select: React.FC<DropdownProps> = ({
 					<h1 className='text-lg font-bold mb-2'>
 						{titleEn}
 					</h1>
-					<h1 className='text-lg font-bold mb-2'>
+					<h1 className='text-lg font-bold mb-2 font-noto-kufi-arabic'>
 						{titleAr}
 					</h1>
 				</div>
 
 				<button
 					type='button'
-					className='w-full inline-flex justify-between rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'
+					className='w-full inline-flex justify-between rounded-md border border-coral-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:border-Yale-Blue-900'
 					onClick={() => setIsOpen(!isOpen)}
 				>
 					{selectedOption
@@ -63,6 +63,7 @@ const Select: React.FC<DropdownProps> = ({
 					</svg>
 				</button>
 			</div>
+
 			{isOpen && (
 				<div className='w-full origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'>
 					<div

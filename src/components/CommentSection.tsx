@@ -29,7 +29,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				<h1 className='text-lg font-bold mb-2'>
 					{titleEn}
 				</h1>
-				<h1 className='text-lg font-bold mb-2'>
+				<h1 className='text-lg font-bold mb-2 font-noto-kufi-arabic'>
 					{titleAr}
 				</h1>
 			</div>
@@ -38,7 +38,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				placeholder='Enter your comment...'
 				value={comment}
 				onChange={handleInputChange}
-				className='border border-gray-300 rounded-md px-3 py-2 w-full h-24'
+				className='border border-coral-300 rounded-md px-3 py-2 w-full h-24 focus:outline-none focus:border-Yale-Blue-900'
 			/>
 		</div>
 	);

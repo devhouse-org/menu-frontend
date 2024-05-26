@@ -29,7 +29,7 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 				<h1 className='text-lg font-bold mb-2'>
 					{titleEn}
 				</h1>
-				<h1 className='text-lg font-bold mb-2'>
+				<h1 className='text-lg font-bold mb-2 font-noto-kufi-arabic'>
 					{titleAr}
 				</h1>
 			</div>
