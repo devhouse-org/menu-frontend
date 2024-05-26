@@ -30,12 +30,12 @@ const HomePage: React.FC = () => {
 					backgroundPosition: "center",
 				}}
 			></div>
-			<div className='flex flex-col justify-center items-center w-9/12 p-4 gap-6 z-10 h-screen'>
+			<div className='flex flex-col justify-center items-center w-9/12 gap-24 z-10 h-screen p-6 md:p-24'>
 				<div className='h-1/2 flex justify-center items-center '>
 					<img
 						src={logo}
 						alt='Logo'
-						className='w-3/4'
+						className='lg:h-full object-cover'
 					/>
 				</div>
 
