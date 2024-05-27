@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Logo-H.png";
 
-const Navbar: React.FC = () => {
+interface props {
+	accessCode: string;
+}
+
+const Navbar: React.FC<props> = ({ accessCode }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleMenu = () => {
@@ -10,56 +14,60 @@ const Navbar: React.FC = () => {
 	};
 
 	return (
-		<nav className='bg-Yale-Blue-900 text-white p-4 px-6 flex items-center justify-between fixed z-50 w-screen'>
-			<Link to='/'>
-				<img
-					src={logo}
-					alt='Logo'
-					className='h-12'
-				/>
-			</Link>
-
-			<div className='relative'>
-				<button
-					onClick={toggleMenu}
-					className='focus:outline-none'
-				>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className='h-8 w-8'
-						fill='none'
-						viewBox='0 0 24 24'
-						stroke='currentColor'
-					>
-						<path
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							strokeWidth={2}
-							d='M4 6h16M4 12h16m-7 6h7'
+		<div>
+			{accessCode ? (
+				<nav className='bg-Yale-Blue-900 text-white p-4 px-6 flex items-center justify-between fixed z-50 w-screen'>
+					<Link to='/'>
+						<img
+							src={logo}
+							alt='Logo'
+							className='h-12'
 						/>
-					</svg>
-				</button>
+					</Link>
 
-				{isOpen && (
-					<div className='absolute top-12 -right-10 mt-2 w-48 bg-white rounded-md shadow-lg font-montserrat text-Yale-Blue-900'>
-						<Link
-							to='/menu'
-							className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+					<div className='relative'>
+						<button
 							onClick={toggleMenu}
+							className='focus:outline-none'
 						>
-							Menu
-						</Link>
-						<Link
-							to='/survey'
-							className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
-							onClick={toggleMenu}
-						>
-							Survey
-						</Link>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								className='h-8 w-8'
+								fill='none'
+								viewBox='0 0 24 24'
+								stroke='currentColor'
+							>
+								<path
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									strokeWidth={2}
+									d='M4 6h16M4 12h16m-7 6h7'
+								/>
+							</svg>
+						</button>
+
+						{isOpen && (
+							<div className='absolute top-12 -right-10 mt-2 w-48 bg-white rounded-md shadow-lg font-montserrat text-Yale-Blue-900'>
+								<Link
+									to='/menu'
+									className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+									onClick={toggleMenu}
+								>
+									Menu
+								</Link>
+								<Link
+									to='/survey'
+									className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+									onClick={toggleMenu}
+								>
+									Survey
+								</Link>
+							</div>
+						)}
 					</div>
-				)}
-			</div>
-		</nav>
+				</nav>
+			) : null}
+		</div>
 	);
 };
 

@@ -40,7 +40,7 @@ const menuItems = [
 		image: Dish4,
 	},
 	{
-		id: 1,
+		id: 5,
 		name: "Item 1",
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis metus at luctus suscipit. Aenean facilisis dolor sit amet posuere rutrum. Praesent eu euismod turpis, ut commodo sem. Aliquam fringilla euismod varius. Proin rhoncus, lacus eget blandit mattis, odio ipsum ultrices arcu, et laoreet massa odio sit amet metus. ",
@@ -48,7 +48,7 @@ const menuItems = [
 		image: Dish1,
 	},
 	{
-		id: 2,
+		id: 6,
 		name: "Item 2",
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis metus at luctus suscipit. Aenean facilisis dolor sit amet posuere rutrum. Praesent eu euismod turpis, ut commodo sem. Aliquam fringilla euismod varius. Proin rhoncus, lacus eget blandit mattis, odio ipsum ultrices arcu, et laoreet massa odio sit amet metus. ",
@@ -56,7 +56,7 @@ const menuItems = [
 		image: Dish2,
 	},
 	{
-		id: 3,
+		id: 7,
 		name: "Item 3",
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis metus at luctus suscipit. Aenean facilisis dolor sit amet posuere rutrum. Praesent eu euismod turpis, ut commodo sem. Aliquam fringilla euismod varius. Proin rhoncus, lacus eget blandit mattis, odio ipsum ultrices arcu, et laoreet massa odio sit amet metus. ",
@@ -64,7 +64,7 @@ const menuItems = [
 		image: Dish3,
 	},
 	{
-		id: 4,
+		id: 8,
 		name: "Item 3",
 		description:
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis metus at luctus suscipit. Aenean facilisis dolor sit amet posuere rutrum. Praesent eu euismod turpis, ut commodo sem. Aliquam fringilla euismod varius. Proin rhoncus, lacus eget blandit mattis, odio ipsum ultrices arcu, et laoreet massa odio sit amet metus. ",
