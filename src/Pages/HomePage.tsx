@@ -38,7 +38,7 @@ const HomePage: React.FC<props> = ({
 					<img
 						src={logo}
 						alt='Logo'
-						className='lg:h-full object-cover'
+						className='lg:h-full object-contain'
 					/>
 				</div>
 
