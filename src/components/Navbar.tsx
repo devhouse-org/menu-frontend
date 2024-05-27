@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Logo-H.png";
 
-interface props {
-	accessCode: string;
-}
-
-const Navbar: React.FC<props> = ({ accessCode }) => {
+const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleMenu = () => {
@@ -14,8 +10,6 @@ const Navbar: React.FC<props> = ({ accessCode }) => {
 	};
 
 	return (
-		<div>
-			{accessCode ? (
 				<nav className='bg-Yale-Blue-900 text-white p-4 px-6 flex items-center justify-between fixed z-50 w-screen'>
 					<Link to='/'>
 						<img
@@ -66,8 +60,6 @@ const Navbar: React.FC<props> = ({ accessCode }) => {
 						)}
 					</div>
 				</nav>
-			) : null}
-		</div>
 	);
 };
 

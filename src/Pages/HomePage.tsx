@@ -8,16 +8,19 @@ interface props {
 	handleAccessCodeChange: (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => void;
+	handleAccessCodeSubmit: (code: string) => void;
 }
 
 const HomePage: React.FC<props> = ({
 	accessCode,
 	handleAccessCodeChange,
+	handleAccessCodeSubmit,
 }) => {
 	const navigate = useNavigate();
 
 	const handleSubmit = () => {
 		if (accessCode) {
+			handleAccessCodeSubmit(accessCode);
 			navigate("/menu");
 		}
 	};
