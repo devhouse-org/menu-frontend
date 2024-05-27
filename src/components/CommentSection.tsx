@@ -3,13 +3,13 @@ import React, { useState } from "react";
 interface CommentSectionProps {
 	onChange: (comment: string) => void;
 	titleAr: string;
-    titleEn: string;
+	titleEn: string;
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({
-    onChange,
-    titleEn,
-    titleAr
+	onChange,
+	titleEn,
+	titleAr,
 }) => {
 	const [comment, setComment] = useState("");
 
@@ -20,8 +20,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		setComment(newComment);
 		onChange(newComment);
 	};
-
-
 
 	return (
 		<div className='mt-4 w-full'>

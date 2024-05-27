@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import RatingSelector from "../components/RatingSelector";
 import CommentSection from "../components/CommentSection";
 import Select from "../components/Select";
-// import logo from "../assets/logo.png";
 
 const SurveyPage: React.FC = () => {
 	const options = [

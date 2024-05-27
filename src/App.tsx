@@ -8,75 +8,71 @@ import HomePage from "./Pages/HomePage";
 import MenuPage from "./Pages/MenuPage";
 import SurveyPage from "./Pages/SurveyPage";
 import Navbar from "./components/Navbar";
+import WelcomePage from "./Pages/WelcomePage";
 
 const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
+	const [showNav, setShowNav] = useState<boolean>(false);
 
+
+	// Access Code Change
 	const handleAccessCodeChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		setAccessCode(event.target.value);
 	};
 
-const handleAccessCodeSubmit = (code: string) => {
-	setAccessCode(code);
-	localStorage.setItem("accessCode", code);
-};
-	
+	// Access Code Submit
+	const handleAccessCodeSubmit = (code: string) => {
+		setAccessCode(code);
+		localStorage.setItem("accessCode", code);
+		setShowNav(true);
+	};
+
+	// Logout
+	const handleLogout = () => {
+		setAccessCode("");
+		localStorage.removeItem("accessCode");
+		setShowNav(false);
+	};
+
+	// Refresh Protection
 	useEffect(() => {
 		// Retrieve access code from localStorage if it exists
 		const savedAccessCode =
 			localStorage.getItem("accessCode");
 		if (savedAccessCode) {
 			setAccessCode(savedAccessCode);
+			setShowNav(true);
 		}
 	}, []);
 
-
 	return (
 		<Router>
-			<MainContent
-				accessCode={accessCode}
-				handleAccessCodeChange={handleAccessCodeChange}
-				handleAccessCodeSubmit={handleAccessCodeSubmit}
-			/>
-		</Router>
-	);
-};
-
-const MainContent: React.FC<{
-	accessCode: string;
-	handleAccessCodeChange: (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => void;
-	handleAccessCodeSubmit: (code: string) => void;
-}> = ({
-	accessCode,
-	handleAccessCodeChange,
-	handleAccessCodeSubmit,
-}) => {
-
-	return (
-		<>
-			{localStorage.getItem("accessCode") && (
-				<Navbar/>
-			)}
-
+			{showNav && <Navbar />}
 			<Routes>
 				<Route
 					path='/'
 					element={
-						<HomePage
-							accessCode={accessCode}
-							handleAccessCodeChange={
-								handleAccessCodeChange
-							}
-							handleAccessCodeSubmit={
-								handleAccessCodeSubmit
-							}
-						/>
+						localStorage.getItem("accessCode") ? (
+							<WelcomePage
+								accessCode={accessCode}
+								handleLogout={handleLogout}
+							/>
+						) : (
+							<HomePage
+								accessCode={accessCode}
+								handleAccessCodeChange={
+									handleAccessCodeChange
+								}
+								handleAccessCodeSubmit={
+									handleAccessCodeSubmit
+								}
+							/>
+						)
 					}
 				/>
+
 				<Route
 					path='/menu'
 					element={<MenuPage />}
@@ -86,7 +82,7 @@ const MainContent: React.FC<{
 					element={<SurveyPage />}
 				/>
 			</Routes>
-		</>
+		</Router>
 	);
 };
 

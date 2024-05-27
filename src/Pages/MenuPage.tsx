@@ -85,10 +85,10 @@ const MenuPage: React.FC = () => {
 					backgroundPosition: "center",
 				}}
 			></div>
+
 			<h1 className='pt-24 text-white z-10 text-6xl font-medium'>
 				Menu
 			</h1>
-
 
 			{/* Items Card */}
 			<div className='flex flex-col gap-4 w-full z-10 py-16'>

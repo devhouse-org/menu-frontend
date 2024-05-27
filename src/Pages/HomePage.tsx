@@ -18,6 +18,7 @@ const HomePage: React.FC<props> = ({
 }) => {
 	const navigate = useNavigate();
 
+	// Handle Submit
 	const handleSubmit = () => {
 		if (accessCode) {
 			handleAccessCodeSubmit(accessCode);
@@ -36,7 +37,9 @@ const HomePage: React.FC<props> = ({
 					backgroundPosition: "center",
 				}}
 			></div>
+
 			<div className='flex flex-col justify-center items-center w-9/12 gap-24 z-10 h-screen p-6 md:p-24'>
+				{/* Logo */}
 				<div className='h-1/2 flex justify-center items-center '>
 					<img
 						src={logo}
@@ -45,6 +48,7 @@ const HomePage: React.FC<props> = ({
 					/>
 				</div>
 
+				{/* Input */}
 				<div className='h-1/2 w-full flex flex-col gap-5'>
 					<div className='w-full flex justify-center'>
 						<h1 className='text-white text-2xl'>
@@ -59,6 +63,7 @@ const HomePage: React.FC<props> = ({
 						className='border p-4 rounded w-full'
 						placeholder='Enter your access code'
 					/>
+					
 					<button
 						onClick={handleSubmit}
 						className='mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
