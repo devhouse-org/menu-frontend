@@ -24,7 +24,7 @@ const HomePage: React.FC<props> = ({
 }) => {
 	const navigate = useNavigate();
 
-	// Handle Submit
+	// Handle Code Submit
 	const handleSubmit = () => {
 		if (accessCode) {
 			handleAccessCodeSubmit(accessCode);

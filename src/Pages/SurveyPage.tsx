@@ -1,18 +1,39 @@
 import React, { useState } from "react";
 import RatingSelector from "../components/RatingSelector";
 import CommentSection from "../components/CommentSection";
-import Select from "../components/Select";
+// import Select from "../components/Select";
+import {
+	ToastContainer,
+	toast,
+	Slide,
+} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Error Toast
+const showErrorToast = (message: string) => {
+	toast.error(message, {
+		position: "top-right",
+		autoClose: 5000,
+		hideProgressBar: false,
+		closeOnClick: true,
+		pauseOnHover: true,
+		draggable: true,
+		progress: undefined,
+		theme: "light",
+		transition: Slide,
+	});
+};
 
 const SurveyPage: React.FC = () => {
-	const options = [
-		{ value: "rest1", label: "Rest1" },
-		{ value: "rest2", label: "Rest2" },
-		{ value: "rest3", label: "Rest3" },
-		{ value: "rest4", label: "Rest4" },
-	];
+	// const options = [
+	// 	{ value: "rest1", label: "Rest1" },
+	// 	{ value: "rest2", label: "Rest2" },
+	// 	{ value: "rest3", label: "Rest3" },
+	// 	{ value: "rest4", label: "Rest4" },
+	// ];
 
-	const [selectedOutlet, setSelectedOutlet] =
-		useState<any>(null);
+	// const [selectedOutlet, setSelectedOutlet] =
+	// 	useState<any>(null);
 	const [ratings, setRatings] = useState({
 		quality: null,
 		service: null,
@@ -20,9 +41,9 @@ const SurveyPage: React.FC = () => {
 	});
 	const [comment, setComment] = useState<string>("");
 
-	const handleSelect = (selectedOption: any) => {
-		setSelectedOutlet(selectedOption);
-	};
+	// const handleSelect = (selectedOption: any) => {
+	// 	setSelectedOutlet(selectedOption);
+	// };
 
 	const handleRatingSelect = (
 		ratingType: string,
@@ -39,22 +60,40 @@ const SurveyPage: React.FC = () => {
 	};
 
 	const handleSubmit = () => {
-		console.log("Selected outlet:", selectedOutlet);
-		console.log("Selected ratings:", ratings);
-		console.log("Comment:", comment);
+		// if (!selectedOutlet) {
+		// 	showErrorToast("Please Select a Restaurant");
+		// }
+
+		if (!ratings.price) {
+			showErrorToast("Please, Rate the Price");
+		}
+
+		if (!ratings.quality) {
+			showErrorToast("Please, Rate Quality");
+		}
+
+		if (!ratings.service) {
+			showErrorToast("Please, Rate Service");
+		}
+
+		if (!comment) {
+			showErrorToast("Please, Write your Comment");
+		}
+
+		if (
+			ratings.quality &&
+			ratings.price &&
+			ratings.service &&
+			comment
+		) {
+			console.log("Selected ratings:", ratings);
+			console.log("Comment:", comment);
+		}
 	};
 
 	return (
 		<div className='w-screen min-h-screen flex justify-center items-center font-montserrat text-Yale-Blue-900 pt-20'>
 			<div className='flex flex-col w-9/12 p-4 py-8 gap-12'>
-				{/* Logo */}
-				{/* <div className='w-full flex justify-center'>
-					<img
-						src={logo}
-						alt='Logo'
-						className='w-28'
-					/>
-				</div> */}
 
 				{/* Header */}
 				<div className='w-full flex flex-col justify-center items-center text-2xl text-center gap-2'>
@@ -68,14 +107,14 @@ const SurveyPage: React.FC = () => {
 				</div>
 
 				{/* Choose Outlet */}
-				<div className='w-full'>
+				{/* <div className='w-full'>
 					<Select
 						options={options}
 						onSelect={handleSelect}
 						titleEn='Choose the outlet'
 						titleAr='اختر المطعم'
 					/>
-				</div>
+				</div> */}
 
 				{/* Choose Quality */}
 				<div className='w-full flex flex-col gap-10 justify-center items-center'>
@@ -116,6 +155,7 @@ const SurveyPage: React.FC = () => {
 				>
 					Submit
 				</button>
+				<ToastContainer pauseOnFocusLoss={false} />
 			</div>
 		</div>
 	);
