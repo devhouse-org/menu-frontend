@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import BG from "../assets/BG.png";
 import logo from "../assets/logo.png";
 
-const HomePage: React.FC = () => {
-	const [accessCode, setAccessCode] = useState<string>("");
-	const navigate = useNavigate();
-
-	const handleAccessCodeChange = (
+interface props {
+	accessCode: string;
+	handleAccessCodeChange: (
 		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setAccessCode(event.target.value);
-	};
+	) => void;
+}
+
+const HomePage: React.FC<props> = ({
+	accessCode,
+	handleAccessCodeChange,
+}) => {
+	const navigate = useNavigate();
 
 	const handleSubmit = () => {
 		if (accessCode) {

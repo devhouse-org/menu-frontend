@@ -89,6 +89,7 @@ const MenuPage: React.FC = () => {
 				Menu
 			</h1>
 
+
 			{/* Items Card */}
 			<div className='flex flex-col gap-4 w-full z-10 py-16'>
 				{menuItems.map((item) => (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	BrowserRouter as Router,
 	Route,
@@ -10,13 +10,28 @@ import SurveyPage from "./Pages/SurveyPage";
 import Navbar from "./components/Navbar";
 
 const App: React.FC = () => {
+	const [accessCode, setAccessCode] = useState<string>("");
+
+	const handleAccessCodeChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setAccessCode(event.target.value);
+	};
+
 	return (
 		<Router>
 			<Navbar />
 			<Routes>
 				<Route
 					path='/'
-					element={<HomePage />}
+					element={
+						<HomePage
+							accessCode={accessCode}
+							handleAccessCodeChange={
+								handleAccessCodeChange
+							}
+						/>
+					}
 				/>
 				<Route
 					path='/menu'
