@@ -74,15 +74,21 @@ const MenuPage: React.FC = () => {
 					onClose={handleCloseModal}
 				>
 					{/* Modal content for each item */}
-					<div>
+					<div className="flex flex-col gap-2" >
 						<img
 							src={item.image}
 							alt={item.name}
 						/>
-						<h2 className='w-full md:text-start text-center font-bold h-1/4 text-2xl'>
+						<h2 className='w-full text-center font-bold h-1/4 text-2xl'>
 							{item.name}
 						</h2>
 						<p>{item.description}</p>
+						<p className='text-coral-600 text-xl font-bold flex items-end w-full'>
+							<span className='text-Yale-Blue-900 pr-1'>
+								Price:
+							</span>
+							{item.price}
+						</p>
 					</div>
 				</Modal>
 			))}

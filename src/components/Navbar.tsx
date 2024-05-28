@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
 	const menuRef = useRef<HTMLDivElement>(null);
 
 	const toggleMenu = () => {
-		setIsOpen(!isOpen);
+  setIsOpen((prevIsOpen) => !prevIsOpen);
 	};
 
 	// Handle Mouse Click outside
