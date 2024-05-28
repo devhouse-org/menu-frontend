@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import RatingSelector from "../components/RatingSelector";
 import CommentSection from "../components/CommentSection";
-import {
-	ToastContainer,
-} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showErrorToast, showSuccessToast } from "../utils";
+import ConfettiExplosion from "react-confetti-explosion";
 
 const SurveyPage: React.FC = () => {
-
 	const [ratings, setRatings] = useState({
 		quality: null,
 		service: null,
 		price: null,
 	});
 	const [comment, setComment] = useState<string>("");
+	const [isExploding, setIsExploding] =
+		useState<boolean>(false);
 
 	const handleRatingSelect = (
 		ratingType: string,
@@ -31,28 +31,29 @@ const SurveyPage: React.FC = () => {
 	};
 
 	const handleSubmit = () => {
+		let isValid = true;
+
 		if (!ratings.price) {
 			showErrorToast("Please, Rate the Price");
+			isValid = false;
 		}
 
 		if (!ratings.quality) {
 			showErrorToast("Please, Rate Quality");
+			isValid = false;
 		}
 
 		if (!ratings.service) {
 			showErrorToast("Please, Rate Service");
+			isValid = false;
 		}
 
 		if (!comment) {
 			showErrorToast("Please, Write your Comment");
+			isValid = false;
 		}
 
-		if (
-			ratings.quality &&
-			ratings.price &&
-			ratings.service &&
-			comment
-		) {
+		if (isValid) {
 			showSuccessToast("Successfully Submitted");
 
 			// Reset ratings
@@ -64,9 +65,15 @@ const SurveyPage: React.FC = () => {
 
 			// Reset Comment
 			setComment("");
+			setIsExploding(true);
 
 			console.log("Selected ratings:", ratings);
 			console.log("Comment:", comment);
+
+			// Reset confetti explosion after a delay
+			setTimeout(() => {
+				setIsExploding(false);
+			}, 4000);
 		}
 	};
 
@@ -130,6 +137,14 @@ const SurveyPage: React.FC = () => {
 				>
 					Submit
 				</button>
+				{isExploding && (
+					<ConfettiExplosion
+						force={0.8}
+						duration={3000}
+						particleCount={250}
+						width={1600}
+					/>
+				)}
 				<ToastContainer pauseOnFocusLoss={false} />
 			</div>
 		</div>
