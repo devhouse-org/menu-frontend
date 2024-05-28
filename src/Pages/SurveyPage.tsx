@@ -86,6 +86,28 @@ const SurveyPage: React.FC = () => {
 			ratings.service &&
 			comment
 		) {
+			toast.success("Successfully Submitted", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+				transition: Slide,
+			});
+
+			// Reset ratings
+			setRatings({
+				quality: null,
+				service: null,
+				price: null,
+			});
+
+			// Reset Comment
+			setComment("");
+
 			console.log("Selected ratings:", ratings);
 			console.log("Comment:", comment);
 		}
@@ -94,7 +116,6 @@ const SurveyPage: React.FC = () => {
 	return (
 		<div className='w-screen min-h-screen flex justify-center items-center font-montserrat text-Yale-Blue-900 pt-20'>
 			<div className='flex flex-col w-9/12 p-4 py-8 gap-12'>
-
 				{/* Header */}
 				<div className='w-full flex flex-col justify-center items-center text-2xl text-center gap-2'>
 					<h1 className='pt-3 font-bold'>
@@ -124,6 +145,7 @@ const SurveyPage: React.FC = () => {
 						onSelect={(rating) =>
 							handleRatingSelect("quality", rating)
 						}
+						rating={ratings.quality}
 					/>
 					<RatingSelector
 						titleEn='Service Quality'
@@ -131,6 +153,7 @@ const SurveyPage: React.FC = () => {
 						onSelect={(rating) =>
 							handleRatingSelect("service", rating)
 						}
+						rating={ratings.service}
 					/>
 					<RatingSelector
 						titleEn='Food Price'
@@ -138,6 +161,7 @@ const SurveyPage: React.FC = () => {
 						onSelect={(rating) =>
 							handleRatingSelect("price", rating)
 						}
+						rating={ratings.price}
 					/>
 				</div>
 
@@ -146,6 +170,7 @@ const SurveyPage: React.FC = () => {
 					onChange={handleCommentChange}
 					titleAr={"الملاحظات"}
 					titleEn={"Comments"}
+					comment={comment}
 				/>
 
 				{/* Submit */}

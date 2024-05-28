@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { CiFaceSmile } from "react-icons/ci";
 import { CiFaceMeh } from "react-icons/ci";
 import { CiFaceFrown } from "react-icons/ci";
@@ -7,16 +7,22 @@ interface RatingSelectorProps {
 	onSelect: (rating: string) => void;
 	titleEn: string;
 	titleAr: string;
+	rating: string | null;
 }
 
 const RatingSelector: React.FC<RatingSelectorProps> = ({
 	onSelect,
 	titleEn,
 	titleAr,
+	rating,
 }) => {
 	const [selectedRating, setSelectedRating] = useState<
 		string | null
-	>(null);
+		>(rating);
+	
+	useEffect(() => {
+		setSelectedRating(rating);
+	}, [rating]);
 
 	const handleSelect = (rating: string) => {
 		setSelectedRating(rating);
