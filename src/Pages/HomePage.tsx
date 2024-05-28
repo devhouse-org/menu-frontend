@@ -2,12 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import BG from "../assets/BG.png";
 import logo from "../assets/logo.png";
-import {
-	ToastContainer,
-	toast,
-	Slide,
-} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { showErrorToast } from "../utils";
 
 interface props {
 	accessCode: string;
@@ -29,18 +27,7 @@ const HomePage: React.FC<props> = ({
 		if (accessCode) {
 			handleAccessCodeSubmit(accessCode);
 			navigate("/menu");
-		} else
-			toast.error("Please Enter Your Access Code", {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-				transition: Slide,
-			});
+		} else showErrorToast("Please Enter Your Access Code");
 	};
 
 	return (

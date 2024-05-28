@@ -1,49 +1,20 @@
 import React, { useState } from "react";
 import RatingSelector from "../components/RatingSelector";
 import CommentSection from "../components/CommentSection";
-// import Select from "../components/Select";
 import {
 	ToastContainer,
-	toast,
-	Slide,
 } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-// Error Toast
-const showErrorToast = (message: string) => {
-	toast.error(message, {
-		position: "top-right",
-		autoClose: 5000,
-		hideProgressBar: false,
-		closeOnClick: true,
-		pauseOnHover: true,
-		draggable: true,
-		progress: undefined,
-		theme: "light",
-		transition: Slide,
-	});
-};
+import { showErrorToast, showSuccessToast } from "../utils";
 
 const SurveyPage: React.FC = () => {
-	// const options = [
-	// 	{ value: "rest1", label: "Rest1" },
-	// 	{ value: "rest2", label: "Rest2" },
-	// 	{ value: "rest3", label: "Rest3" },
-	// 	{ value: "rest4", label: "Rest4" },
-	// ];
 
-	// const [selectedOutlet, setSelectedOutlet] =
-	// 	useState<any>(null);
 	const [ratings, setRatings] = useState({
 		quality: null,
 		service: null,
 		price: null,
 	});
 	const [comment, setComment] = useState<string>("");
-
-	// const handleSelect = (selectedOption: any) => {
-	// 	setSelectedOutlet(selectedOption);
-	// };
 
 	const handleRatingSelect = (
 		ratingType: string,
@@ -60,10 +31,6 @@ const SurveyPage: React.FC = () => {
 	};
 
 	const handleSubmit = () => {
-		// if (!selectedOutlet) {
-		// 	showErrorToast("Please Select a Restaurant");
-		// }
-
 		if (!ratings.price) {
 			showErrorToast("Please, Rate the Price");
 		}
@@ -86,17 +53,7 @@ const SurveyPage: React.FC = () => {
 			ratings.service &&
 			comment
 		) {
-			toast.success("Successfully Submitted", {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-				transition: Slide,
-			});
+			showSuccessToast("Successfully Submitted");
 
 			// Reset ratings
 			setRatings({
@@ -127,18 +84,9 @@ const SurveyPage: React.FC = () => {
 					</h1>
 				</div>
 
-				{/* Choose Outlet */}
-				{/* <div className='w-full'>
-					<Select
-						options={options}
-						onSelect={handleSelect}
-						titleEn='Choose the outlet'
-						titleAr='اختر المطعم'
-					/>
-				</div> */}
-
-				{/* Choose Quality */}
+				{/* Rate Quality */}
 				<div className='w-full flex flex-col gap-10 justify-center items-center'>
+					{/* Food Quality */}
 					<RatingSelector
 						titleEn='Food Quality'
 						titleAr='جودة الطعام'
@@ -147,6 +95,7 @@ const SurveyPage: React.FC = () => {
 						}
 						rating={ratings.quality}
 					/>
+					{/* Service Quality */}
 					<RatingSelector
 						titleEn='Service Quality'
 						titleAr='جودة الخدمة'
@@ -155,6 +104,7 @@ const SurveyPage: React.FC = () => {
 						}
 						rating={ratings.service}
 					/>
+					{/* Food Price */}
 					<RatingSelector
 						titleEn='Food Price'
 						titleAr='سعر الوجبات'

@@ -1,7 +1,5 @@
-// src/Pages/WelcomePage.tsx
-import React from "react";
 import BG from "../assets/BG.png";
-
+import React from "react";
 
 interface props {
 	accessCode: string;
@@ -12,9 +10,9 @@ const WelcomePage: React.FC<props> = ({
 	accessCode,
 	handleLogout,
 }) => {
+
 	return (
         <div className='relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat text-white p-6'>
-            
 			{/* Background Pattern */}
 			<div
 				className='absolute bg-Yale-Blue-900 w-full h-full z-0 backdrop-blur-sm'

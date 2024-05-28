@@ -14,7 +14,6 @@ const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
 	const [showNav, setShowNav] = useState<boolean>(false);
 
-
 	// Access Code Change
 	const handleAccessCodeChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -26,6 +25,8 @@ const App: React.FC = () => {
 	const handleAccessCodeSubmit = (code: string) => {
 		setAccessCode(code);
 		localStorage.setItem("accessCode", code);
+		console.log("acc2", accessCode);
+		console.log("loca",localStorage.getItem("accessCode"));
 		setShowNav(true);
 	};
 
