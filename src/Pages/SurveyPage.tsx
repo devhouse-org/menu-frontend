@@ -137,6 +137,8 @@ const SurveyPage: React.FC = () => {
 				>
 					Submit
 				</button>
+				
+				<div className="w-full flex justify-center items-center">
 				{isExploding && (
 					<ConfettiExplosion
 						force={0.8}
@@ -145,6 +147,7 @@ const SurveyPage: React.FC = () => {
 						width={1600}
 					/>
 				)}
+				</div>
 				<ToastContainer pauseOnFocusLoss={false} />
 			</div>
 		</div>
