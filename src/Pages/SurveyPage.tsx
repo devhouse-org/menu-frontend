@@ -5,6 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showErrorToast, showSuccessToast } from "../utils";
 import ConfettiExplosion from "react-confetti-explosion";
+import axiosInstance from "../axiosInstance";
+import { useQuery } from "@tanstack/react-query";
 
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState({
@@ -16,9 +18,33 @@ const SurveyPage: React.FC = () => {
 	const [isExploding, setIsExploding] =
 		useState<boolean>(false);
 
+	
+	const { data, isError, isPending } = useQuery({
+		queryKey: ["Survey"],
+		queryFn: async () => {
+			const response = await axiosInstance.get(
+				`/question/restaurant/${localStorage.getItem(
+					"RestaurantID"
+				)}`
+			);
+			return response.data;
+		},
+	});
+
+	console.log("Rest data is:", data);
+
+	if (isPending) {
+		return <div>Loading...</div>;
+	}
+
+	if (isError) {
+		return <div>Error</div>;
+	}
+
+	
 	const handleRatingSelect = (
 		ratingType: string,
-		rating: string
+		rating: number
 	) => {
 		setRatings((prevRatings) => ({
 			...prevRatings,

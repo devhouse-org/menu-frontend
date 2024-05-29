@@ -29,15 +29,22 @@ const HomePage: React.FC<props> = ({
 		  return axiosInstance.post('/restaurant/auth', data)
 		},
 		onSuccess(data:any) {
-			console.log(data.data);
-			setData(data.data)
+			console.log("d",data.data);
+			setData(data.data);
+					localStorage.setItem(
+						"RestaurantID",
+						data.data.id
+					);
+
 			navigate("/menu");
 		},
 		onError(){
 			localStorage.removeItem('accessCode')
 			navigate("/");
 		}
-	  })
+	})
+	
+	console.log("id", localStorage.getItem("RestaurantID"));
 	
 	// Handle Code Submit
 	const handleSubmit = () => {
