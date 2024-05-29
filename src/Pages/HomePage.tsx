@@ -1,14 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import BG from "../assets/BG.png";
 import logo from "../assets/logo.png";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import axiosInstance from "../axiosInstance";
 import { showErrorToast } from "../utils";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 interface props {
 	accessCode: string;
+	setData:any
 	handleAccessCodeChange: (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => void;
@@ -19,14 +21,29 @@ const HomePage: React.FC<props> = ({
 	accessCode,
 	handleAccessCodeChange,
 	handleAccessCodeSubmit,
+	setData
 }) => {
 	const navigate = useNavigate();
-
+	const mutation = useMutation({
+		mutationFn: (data:{accessCode:string}) => {
+		  return axiosInstance.post('/restaurant/auth', data)
+		},
+		onSuccess(data:any) {
+			console.log(data.data);
+			setData(data.data)
+			navigate("/menu");
+		},
+		onError(){
+			localStorage.removeItem('accessCode')
+			navigate("/");
+		}
+	  })
+	
 	// Handle Code Submit
 	const handleSubmit = () => {
 		if (accessCode) {
 			handleAccessCodeSubmit(accessCode);
-			navigate("/menu");
+			mutation.mutate({accessCode:accessCode})
 		} else showErrorToast("Please Enter Your Access Code");
 	};
 
@@ -69,8 +86,9 @@ const HomePage: React.FC<props> = ({
 					/>
 
 					<button
+						disabled={mutation.isPending}
 						onClick={handleSubmit}
-						className='mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
+						className={`mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md ${mutation.isPending ? 'animate-pulse cursor-not-allowed bg-slate-500' : ''}`}
 					>
 						Submit
 					</button>

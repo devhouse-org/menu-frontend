@@ -3,13 +3,17 @@ import BG from "../assets/BG.png";
 import { menuItems } from "../data";
 import Modal from "../components/Menu/Modal";
 
-const MenuPage: React.FC = () => {
+type MunuT = {
+	data:any
+}
+const MenuPage = ({data}:MunuT) => {
 	// State to track which modal is open
 	const [openModalId, setOpenModalId] = useState<
 		string | null
 	>(null);
 	const [cat, setCat] = useState(0);
-
+	console.log("munu",data);
+	
 	// Handle opening a modal
 	const handleOpenModal = (itemId: string) => {
 		setOpenModalId(itemId);
@@ -34,7 +38,7 @@ const MenuPage: React.FC = () => {
 
 			<div className=' pt-24 flex flex-col items-center bg-green-400'>
 				<h1 className=' text-white z-10 text-4xl font-medium bg-pink-400 w-full'>
-					{menuItems[cat].category}
+					{data?.categories[cat]?.name}
 				</h1>
 				<div className='flex w-full gap-3 bg-blue-500'>
 					{/* sidebar */}
@@ -43,7 +47,7 @@ const MenuPage: React.FC = () => {
 							Food Categories
 						</h2>
 						<ul className='mt-5 bg-yellow-500'>
-							{menuItems.map((item, index) => {
+							{data.categories.map((item:any, index:number) => {
 								return (
 									<li
 										className={`p-2 cursor-pointer ${
@@ -52,9 +56,9 @@ const MenuPage: React.FC = () => {
 												: "hover:bg-gray-100"
 										}`}
 										onClick={() => setCat(index)}
-										key={item.category}
+										key={item.name}
 									>
-										{item.category}
+										{item.name}
 									</li>
 								);
 							})}
@@ -63,7 +67,7 @@ const MenuPage: React.FC = () => {
 
 					{/* Items Card */}
 					<div className='w-9/12 grid md:grid-cols-3 grid-cols-2 gap-4 z-10 py-16 bg-purple-400'>
-						{menuItems[cat].foods.map((item) => (
+						{data?.categories[cat]?.items.map((item:any) => (
 							<button
 								key={item.name}
 								className='border w-full rounded-3xl p-4 bg-white/90 backdrop-blur-lg flex flex-col gap-4'
@@ -96,7 +100,7 @@ const MenuPage: React.FC = () => {
 
 			{/* Modals */}
 
-			{menuItems[cat].foods.map((item) => (
+			{data?.categories[cat]?.items.map((item:any) => (
 				<Modal
 					key={item.name}
 					open={openModalId === item.name}

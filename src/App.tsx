@@ -13,7 +13,7 @@ import WelcomePage from "./Pages/WelcomePage";
 const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
 	const [showNav, setShowNav] = useState<boolean>(false);
-
+	const [data,setData] = useState<any>(null)
 	// Access Code Change
 	const handleAccessCodeChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -25,8 +25,6 @@ const App: React.FC = () => {
 	const handleAccessCodeSubmit = (code: string) => {
 		setAccessCode(code);
 		localStorage.setItem("accessCode", code);
-		console.log("acc2", accessCode);
-		console.log("loca",localStorage.getItem("accessCode"));
 		setShowNav(true);
 	};
 
@@ -62,6 +60,7 @@ const App: React.FC = () => {
 							/>
 						) : (
 							<HomePage
+								setData={setData}
 								accessCode={accessCode}
 								handleAccessCodeChange={
 									handleAccessCodeChange
@@ -76,7 +75,7 @@ const App: React.FC = () => {
 
 				<Route
 					path='/menu'
-					element={<MenuPage />}
+					element={<MenuPage data={data}/>}
 				/>
 				<Route
 					path='/survey'
