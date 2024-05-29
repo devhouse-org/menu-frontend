@@ -19,7 +19,7 @@ const Modal: React.FC<Props> = ({
 			onClick={onClose}
 		>
 			<div
-				className={`bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-lg p-6 transition-all max-w-md  ${
+				className={`bg-white bg-opacity-80 rounded-lg shadow-lg p-6 transition-all max-w-md  ${
 					open
 						? "scale-100 opacity-100"
 						: "scale-110 opacity-0"

@@ -124,18 +124,23 @@ const MenuPage = ({data}:MunuT) => {
 					{/* Modal content for each item */}
 					<div>
 						<img
-							src={item.image}
+							src={
+								item.image
+									? item.image
+									: "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
+							}
 							alt={item.name}
+							className='w-full object-contain rounded-2xl'
 						/>
-						<h2 className='w-full text-center font-bold h-1/4 text-2xl'>
+						<h2 className='w-full text-center font-bold h-1/4 text-2xl py-3'>
 							{item.name}
 						</h2>
 						<p>{item.description}</p>
-						<p className='text-coral-600 text-xl font-bold flex items-end w-full'>
+						<p className='text-coral-600 text-xl font-bold flex items-end w-full pt-3'>
 							<span className='text-Yale-Blue-900 pr-1'>
 								Price:
 							</span>
-							{item.price}
+							$ {item.price}
 						</p>
 					</div>
 				</Modal>
