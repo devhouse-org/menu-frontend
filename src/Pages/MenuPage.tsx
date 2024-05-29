@@ -85,9 +85,13 @@ const MenuPage = ({data}:MunuT) => {
 									>
 										<div className='w-full flex justify-center items-center'>
 											<img
-												src={item.image}
+												src={
+													item.image
+														? item.image
+														: "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
+												}
 												alt={item.name}
-												className='w-full object-contain'
+												className='w-full object-contain rounded-2xl'
 											/>
 										</div>
 
@@ -99,7 +103,7 @@ const MenuPage = ({data}:MunuT) => {
 												<span className='text-Yale-Blue-900 pr-1'>
 													Price:
 												</span>
-												{item.price}
+												$ {item.price}
 											</p>
 										</div>
 									</button>
