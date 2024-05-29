@@ -75,7 +75,7 @@ const App: React.FC = () => {
 
 				<Route
 					path='/menu'
-					element={<MenuPage data={data}/>}
+					element={<MenuPage/>}
 				/>
 				<Route
 					path='/survey'

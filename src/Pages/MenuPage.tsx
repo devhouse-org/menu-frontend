@@ -1,17 +1,29 @@
 import { useState } from "react";
 import BG from "../assets/BG.png";
 import Modal from "../components/Menu/Modal";
+import axiosInstance from '../axiosInstance';
+import { useQuery } from "@tanstack/react-query";
 
-type MunuT = {
-	data:any
-}
-const MenuPage = ({data}:MunuT) => {
+const MenuPage = () => {
 	// State to track which modal is open
 	const [openModalId, setOpenModalId] = useState<
 		string | null
 	>(null);
 	const [cat, setCat] = useState(0);
-	console.log("munu",data);
+	
+	const { data, isError, isPending } = useQuery({
+		queryKey: ["menu"],
+		queryFn: async () => {
+			const response = await axiosInstance.get(
+				`/restaurant/access/${localStorage.getItem(
+					"accessCode"
+				)}`
+			);
+			return response.data;
+		},
+	});
+	
+	console.log("data is:", data);
 	
 	// Handle opening a modal
 	const handleOpenModal = (itemId: string) => {
@@ -22,6 +34,14 @@ const MenuPage = ({data}:MunuT) => {
 	const handleCloseModal = () => {
 		setOpenModalId(null);
 	};
+
+  if (isPending) {
+		return <div>Loading...</div>;
+	}
+
+	if (isError) {
+	return <div>Error</div>;
+	}
 
 	return (
 		<div className='relative w-screen min-h-screen  flex flex-col  items-center font-montserrat text-Yale-Blue-900 p-6'>
