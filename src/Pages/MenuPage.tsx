@@ -24,7 +24,7 @@ const MenuPage = ({data}:MunuT) => {
 	};
 
 	return (
-		<div className='relative w-screen min-h-screen flex flex-col  items-center font-montserrat text-Yale-Blue-900 p-6'>
+		<div className='relative w-screen min-h-screen  flex flex-col  items-center font-montserrat text-Yale-Blue-900 p-6'>
 			{/* Background Pattern */}
 			<div
 				className='absolute bg-Yale-Blue-900 w-full h-full z-0'
@@ -36,7 +36,7 @@ const MenuPage = ({data}:MunuT) => {
 			></div>
 
 			<div className=' pt-24 flex flex-col items-center'>
-				<div className='flex w-screen h-screen p-4 gap-2'>
+				<div className='flex w-screen p-4 gap-2'>
 					{/* sidebar */}
 					<div className='w-3/12 relative min-h-[80%] font-semibold'>
 						<div className='absolute w-full right-5 min-h-full z-10 rounded-lg bg-Yale-Blue-900 text-white'>
@@ -67,18 +67,18 @@ const MenuPage = ({data}:MunuT) => {
 						</div>
 					</div>
 
-					<div className='w-9/12 flex flex-col '>
+					<div className='w-9/12 flex flex-col h-full'>
 						<h1 className=' text-white z-10 text-4xl font-medium text text-center'>
 							{data?.categories[cat]?.name}
 						</h1>
 
 						{/* Items Card */}
-						<div className='grid md:grid-cols-3 grid-cols-2 gap-4 z-10 py-16 h-fit'>
+						<div className='grid md:grid-cols-3 grid-cols-2 gap-4 z-10 py-16'>
 							{data?.categories[cat]?.items.map(
 								(item: any) => (
 									<button
 										key={item.name}
-										className=' border w-full rounded-3xl p-4 bg-white/90 flex flex-col gap-4'
+										className=' border w-full rounded-lg p-3 bg-white/90 flex flex-col gap-4'
 										onClick={() =>
 											handleOpenModal(item.name)
 										}
@@ -91,7 +91,7 @@ const MenuPage = ({data}:MunuT) => {
 														: "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
 												}
 												alt={item.name}
-												className='w-full object-contain rounded-2xl'
+												className='w-full xl:h-80 h-32 object-cover rounded-xl'
 											/>
 										</div>
 
