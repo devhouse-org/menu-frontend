@@ -121,8 +121,8 @@ const SurveyPage: React.FC = () => {
 				<div className='w-full flex flex-col gap-10 justify-center items-center'>
 					{/* Food Quality */}
 					<RatingSelector
-						titleEn='Food Quality'
-						titleAr='جودة الطعام'
+						titleEn={data[0].enTitle}
+						titleAr={data[0].title}
 						onSelect={(rating) =>
 							handleRatingSelect("quality", rating)
 						}
@@ -130,8 +130,8 @@ const SurveyPage: React.FC = () => {
 					/>
 					{/* Service Quality */}
 					<RatingSelector
-						titleEn='Service Quality'
-						titleAr='جودة الخدمة'
+						titleEn={data[1].enTitle}
+						titleAr={data[1].title}
 						onSelect={(rating) =>
 							handleRatingSelect("service", rating)
 						}
@@ -139,8 +139,8 @@ const SurveyPage: React.FC = () => {
 					/>
 					{/* Food Price */}
 					<RatingSelector
-						titleEn='Food Price'
-						titleAr='سعر الوجبات'
+						titleEn={data[2].enTitle}
+						titleAr={data[2].title}
 						onSelect={(rating) =>
 							handleRatingSelect("price", rating)
 						}
@@ -163,16 +163,16 @@ const SurveyPage: React.FC = () => {
 				>
 					Submit
 				</button>
-				
-				<div className="w-full flex justify-center items-center">
-				{isExploding && (
-					<ConfettiExplosion
-						force={0.8}
-						duration={3000}
-						particleCount={250}
-						width={1600}
-					/>
-				)}
+
+				<div className='w-full flex justify-center items-center'>
+					{isExploding && (
+						<ConfettiExplosion
+							force={0.8}
+							duration={3000}
+							particleCount={250}
+							width={1600}
+						/>
+					)}
 				</div>
 				<ToastContainer pauseOnFocusLoss={false} />
 			</div>
