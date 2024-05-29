@@ -1,7 +1,11 @@
-import React, { useEffect,useState } from "react";
-import { CiFaceSmile } from "react-icons/ci";
-import { CiFaceMeh } from "react-icons/ci";
-import { CiFaceFrown } from "react-icons/ci";
+import React, { useEffect, useState } from "react";
+// import { CiFaceSmile } from "react-icons/ci";
+// import { CiFaceMeh } from "react-icons/ci";
+// import { CiFaceFrown } from "react-icons/ci";
+
+import { FaFaceFrown } from "react-icons/fa6";
+import { FaFaceSmileBeam } from "react-icons/fa6";
+import { FaFaceMeh } from "react-icons/fa6";
 
 interface RatingSelectorProps {
 	onSelect: (rating: string) => void;
@@ -18,8 +22,8 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 }) => {
 	const [selectedRating, setSelectedRating] = useState<
 		string | null
-		>(rating);
-	
+	>(rating);
+
 	useEffect(() => {
 		setSelectedRating(rating);
 	}, [rating]);
@@ -41,7 +45,7 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 			</div>
 
 			<div className=' flex gap-5 justify-center items-center'>
-				<CiFaceSmile
+				<FaFaceSmileBeam
 					className={`text-6xl cursor-pointer ${
 						selectedRating === "good"
 							? "text-green-500"
@@ -49,8 +53,26 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 					}`}
 					onClick={() => handleSelect("good")}
 				/>
-		
-				<CiFaceMeh
+
+				{/* <CiFaceSmile
+					className={`text-6xl cursor-pointer ${
+						selectedRating === "good"
+							? "text-green-500"
+							: "text-gray-400"
+					}`}
+					onClick={() => handleSelect("good")}
+				/> */}
+
+				{/* <CiFaceMeh
+					className={`text-6xl cursor-pointer ${
+						selectedRating === "medium"
+							? "text-yellow-500"
+							: "text-gray-400"
+					}`}
+					onClick={() => handleSelect("medium")}
+				/> */}
+
+				<FaFaceMeh
 					className={`text-6xl cursor-pointer ${
 						selectedRating === "medium"
 							? "text-yellow-500"
@@ -59,7 +81,7 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 					onClick={() => handleSelect("medium")}
 				/>
 
-				<CiFaceFrown
+				<FaFaceFrown
 					className={`text-6xl cursor-pointer ${
 						selectedRating === "bad"
 							? "text-red-500"
@@ -67,6 +89,15 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 					}`}
 					onClick={() => handleSelect("bad")}
 				/>
+
+				{/* <CiFaceFrown
+					className={`text-6xl cursor-pointer ${
+						selectedRating === "bad"
+							? "text-red-500"
+							: "text-gray-400"
+					}`}
+					onClick={() => handleSelect("bad")}
+				/> */}
 			</div>
 		</div>
 	);

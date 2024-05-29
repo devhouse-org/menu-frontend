@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BG from "../assets/BG.png";
-import { menuItems } from "../data";
 import Modal from "../components/Menu/Modal";
 
 type MunuT = {
@@ -26,81 +25,93 @@ const MenuPage = ({data}:MunuT) => {
 
 	return (
 		<div className='relative w-screen min-h-screen flex flex-col  items-center font-montserrat text-Yale-Blue-900 p-6'>
-			{/* Background Pattern
+			{/* Background Pattern */}
 			<div
-				className='absolute bg-Yale-Blue-900 w-full h-full z-0 backdrop-blur-sm'
+				className='absolute bg-Yale-Blue-900 w-full h-full z-0'
 				style={{
 					backgroundImage: `url(${BG})`,
 					backgroundSize: "cover",
 					backgroundPosition: "center",
 				}}
-			></div> */}
+			></div>
 
-			<div className=' pt-24 flex flex-col items-center bg-green-400'>
-				<h1 className=' text-white z-10 text-4xl font-medium bg-pink-400 w-full'>
-					{data?.categories[cat]?.name}
-				</h1>
-				<div className='flex w-full gap-3 bg-blue-500'>
+			<div className=' pt-24 flex flex-col items-center'>
+				<div className='flex w-screen h-screen p-4 gap-2'>
 					{/* sidebar */}
-					<div className='w-3/12 z-10 bg-white/9 0 rounded-lg'>
-						<h2 className='font-bold w-full py-5 flex justify-center items-center'>
-							Food Categories
-						</h2>
-						<ul className='mt-5 bg-yellow-500'>
-							{data.categories.map((item:any, index:number) => {
-								return (
-									<li
-										className={`p-2 cursor-pointer ${
-											index === cat
-												? "bg-blue-500 text-white"
-												: "hover:bg-gray-100"
-										}`}
-										onClick={() => setCat(index)}
-										key={item.name}
-									>
-										{item.name}
-									</li>
-								);
-							})}
-						</ul>
+					<div className='w-3/12 relative min-h-[80%] font-semibold'>
+						<div className='absolute w-full right-5 min-h-full z-10 rounded-lg bg-Yale-Blue-900 text-white'>
+							<h2 className='font-bold w-full py-5 flex justify-center items-center '>
+								Food Categories
+							</h2>
+							<hr className='w-fill h-1 bg-coral-500/90 border-0 rounded '></hr>
+
+							<ul className='mt-5 text-sm md:text-lg'>
+								{data.categories.map(
+									(item: any, index: number) => {
+										return (
+											<li
+												className={`p-2 pl-3 cursor-pointer transition-all ${
+													index === cat
+														? "bg-coral-500 text-white rounded-xl"
+														: "hover:text-coral-500"
+												}`}
+												onClick={() => setCat(index)}
+												key={item.name}
+											>
+												{item.name}
+											</li>
+										);
+									}
+								)}
+							</ul>
+						</div>
 					</div>
 
-					{/* Items Card */}
-					<div className='w-9/12 grid md:grid-cols-3 grid-cols-2 gap-4 z-10 py-16 bg-purple-400'>
-						{data?.categories[cat]?.items.map((item:any) => (
-							<button
-								key={item.name}
-								className='border w-full rounded-3xl p-4 bg-white/90 backdrop-blur-lg flex flex-col gap-4'
-								onClick={() => handleOpenModal(item.name)}
-							>
-								<div className='w-full flex justify-center items-center'>
-									<img
-										src={item.image}
-										alt={item.name}
-										className='w-full object-contain'
-									/>
-								</div>
+					<div className='w-9/12 flex flex-col '>
+						<h1 className=' text-white z-10 text-4xl font-medium text text-center'>
+							{data?.categories[cat]?.name}
+						</h1>
 
-								<div className='flex flex-col justify-center gap-2'>
-									<h2 className='w-full text-start font-bold text-lg'>
-										{item.name}
-									</h2>
-									<p className='text-coral-600 text-md font-bold flex items-end w-full'>
-										<span className='text-Yale-Blue-900 pr-1'>
-											Price:
-										</span>
-										{item.price}
-									</p>
-								</div>
-							</button>
-						))}
+						{/* Items Card */}
+						<div className='grid md:grid-cols-3 grid-cols-2 gap-4 z-10 py-16 h-fit'>
+							{data?.categories[cat]?.items.map(
+								(item: any) => (
+									<button
+										key={item.name}
+										className=' border w-full rounded-3xl p-4 bg-white/90 flex flex-col gap-4'
+										onClick={() =>
+											handleOpenModal(item.name)
+										}
+									>
+										<div className='w-full flex justify-center items-center'>
+											<img
+												src={item.image}
+												alt={item.name}
+												className='w-full object-contain'
+											/>
+										</div>
+
+										<div className='flex flex-col justify-center gap-2  w-full'>
+											<h2 className='w-full text-start font-bold text-sm md:text-lg truncate'>
+												{item.name}
+											</h2>
+											<p className='text-coral-600 text-sm md:text-md font-bold flex items-end w-full'>
+												<span className='text-Yale-Blue-900 pr-1'>
+													Price:
+												</span>
+												{item.price}
+											</p>
+										</div>
+									</button>
+								)
+							)}
+						</div>
 					</div>
 				</div>
 			</div>
 
 			{/* Modals */}
-
-			{data?.categories[cat]?.items.map((item:any) => (
+			{data?.categories[cat]?.items.map((item: any) => (
 				<Modal
 					key={item.name}
 					open={openModalId === item.name}
