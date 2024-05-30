@@ -36,6 +36,10 @@ const HomePage: React.FC<props> = ({
 				"accessCode",
 				data.data.accessCode
 			);
+			localStorage.setItem(
+				"restaurantName",
+				data.data.name
+			);
 			setShowNav(true);
 			navigate("/menu");
 		},

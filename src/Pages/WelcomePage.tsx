@@ -2,15 +2,11 @@ import BG from "../assets/BG.png";
 import React from "react";
 
 interface props {
-	accessCode: string;
 	handleLogout: () => void;
-	name: string;
 }
 
 const WelcomePage: React.FC<props> = ({
-	accessCode,
 	handleLogout,
-	name,
 }) => {
 	return (
 		<div className='relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat text-white p-6'>
@@ -28,7 +24,7 @@ const WelcomePage: React.FC<props> = ({
 				<h1 className='text-4xl'>
 					Welcome,
 					<span className='pl-3 text-coral-600'>
-						{name}
+						{localStorage.getItem("restaurantName")}
 					</span>
 				</h1>
 				{/* Logout button */}

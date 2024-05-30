@@ -49,9 +49,7 @@ const App: React.FC = () => {
 					element={
 						localStorage.getItem("accessCode") ? (
 							<WelcomePage
-								accessCode={accessCode}
 								handleLogout={handleLogout}
-								name = {data?.name}
 							/>
 						) : (
 							<HomePage
