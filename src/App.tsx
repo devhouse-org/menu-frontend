@@ -25,6 +25,7 @@ const App: React.FC = () => {
 	const handleLogout = () => {
 		setAccessCode("");
 		localStorage.removeItem("accessCode");
+		localStorage.removeItem("RestaurantID");
 		setShowNav(false);
 	};
 
