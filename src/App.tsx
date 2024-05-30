@@ -21,13 +21,6 @@ const App: React.FC = () => {
 		setAccessCode(event.target.value);
 	};
 
-	// Access Code Submit
-	const handleAccessCodeSubmit = (code: string) => {
-		setAccessCode(code);
-		localStorage.setItem("accessCode", code);
-		setShowNav(true);
-	};
-
 	// Logout
 	const handleLogout = () => {
 		setAccessCode("");
@@ -65,9 +58,7 @@ const App: React.FC = () => {
 								handleAccessCodeChange={
 									handleAccessCodeChange
 								}
-								handleAccessCodeSubmit={
-									handleAccessCodeSubmit
-								}
+								setShowNav={setShowNav}
 							/>
 						)
 					}
@@ -75,7 +66,7 @@ const App: React.FC = () => {
 
 				<Route
 					path='/menu'
-					element={<MenuPage/>}
+					element={<MenuPage />}
 				/>
 				<Route
 					path='/survey'
