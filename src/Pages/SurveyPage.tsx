@@ -6,13 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { showErrorToast, showSuccessToast } from "../utils";
 import ConfettiExplosion from "react-confetti-explosion";
 import axiosInstance from "../axiosInstance";
-import { useQuery } from "@tanstack/react-query";
-
+import {
+	useQuery,
+	useMutation,
+} from "@tanstack/react-query";
 
 type RatingsT = {
-	questionId: string,
-	score: number
-}
+	questionId: string;
+	score: number;
+};
 
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState<RatingsT[]>([]);
@@ -20,7 +22,6 @@ const SurveyPage: React.FC = () => {
 	const [isExploding, setIsExploding] =
 		useState<boolean>(false);
 
-	
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["Survey"],
 		queryFn: async () => {
@@ -33,7 +34,33 @@ const SurveyPage: React.FC = () => {
 		},
 	});
 
+	const mutation = useMutation({
+		mutationFn: async  (data: {
+			comment: string;
+			restaurantId: string;
+			ratings: RatingsT[];
+		}) => {
+			return await axiosInstance.post(
+				"/customer-review",
+				data
+			);
+		},
+		onSuccess(data: any) {
+			console.log("post", data.data);
+			showSuccessToast("Successfully Submitted");
+		},
+		onError(error: any) {
+			showErrorToast("Submission failed");
+			console.error(
+				"Submission error:",
+				error.response ? error.response.data : error.message
+			);
+		},
+	});
+
 	console.log("Rest data is:", data);
+		console.log("id Rest", localStorage.getItem("RestaurantID"));
+
 
 	if (isPending) {
 		return <div>Loading...</div>;
@@ -43,13 +70,12 @@ const SurveyPage: React.FC = () => {
 		return <div>Error</div>;
 	}
 
-	
 	const handleRatingSelect = (
 		questionId: string,
 		score: number
 	) => {
 		setRatings((prevRatings) => {
-			return [...prevRatings, {questionId,score}]
+			return [...prevRatings, { questionId, score }];
 		});
 	};
 
@@ -66,7 +92,18 @@ const SurveyPage: React.FC = () => {
 		}
 
 		if (isValid) {
-			showSuccessToast("Successfully Submitted");
+			mutation.mutate({
+				comment: comment,
+				restaurantId: localStorage.getItem("RestaurantID")!,
+				ratings: ratings,
+
+				// 			comment: "w",
+				// 			restaurantId: localStorage.getItem("RestaurantID")!,
+				// 			ratings:[{
+				//   score: 1,
+				//   questionId: "question456"
+				// }]
+			});
 
 			// Reset ratings
 			setRatings([]);
@@ -102,19 +139,22 @@ const SurveyPage: React.FC = () => {
 				{/* Rate Quality */}
 				<div className='w-full flex flex-col gap-10 justify-center items-center'>
 					{/* Food Quality */}
-				{
-					data.map((q:any)=>{
-						return <RatingSelector
-						titleEn={q.enTitle}
-						titleAr={q.title}
-						onSelect={(rating) =>
-							handleRatingSelect(q.id, rating)
-						}
-						rating={ratings.find(r => r.questionId === q.id)?.score || 0}
-						key={q.id}
-					/>
-					})
-				}
+					{data.map((q: any) => {
+						return (
+							<RatingSelector
+								titleEn={q.enTitle}
+								titleAr={q.title}
+								onSelect={(rating) =>
+									handleRatingSelect(q.id, rating)
+								}
+								rating={
+									ratings.find((r) => r.questionId === q.id)
+										?.score || 0
+								}
+								key={q.id}
+							/>
+						);
+					})}
 				</div>
 
 				{/* Comment */}
