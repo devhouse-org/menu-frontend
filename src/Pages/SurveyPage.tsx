@@ -35,14 +35,14 @@ const SurveyPage: React.FC = () => {
 	});
 
 	const mutation = useMutation({
-		mutationFn: async  (data: {
+		mutationFn:  (reviewData: {
 			comment: string;
-			restaurantId: string;
+			resturantId: string;
 			ratings: RatingsT[];
 		}) => {
-			return await axiosInstance.post(
-				"/customer-review",
-				data
+			return axiosInstance.post(
+				'/customer-review',
+				reviewData
 			);
 		},
 		onSuccess(data: any) {
@@ -90,19 +90,15 @@ const SurveyPage: React.FC = () => {
 			showErrorToast("Please, Write your Comment");
 			isValid = false;
 		}
-
+		const restaurantId = localStorage.getItem("RestaurantID")
+		if(!restaurantId){
+			return // TODO : logout
+		}
 		if (isValid) {
 			mutation.mutate({
 				comment: comment,
-				restaurantId: localStorage.getItem("RestaurantID")!,
+				resturantId: restaurantId,
 				ratings: ratings,
-
-				// 			comment: "w",
-				// 			restaurantId: localStorage.getItem("RestaurantID")!,
-				// 			ratings:[{
-				//   score: 1,
-				//   questionId: "question456"
-				// }]
 			});
 
 			// Reset ratings
