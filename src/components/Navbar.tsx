@@ -64,6 +64,14 @@ const Navbar: React.FC = () => {
 						className='absolute top-12 -right-10 mt-2 w-48 bg-white rounded-md shadow-lg font-montserrat text-Yale-Blue-900'
 					>
 						<Link
+							to='/'
+							className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+							onClick={toggleMenu}
+						>
+							Home
+						</Link>
+
+						<Link
 							to='/menu'
 							className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
 							onClick={toggleMenu}
