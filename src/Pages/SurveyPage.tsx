@@ -8,12 +8,14 @@ import ConfettiExplosion from "react-confetti-explosion";
 import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
+
+type RatingsT = {
+	questionId: string,
+	score: number
+}
+
 const SurveyPage: React.FC = () => {
-	const [ratings, setRatings] = useState({
-		quality: null,
-		service: null,
-		price: null,
-	});
+	const [ratings, setRatings] = useState<RatingsT[]>([]);
 	const [comment, setComment] = useState<string>("");
 	const [isExploding, setIsExploding] =
 		useState<boolean>(false);
@@ -43,13 +45,12 @@ const SurveyPage: React.FC = () => {
 
 	
 	const handleRatingSelect = (
-		ratingType: string,
-		rating: number
+		questionId: string,
+		score: number
 	) => {
-		setRatings((prevRatings) => ({
-			...prevRatings,
-			[ratingType]: rating,
-		}));
+		setRatings((prevRatings) => {
+			return [...prevRatings, {questionId,score}]
+		});
 	};
 
 	const handleCommentChange = (commentText: string) => {
@@ -58,21 +59,6 @@ const SurveyPage: React.FC = () => {
 
 	const handleSubmit = () => {
 		let isValid = true;
-
-		if (!ratings.price) {
-			showErrorToast("Please, Rate the Price");
-			isValid = false;
-		}
-
-		if (!ratings.quality) {
-			showErrorToast("Please, Rate Quality");
-			isValid = false;
-		}
-
-		if (!ratings.service) {
-			showErrorToast("Please, Rate Service");
-			isValid = false;
-		}
 
 		if (!comment) {
 			showErrorToast("Please, Write your Comment");
@@ -83,11 +69,7 @@ const SurveyPage: React.FC = () => {
 			showSuccessToast("Successfully Submitted");
 
 			// Reset ratings
-			setRatings({
-				quality: null,
-				service: null,
-				price: null,
-			});
+			setRatings([]);
 
 			// Reset Comment
 			setComment("");
@@ -120,32 +102,19 @@ const SurveyPage: React.FC = () => {
 				{/* Rate Quality */}
 				<div className='w-full flex flex-col gap-10 justify-center items-center'>
 					{/* Food Quality */}
-					<RatingSelector
-						titleEn={data[0].enTitle}
-						titleAr={data[0].title}
+				{
+					data.map((q:any)=>{
+						return <RatingSelector
+						titleEn={q.enTitle}
+						titleAr={q.title}
 						onSelect={(rating) =>
-							handleRatingSelect("quality", rating)
+							handleRatingSelect(q.id, rating)
 						}
-						rating={ratings.quality}
+						rating={ratings.find(r => r.questionId === q.id)?.score || 0}
+						key={q.id}
 					/>
-					{/* Service Quality */}
-					<RatingSelector
-						titleEn={data[1].enTitle}
-						titleAr={data[1].title}
-						onSelect={(rating) =>
-							handleRatingSelect("service", rating)
-						}
-						rating={ratings.service}
-					/>
-					{/* Food Price */}
-					<RatingSelector
-						titleEn={data[2].enTitle}
-						titleAr={data[2].title}
-						onSelect={(rating) =>
-							handleRatingSelect("price", rating)
-						}
-						rating={ratings.price}
-					/>
+					})
+				}
 				</div>
 
 				{/* Comment */}
