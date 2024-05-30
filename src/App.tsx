@@ -51,7 +51,7 @@ const App: React.FC = () => {
 							<WelcomePage
 								accessCode={accessCode}
 								handleLogout={handleLogout}
-								name = {data.name}
+								name = {data?.name}
 							/>
 						) : (
 							<HomePage
