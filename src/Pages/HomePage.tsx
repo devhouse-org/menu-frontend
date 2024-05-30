@@ -10,47 +10,48 @@ import { useNavigate } from "react-router-dom";
 
 interface props {
 	accessCode: string;
-	setData:any
+	setData: any;
 	handleAccessCodeChange: (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => void;
-	handleAccessCodeSubmit: (code: string) => void;
+	setShowNav: (showNav: boolean) => void;
 }
 
 const HomePage: React.FC<props> = ({
 	accessCode,
 	handleAccessCodeChange,
-	handleAccessCodeSubmit,
-	setData
+	setData,
+	setShowNav,
 }) => {
 	const navigate = useNavigate();
 	const mutation = useMutation({
-		mutationFn: (data:{accessCode:string}) => {
-		  return axiosInstance.post('/restaurant/auth', data)
+		mutationFn: (data: { accessCode: string }) => {
+			return axiosInstance.post("/restaurant/auth", data);
 		},
-		onSuccess(data:any) {
-			console.log("d",data.data);
+		onSuccess(data: any) {
+			console.log("d", data.data);
 			setData(data.data);
-					localStorage.setItem(
-						"RestaurantID",
-						data.data.id
-					);
-
+			localStorage.setItem("RestaurantID", data.data.id);
+			localStorage.setItem(
+				"accessCode",
+				data.data.accessCode
+			);
+			setShowNav(true);
 			navigate("/menu");
 		},
-		onError(){
-			localStorage.removeItem('accessCode')
-			navigate("/");
-		}
-	})
-	
+		onError() {
+			localStorage.removeItem("accessCode");
+			showErrorToast("Unauthorized code");
+			setShowNav(false);
+		},
+	});
+
 	console.log("id", localStorage.getItem("RestaurantID"));
-	
+
 	// Handle Code Submit
 	const handleSubmit = () => {
 		if (accessCode) {
-			handleAccessCodeSubmit(accessCode);
-			mutation.mutate({accessCode:accessCode})
+			mutation.mutate({ accessCode: accessCode });
 		} else showErrorToast("Please Enter Your Access Code");
 	};
 
@@ -95,7 +96,11 @@ const HomePage: React.FC<props> = ({
 					<button
 						disabled={mutation.isPending}
 						onClick={handleSubmit}
-						className={`mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md ${mutation.isPending ? 'animate-pulse cursor-not-allowed bg-slate-500' : ''}`}
+						className={`mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md ${
+							mutation.isPending
+								? "animate-pulse cursor-not-allowed bg-slate-500"
+								: ""
+						}`}
 					>
 						Submit
 					</button>
