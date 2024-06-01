@@ -13,7 +13,7 @@ const Modal: React.FC<Props> = ({
 }) => {
 	return (
 		<div
-			className={`z-50 fixed inset-0 flex justify-center items-center transition-colors ${
+			className={`z-50 fixed shadow-lg inset-0 flex justify-center items-center transition-colors ${
 				open ? "visible bg-Yale-Blue-900/80" : "invisible"
 			}`}
 			onClick={onClose}
