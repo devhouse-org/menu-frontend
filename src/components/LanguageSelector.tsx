@@ -11,7 +11,7 @@ function LanguageSelector() {
     };
     return (
         <button onClick={() => changeLanguage(i18n.language === 'ar' ? 'en' : 'ar')} className='flex items-center text-xs cursor-pointer shadow-lg gap-1 p-1 relative rounded-lg text-black bg-white'>
-            <Globe className={`text-black `} />
+            <Globe size={16} className={`text-black `} />
             {i18n.language === 'ar' ? 'English' : 'اللغة العربية' }
         </button>
     );
