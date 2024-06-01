@@ -1,5 +1,5 @@
 import { useState } from "react";
-import BG from "../assets/BG.png";
+// import BG from "../assets/BG.png";
 import Modal from "../components/Menu/Modal";
 import axiosInstance from '../axiosInstance';
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +9,7 @@ const MenuPage = () => {
   // State to track which modal is open
   const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [cat, setCat] = useState(0);
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const { data, isError, isPending } = useQuery({
     queryKey: ["menu"],
