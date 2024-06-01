@@ -10,6 +10,7 @@ import {
 	useQuery,
 	useMutation,
 } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 type RatingsT = {
 	questionId: string;
@@ -19,6 +20,7 @@ type RatingsT = {
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState<RatingsT[]>([]);
 	const [comment, setComment] = useState<string>("");
+	const navigate = useNavigate()
 	const [isExploding, setIsExploding] =
 		useState<boolean>(false);
 
@@ -114,7 +116,8 @@ const SurveyPage: React.FC = () => {
 			// Reset confetti explosion after a delay
 			setTimeout(() => {
 				setIsExploding(false);
-			}, 4000);
+				navigate('/menu')
+			}, 2500);
 		}
 	};
 
