@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Logo-H.png";
+import LanguageSelector from "./LanguageSelector";
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +37,7 @@ const Navbar: React.FC = () => {
 					className='h-12'
 				/>
 			</Link>
-
+			<LanguageSelector />
 			<div className='relative'>
 				<button
 					onClick={toggleMenu}

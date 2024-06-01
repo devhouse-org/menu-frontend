@@ -3,6 +3,7 @@ import BG from "../assets/BG.png";
 import Modal from "../components/Menu/Modal";
 import axiosInstance from '../axiosInstance';
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
 
 const MenuPage = () => {
 	// State to track which modal is open
@@ -10,6 +11,7 @@ const MenuPage = () => {
 		string | null
 	>(null);
 	const [cat, setCat] = useState(0);
+	const {t} = useTranslation()
 	
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["menu"],
@@ -59,7 +61,7 @@ const MenuPage = () => {
 					<div className='w-3/12 relative min-h-[80%] font-semibold'>
 						<div className='absolute w-full right-5 min-h-full z-10 rounded-lg bg-Yale-Blue-900 text-white'>
 							<h2 className='font-bold w-full py-5 flex justify-center items-center '>
-								Food Categories
+								{t('Food Categories')}
 							</h2>
 							<hr className='w-fill h-1 bg-coral-500/90 border-0 rounded '></hr>
 
@@ -76,7 +78,7 @@ const MenuPage = () => {
 												onClick={() => setCat(index)}
 												key={item.name}
 											>
-												{item.name}
+												{t(item.name)}
 											</li>
 										);
 									}
@@ -87,7 +89,7 @@ const MenuPage = () => {
 
 					<div className='w-9/12 flex flex-col h-full'>
 						<h1 className=' text-white z-10 text-4xl font-medium text text-center'>
-							{data?.categories[cat]?.name}
+							{t(data?.categories[cat]?.name)}
 						</h1>
 
 						{/* Items Card */}

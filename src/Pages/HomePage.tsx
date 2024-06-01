@@ -22,6 +22,7 @@ const HomePage: React.FC<props> = ({
 	setShowNav,
 }) => {
 	const navigate = useNavigate();
+
 	const mutation = useMutation({
 		mutationFn: (data: { accessCode: string }) => {
 			return axiosInstance.post("/restaurant/auth", data);
