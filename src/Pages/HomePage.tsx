@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 
 interface props {
 	accessCode: string;
-	setData: any;
 	handleAccessCodeChange: (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => void;
@@ -20,7 +19,6 @@ interface props {
 const HomePage: React.FC<props> = ({
 	accessCode,
 	handleAccessCodeChange,
-	setData,
 	setShowNav,
 }) => {
 	const navigate = useNavigate();
@@ -30,7 +28,6 @@ const HomePage: React.FC<props> = ({
 		},
 		onSuccess(data: any) {
 			console.log("d", data.data);
-			setData(data.data);
 			localStorage.setItem("RestaurantID", data.data.id);
 			localStorage.setItem(
 				"accessCode",

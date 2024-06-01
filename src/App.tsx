@@ -13,7 +13,6 @@ import WelcomePage from "./Pages/WelcomePage";
 const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
 	const [showNav, setShowNav] = useState<boolean>(false);
-	const [data,setData] = useState<any>(null)
 	// Access Code Change
 	const handleAccessCodeChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -53,7 +52,6 @@ const App: React.FC = () => {
 							/>
 						) : (
 							<HomePage
-								setData={setData}
 								accessCode={accessCode}
 								handleAccessCodeChange={
 									handleAccessCodeChange

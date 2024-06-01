@@ -22,9 +22,7 @@ const MenuPage = () => {
 			return response.data;
 		},
 	});
-	
-	console.log("data is:", data);
-	
+		
 	// Handle opening a modal
 	const handleOpenModal = (itemId: string) => {
 		setOpenModalId(itemId);

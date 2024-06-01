@@ -60,8 +60,6 @@ const SurveyPage: React.FC = () => {
 		},
 	});
 
-	console.log("Rest data is:", data);
-		console.log("id Rest", localStorage.getItem("RestaurantID"));
 
 
 	if (isPending) {
@@ -109,9 +107,6 @@ const SurveyPage: React.FC = () => {
 			// Reset Comment
 			setComment("");
 			setIsExploding(true);
-
-			console.log("Selected ratings:", ratings);
-			console.log("Comment:", comment);
 
 			// Reset confetti explosion after a delay
 			setTimeout(() => {
