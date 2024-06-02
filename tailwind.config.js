@@ -19,7 +19,8 @@ export default {
 
 			colors: {
 				primary: "#103B6B",
-				secondary: "#FF804D",
+				secondary: "#FF5815",
+				background: "#103B6B",
 				white: "#FFFFFF",
 
 				"Yale-Blue-50": "#DCEAFA",
