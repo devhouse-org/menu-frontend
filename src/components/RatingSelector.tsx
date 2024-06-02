@@ -56,28 +56,10 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 					onClick={() => handleSelect(1)}
 				/>
 
-				{/* <CiFaceSmile
-					className={`text-6xl cursor-pointer ${
-						selectedRating === "good"
-							? "text-green-500"
-							: "text-gray-400"
-					}`}
-					onClick={() => handleSelect("good")}
-				/> */}
-
-				{/* <CiFaceMeh
-					className={`text-6xl cursor-pointer ${
-						selectedRating === "medium"
-							? "text-yellow-500"
-							: "text-gray-400"
-					}`}
-					onClick={() => handleSelect("medium")}
-				/> */}
-
 				<FaFaceMeh
 					className={`cursor-pointer p-1 ${
 						selectedRating === 2
-							? " text-yellow-500 border-2 border-gray-400 rounded-full"
+							? "text-yellow-500 border-2 border-gray-400 rounded-full"
 							: "text-yellow-500"
 					}`}
 					onClick={() => handleSelect(2)}
@@ -91,15 +73,6 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 					}`}
 					onClick={() => handleSelect(3)}
 				/>
-
-				{/* <CiFaceFrown
-					className={`text-6xl cursor-pointer ${
-						selectedRating === "bad"
-							? "text-red-500"
-							: "text-gray-400"
-					}`}
-					onClick={() => handleSelect("bad")}
-				/> */}
 			</div>
 		</div>
 	);

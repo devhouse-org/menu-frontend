@@ -117,7 +117,7 @@ const SurveyPage: React.FC = () => {
 	};
 
 	return (
-		<div className='w-screen min-h-screen flex justify-center items-center font-montserrat text-Yale-Blue-900 pt-20'>
+		<div className='w-screen min-h-screen flex justify-center items-center font-montserrat text-primary pt-20'>
 			<div className='flex flex-col w-9/12 p-4 py-8 gap-12'>
 				{/* Header */}
 				<div className='w-full flex flex-col justify-center items-center text-2xl text-center gap-2'>
@@ -125,7 +125,7 @@ const SurveyPage: React.FC = () => {
 						We hope your meal was as delightful as you
 						hoped!
 					</h1>
-					<h1 className='text-coral-600 font-noto-kufi-arabic'>
+					<h1 className='text-secondary font-noto-kufi-arabic'>
 						نأمل أن تكون وجبتك كانت ممتعة كما تمنيت
 					</h1>
 				</div>
@@ -162,7 +162,7 @@ const SurveyPage: React.FC = () => {
 				{/* Submit */}
 				<button
 					onClick={handleSubmit}
-					className='mt-4 bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
+					className='mt-4 bg-secondary hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
 				>
 					Submit
 				</button>

@@ -12,7 +12,7 @@ const WelcomePage: React.FC<props> = ({
 		<div className='relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat text-white p-6'>
 			{/* Background Pattern */}
 			<div
-				className='absolute bg-Yale-Blue-900 w-full h-full z-0 backdrop-blur-sm'
+				className='absolute bg-primary w-full h-full z-0 backdrop-blur-sm'
 				style={{
 					backgroundImage: `url(${BG})`,
 					backgroundSize: "cover",
@@ -23,14 +23,14 @@ const WelcomePage: React.FC<props> = ({
 				{/* Text */}
 				<h1 className='text-4xl'>
 					Welcome,
-					<span className='pl-3 text-coral-600'>
+					<span className='pl-3 text-secondary'>
 						{localStorage.getItem("restaurantName")}
 					</span>
 				</h1>
 				{/* Logout button */}
 				<button
 					onClick={handleLogout}
-					className='mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
+					className='mt-4 w-full bg-secondary hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
 				>
 					Log Out
 				</button>

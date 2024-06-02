@@ -14,7 +14,7 @@ const Modal: React.FC<Props> = ({
 	return (
 		<div
 			className={`z-50 fixed shadow-lg inset-0 flex justify-center items-center transition-colors ${
-				open ? "visible bg-Yale-Blue-900/80" : "invisible"
+				open ? "visible bg-primary/80" : "invisible"
 			}`}
 			onClick={onClose}
 		>
@@ -33,7 +33,7 @@ const Modal: React.FC<Props> = ({
 				}}
 			>
 				<button
-					className='absolute top-2 right-2 py-1 px-2  rounded-md text-Coral-700 hover:bg-gray-50 hover:text-gray-600'
+					className='absolute top-2 right-2 py-1 px-2  rounded-md text-secondary hover:bg-gray-50 hover:text-gray-600'
 					onClick={onClose}
 				>
 					X

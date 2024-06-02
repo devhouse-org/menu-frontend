@@ -43,7 +43,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				placeholder='Enter your comment...'
 				value={currentComment}
 				onChange={handleInputChange}
-				className='border border-coral-300 rounded-md px-3 py-2 w-full h-24 focus:outline-none focus:border-Yale-Blue-900'
+				className='border border-secondary rounded-md px-3 py-2 w-full h-24 focus:outline-none focus:border-primary'
 			/>
 		</div>
 	);

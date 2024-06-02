@@ -42,7 +42,7 @@ const Select: React.FC<DropdownProps> = ({
 
 				<button
 					type='button'
-					className='w-full inline-flex justify-between rounded-md border border-coral-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:border-Yale-Blue-900'
+					className='w-full inline-flex justify-between rounded-md border border-secondary shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:border-primary'
 					onClick={() => setIsOpen(!isOpen)}
 				>
 					{selectedOption

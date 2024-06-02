@@ -58,10 +58,10 @@ const HomePage: React.FC<props> = ({
 	};
 
 	return (
-		<div className='relative w-screen min-h-screen flex justify-center items-center font-montserrat text-Yale-Blue-900'>
+		<div className='relative w-screen min-h-screen flex justify-center items-center font-montserrat text-primary'>
 			{/* Background Pattern */}
 			<div
-				className='absolute bg-Yale-Blue-900 w-full h-full z-0 backdrop-blur-sm'
+				className='absolute bg-background w-full h-full z-0 backdrop-blur-sm'
 				style={{
 					backgroundImage: `url(${BG})`,
 					backgroundSize: "cover",
@@ -98,7 +98,7 @@ const HomePage: React.FC<props> = ({
 					<button
 						disabled={mutation.isPending}
 						onClick={handleSubmit}
-						className={`mt-4 w-full bg-coral-600 hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md ${
+						className={`mt-4 w-full bg-secondary hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md ${
 							mutation.isPending
 								? "animate-pulse cursor-not-allowed bg-slate-500"
 								: ""

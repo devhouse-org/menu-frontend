@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
 	}, []);
 
 	return (
-		<nav className='bg-Yale-Blue-900 text-white p-4 px-6 flex items-center justify-between fixed z-50 w-screen'>
+		<nav className='bg-background text-white p-4 px-6 flex items-center justify-between fixed z-50 w-screen'>
 			<Link to='/'>
 				<img
 					src={logo}
@@ -62,11 +62,11 @@ const Navbar: React.FC = () => {
 								i18n.language === "ar"
 									? "-right-28"
 									: "-left-20"
-							} mt-1 w-max bg-white rounded-md shadow-lg font-montserrat text-Yale-Blue-900`}
+							} mt-1 w-max bg-white rounded-md shadow-lg font-montserrat text-primary`}
 						>
 							<Link
 								to='/'
-								className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+								className='block px-4 py-2 text-gray-800 hover:bg-secondary/30 rounded-md'
 								onClick={toggleMenu}
 							>
 								{t("Home")}
@@ -74,14 +74,14 @@ const Navbar: React.FC = () => {
 
 							<Link
 								to='/menu'
-								className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+								className='block px-4 py-2 text-gray-800 hover:bg-secondary/30 rounded-md'
 								onClick={toggleMenu}
 							>
 								{t("Menu")}
 							</Link>
 							<Link
 								to='/survey'
-								className='block px-4 py-2 text-gray-800 hover:bg-coral-200 rounded-md'
+								className='block px-4 py-2 text-gray-800 hover:bg-secondary/30 rounded-md'
 								onClick={toggleMenu}
 							>
 								{t("Survey")}
