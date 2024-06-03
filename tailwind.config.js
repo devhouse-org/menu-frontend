@@ -18,9 +18,11 @@ export default {
 			},
 
 			colors: {
-				primary: "#103B6B",
-				secondary: "#FF5815",
-				background: "#103B6B",
+				primary: "var(--color-primary)",
+				primaryHover: "var(--color-primary-hover)",
+				secondary: "var(--color-secondary)",
+				secondaryHover:"var(--color-secondary-hover)",
+				background: "var(--color-background)",
 				white: "#FFFFFF",
 
 				"Yale-Blue-50": "#DCEAFA",

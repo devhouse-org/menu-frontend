@@ -41,24 +41,15 @@ const MenuPage = () => {
 
 	return (
 		<div className='relative min-h-screen flex font-montserrat text-primary bg-background'>
-			{/* Background Pattern */}
-			{/* <div
-        className="absolute bg-Yale-Blue-900 w-full h-full z-0"
-        style={{
-          backgroundImage: `url(${BG})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      ></div> */}
-
+	
 			<div className='pt-24 flex flex-col items-center'>
 				<div className='flex p-4 gap-2 relative'>
 					{/* sidebar */}
-					<div className='w-3/12 font-semibold bg-Yale-Blue-900 text-white sticky top-28 mt-10 h-screen overflow-y-auto'>
+					<div className='w-3/12 font-semibold bg-primary text-white sticky top-28 mt-10 h-fit overflow-y-auto'>
 						<h2 className='font-bold w-full py-5 flex justify-center items-center'>
 							{t("Food Categories")}
 						</h2>
-						<hr className='w-fill h-1 bg-secondary/90 border-0 rounded'></hr>
+						<hr className='w-fill h-1 bg-secondary border-0 rounded'></hr>
 
 						<ul className='mt-5 text-sm md:text-lg'>
 							{data.categories.map(

@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
 						>
 							<Link
 								to='/'
-								className='block px-4 py-2 text-gray-800 hover:bg-secondary/30 rounded-md'
+								className='block px-4 py-2 text-gray-800 hover:bg-secondaryHover rounded-md'
 								onClick={toggleMenu}
 							>
 								{t("Home")}
@@ -74,14 +74,14 @@ const Navbar: React.FC = () => {
 
 							<Link
 								to='/menu'
-								className='block px-4 py-2 text-gray-800 hover:bg-secondary/30 rounded-md'
+								className='block px-4 py-2 text-gray-800 hover:bg-secondaryHover rounded-md'
 								onClick={toggleMenu}
 							>
 								{t("Menu")}
 							</Link>
 							<Link
 								to='/survey'
-								className='block px-4 py-2 text-gray-800 hover:bg-secondary/30 rounded-md'
+								className='block px-4 py-2 text-gray-800 hover:bg-secondaryHover rounded-md'
 								onClick={toggleMenu}
 							>
 								{t("Survey")}

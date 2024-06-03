@@ -14,12 +14,12 @@ const Modal: React.FC<Props> = ({
 	return (
 		<div
 			className={`z-50 fixed shadow-lg inset-0 flex justify-center items-center transition-colors ${
-				open ? "visible bg-primary/80" : "invisible"
+				open ? "visible bg-primaryHover" : "invisible"
 			}`}
 			onClick={onClose}
 		>
 			<div
-				className={`bg-white bg-opacity-80 rounded-lg shadow-lg p-6 transition-all max-w-md  ${
+				className={`bg-white bg-opacity-95 rounded-lg shadow-lg p-6 transition-all max-w-md  ${
 					open
 						? "scale-100 opacity-100"
 						: "scale-110 opacity-0"

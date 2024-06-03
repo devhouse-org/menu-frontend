@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&family=Outfit:wght@100..900&family=REM:ital,wght@0,100..900;1,100..900&display=swap');
 
+:root {
+  --color-primary: #103B6B;
+  --color-primary-hover: rgba(16, 59, 107, 0.50);
+  --color-secondary: #FF5815;
+  --color-secondary-hover:#FFD7C7;
+  --color-background: #103B6B;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
