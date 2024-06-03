@@ -1,6 +1,5 @@
 import React from "react";
-import BG from "../assets/BG.png";
-import logo from "../assets/logo.png";
+import logo from "../assets/GM-Logo.jpg";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../axiosInstance";
@@ -60,14 +59,7 @@ const HomePage: React.FC<props> = ({
 	return (
 		<div className='relative w-screen min-h-screen flex justify-center items-center font-montserrat text-primary'>
 			{/* Background Pattern */}
-			<div
-				className='absolute bg-background w-full h-full z-0 backdrop-blur-sm'
-				style={{
-					backgroundImage: `url(${BG})`,
-					backgroundSize: "cover",
-					backgroundPosition: "center",
-				}}
-			></div>
+			<div className='absolute bg-white w-full h-full z-0 backdrop-blur-sm'></div>
 
 			<div className='flex flex-col justify-center items-center w-9/12 gap-24 z-10 h-screen p-6 md:p-24'>
 				{/* Logo */}
@@ -82,8 +74,8 @@ const HomePage: React.FC<props> = ({
 				{/* Input */}
 				<div className='h-1/2 w-full flex flex-col gap-5'>
 					<div className='w-full flex justify-center'>
-						<h1 className='text-white text-2xl'>
-							Enter Access Code
+						<h1 className='text-[#c01638] text-2xl'>
+							Enter your Access Code
 						</h1>
 					</div>
 
@@ -91,14 +83,14 @@ const HomePage: React.FC<props> = ({
 						type='text'
 						value={accessCode}
 						onChange={handleAccessCodeChange}
-						className='border p-4 rounded w-full'
+						className='border border-[#c01638] p-4 rounded w-full focus:outline-none focus:ring-1 focus:ring-[#c01638]'
 						placeholder='Enter your access code'
 					/>
 
 					<button
 						disabled={mutation.isPending}
 						onClick={handleSubmit}
-						className={`mt-4 w-full bg-secondary hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md ${
+						className={`mt-4 w-full bg-[#c01638] hover:bg-[#c01638] text-white font-semibold py-4 px-4 rounded-md ${
 							mutation.isPending
 								? "animate-pulse cursor-not-allowed bg-slate-500"
 								: ""
