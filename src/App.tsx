@@ -26,6 +26,8 @@ const App: React.FC = () => {
 		localStorage.removeItem("accessCode");
 		localStorage.removeItem("RestaurantID");
 		localStorage.removeItem("restaurantName");
+		localStorage.removeItem("theme");
+		localStorage.removeItem("logo");
 
 		setShowNav(false);
 	};
@@ -49,9 +51,7 @@ const App: React.FC = () => {
 					path='/'
 					element={
 						localStorage.getItem("accessCode") ? (
-							<WelcomePage
-								handleLogout={handleLogout}
-							/>
+							<WelcomePage handleLogout={handleLogout} />
 						) : (
 							<HomePage
 								accessCode={accessCode}
