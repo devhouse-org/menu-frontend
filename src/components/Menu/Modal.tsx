@@ -13,13 +13,20 @@ const Modal: React.FC<Props> = ({
 }) => {
 	return (
 		<div
-			className={`z-50 fixed shadow-lg inset-0 flex justify-center items-center transition-colors ${
-				open ? "visible bg-primaryHover" : "invisible"
-			}`}
+			style={{
+				visibility: open ? "visible" : "hidden",
+				backgroundColor: open
+					? "var(--color-primary-hover)"
+					: "transparent",
+			}}
+			className={`z-50 fixed shadow-lg inset-0 flex justify-center items-center transition-colors`}
 			onClick={onClose}
 		>
 			<div
-				className={`bg-white bg-opacity-95 rounded-lg shadow-lg p-6 transition-all max-w-md  ${
+				style={{
+					backgroundColor: "white",
+				}}
+				className={`rounded-lg shadow-lg p-6 transition-all max-w-md  ${
 					open
 						? "scale-100 opacity-100"
 						: "scale-110 opacity-0"
@@ -33,7 +40,10 @@ const Modal: React.FC<Props> = ({
 				}}
 			>
 				<button
-					className='absolute top-2 right-2 py-1 px-2  rounded-md text-secondary hover:bg-gray-50 hover:text-gray-600'
+					style={{
+						color: "var(--color-secondary)",
+					}}
+					className='absolute top-2 right-2 py-1 px-2  rounded-md hover:bg-gray-50 hover:text-gray-600'
 					onClick={onClose}
 				>
 					X

@@ -10,11 +10,27 @@ function LanguageSelector() {
         document.body.dir = language === 'ar' ? 'rtl' : 'ltr'
     };
     return (
-        <button onClick={() => changeLanguage(i18n.language === 'ar' ? 'en' : 'ar')} className='flex items-center text-xs cursor-pointer shadow-lg gap-1 p-1 px-2 relative rounded-lg text-primary bg-white'>
-            {i18n.language === 'ar' ? 'English' : 'اللغة العربية' }
-            <Globe size={16} className={`text-secondary `} />
-        </button>
-    );
+			<button
+				onClick={() =>
+					changeLanguage(
+						i18n.language === "ar" ? "en" : "ar"
+					)
+				}
+				style={{
+					color: "var(--color-primary)",
+					backgroundColor: "white",
+				}}
+				className='flex items-center text-xs cursor-pointer shadow-lg gap-1 p-1 px-2 relative rounded-lg'
+			>
+				{i18n.language === "ar"
+					? "English"
+					: "اللغة العربية"}
+				<Globe
+					size={16}
+					style={{ color: "var(--color-secondary)" }}
+				/>
+			</button>
+		);
 }
 
 export default LanguageSelector;

@@ -43,7 +43,20 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				placeholder='Enter your comment...'
 				value={currentComment}
 				onChange={handleInputChange}
-				className='border border-secondary rounded-md px-3 py-2 w-full h-24 focus:outline-none focus:border-primary'
+				className='border rounded-md px-3 py-2 w-full h-24 focus:outline-none'
+				style={{
+					borderColor: "var(--color-secondary)",
+					backgroundColor: "var(--color-white)",
+					color: "var(--color-gray-800)",
+				}}
+				onFocus={(e) =>
+					(e.target.style.borderColor =
+						"var(--color-primary)")
+				}
+				onBlur={(e) =>
+					(e.target.style.borderColor =
+						"var(--color-secondary)")
+				}
 			/>
 		</div>
 	);

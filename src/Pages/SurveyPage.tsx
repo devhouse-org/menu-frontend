@@ -20,7 +20,7 @@ type RatingsT = {
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState<RatingsT[]>([]);
 	const [comment, setComment] = useState<string>("");
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const [isExploding, setIsExploding] =
 		useState<boolean>(false);
 
@@ -37,13 +37,13 @@ const SurveyPage: React.FC = () => {
 	});
 
 	const mutation = useMutation({
-		mutationFn:  (reviewData: {
+		mutationFn: (reviewData: {
 			comment: string;
 			resturantId: string;
 			ratings: RatingsT[];
 		}) => {
 			return axiosInstance.post(
-				'/customer-review',
+				"/customer-review",
 				reviewData
 			);
 		},
@@ -59,8 +59,6 @@ const SurveyPage: React.FC = () => {
 			);
 		},
 	});
-
-
 
 	if (isPending) {
 		return <div>Loading...</div>;
@@ -90,9 +88,10 @@ const SurveyPage: React.FC = () => {
 			showErrorToast("Please, Write your Comment");
 			isValid = false;
 		}
-		const restaurantId = localStorage.getItem("RestaurantID")
-		if(!restaurantId){
-			return // TODO : logout
+		const restaurantId =
+			localStorage.getItem("RestaurantID");
+		if (!restaurantId) {
+			return; // TODO : logout
 		}
 		if (isValid) {
 			mutation.mutate({
@@ -111,13 +110,16 @@ const SurveyPage: React.FC = () => {
 			// Reset confetti explosion after a delay
 			setTimeout(() => {
 				setIsExploding(false);
-				navigate('/menu')
+				navigate("/menu");
 			}, 2500);
 		}
 	};
 
 	return (
-		<div className='w-screen min-h-screen flex justify-center items-center font-montserrat text-primary pt-20'>
+		<div
+			className='w-screen min-h-screen flex justify-center items-center font-montserrat pt-20'
+			style={{ color: "var(--color-primary" }}
+		>
 			<div className='flex flex-col w-9/12 p-4 py-8 gap-12'>
 				{/* Header */}
 				<div className='w-full flex flex-col justify-center items-center text-2xl text-center gap-2'>
@@ -125,7 +127,10 @@ const SurveyPage: React.FC = () => {
 						We hope your meal was as delightful as you
 						hoped!
 					</h1>
-					<h1 className='text-secondary font-noto-kufi-arabic'>
+					<h1
+						className='text-secondary font-noto-kufi-arabic'
+						style={{ color: "var(--color-secondary" }}
+					>
 						نأمل أن تكون وجبتك كانت ممتعة كما تمنيت
 					</h1>
 				</div>
@@ -162,7 +167,11 @@ const SurveyPage: React.FC = () => {
 				{/* Submit */}
 				<button
 					onClick={handleSubmit}
-					className='mt-4 bg-secondary hover:bg-secondary text-white font-semibold py-4 px-4 rounded-md'
+					className='mt-4 bg-secondary font-semibold py-4 px-4 rounded-md'
+					style={{
+						backgroundColor: "var(--color-secondary",
+						color: "white",
+					}}
 				>
 					Submit
 				</button>

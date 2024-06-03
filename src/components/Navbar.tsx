@@ -33,7 +33,13 @@ const Navbar: React.FC = () => {
 	}, []);
 
 	return (
-		<nav className='bg-background text-white p-4 px-6 flex items-center justify-between fixed z-50 w-screen'>
+		<nav
+			style={{
+				backgroundColor: "var(--color-background)",
+				color: "white",
+			}}
+			className='p-4 px-6 flex items-center justify-between fixed z-50 w-screen'
+		>
 			<Link to='/'>
 				<img
 					src={logo}
@@ -62,11 +68,20 @@ const Navbar: React.FC = () => {
 								i18n.language === "ar"
 									? "-right-28"
 									: "-left-20"
-							} mt-1 w-max bg-white rounded-md shadow-lg font-montserrat text-primary`}
+							} mt-1 w-max rounded-md shadow-lg font-montserrat`}
+							style={{
+								backgroundColor: "white",
+								color: "var(--color-primary)",
+							}}
 						>
 							<Link
 								to='/'
-								className='block px-4 py-2 text-gray-800 hover:bg-secondaryHover rounded-md'
+								className='block px-4 py-2 rounded-md'
+								style={{
+									color: "var(--color-gray-800)",
+									backgroundColor:
+										"var(--color-secondaryHover)",
+								}}
 								onClick={toggleMenu}
 							>
 								{t("Home")}
@@ -74,14 +89,24 @@ const Navbar: React.FC = () => {
 
 							<Link
 								to='/menu'
-								className='block px-4 py-2 text-gray-800 hover:bg-secondaryHover rounded-md'
+								className='block px-4 py-2 rounded-md'
+								style={{
+									color: "var(--color-gray-800)",
+									backgroundColor:
+										"var(--color-secondaryHover)",
+								}}
 								onClick={toggleMenu}
 							>
 								{t("Menu")}
 							</Link>
 							<Link
 								to='/survey'
-								className='block px-4 py-2 text-gray-800 hover:bg-secondaryHover rounded-md'
+								className='block px-4 py-2 rounded-md'
+								style={{
+									color: "var(--color-gray-800)",
+									backgroundColor:
+										"var(--color-secondaryHover)",
+								}}
 								onClick={toggleMenu}
 							>
 								{t("Survey")}

@@ -1,21 +1,25 @@
 import { useState } from "react";
 // import BG from "../assets/BG.png";
 import Modal from "../components/Menu/Modal";
-import axiosInstance from '../axiosInstance';
+import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const MenuPage = () => {
 	// State to track which modal is open
-	const [openModalId, setOpenModalId] = useState<string | null>(null);
+	const [openModalId, setOpenModalId] = useState<
+		string | null
+	>(null);
 	const [cat, setCat] = useState(0);
-	const { t } = useTranslation()
+	const { t } = useTranslation();
 
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["menu"],
 		queryFn: async () => {
 			const response = await axiosInstance.get(
-				`/restaurant/access/${localStorage.getItem("accessCode")}`
+				`/restaurant/access/${localStorage.getItem(
+					"accessCode"
+				)}`
 			);
 			return response.data;
 		},
@@ -40,16 +44,32 @@ const MenuPage = () => {
 	}
 
 	return (
-		<div className='relative min-h-screen flex font-montserrat text-primary bg-background'>
-	
+		<div
+			className='relative min-h-screen flex font-montserrat'
+			style={{
+				color: "var(--color-primary)",
+				backgroundColor: "var(--color-background)",
+			}}
+		>
 			<div className='pt-24 flex flex-col items-center'>
 				<div className='flex p-4 gap-2 relative'>
 					{/* sidebar */}
-					<div className='w-3/12 font-semibold bg-primary text-white sticky top-28 mt-10 h-fit overflow-y-auto'>
+					<div
+						className='w-3/12 font-semibold sticky top-28 mt-10 h-fit overflow-y-auto'
+						style={{
+							color: "white",
+							backgroundColor: "var(--color-background)",
+						}}
+					>
 						<h2 className='font-bold w-full py-5 flex justify-center items-center'>
 							{t("Food Categories")}
 						</h2>
-						<hr className='w-fill h-1 bg-secondary border-0 rounded'></hr>
+						<hr
+							className='w-fill h-1 border-0 rounded '
+							style={{
+								backgroundColor: "var(--color-secondary)",
+							}}
+						></hr>
 
 						<ul className='mt-5 text-sm md:text-lg'>
 							{data.categories.map(
@@ -57,10 +77,15 @@ const MenuPage = () => {
 									return (
 										<li
 											className={`p-2 pl-3 cursor-pointer transition-all ${
-												index === cat
-													? "bg-secondary text-white rounded-xl"
-													: "hover:text-secondary"
+												index === cat ? "rounded-xl" : ""
 											}`}
+											style={{
+												backgroundColor:
+													index === cat
+														? "var(--color-secondary)"
+														: "transparent",
+												color: "white",
+											}}
 											onClick={() => setCat(index)}
 											key={item.name}
 										>
@@ -73,7 +98,10 @@ const MenuPage = () => {
 					</div>
 
 					<div className={`w-9/12 flex flex-col h-full`}>
-						<h1 className='text-white z-10 text-4xl font-medium text text-center'>
+						<h1
+							className='z-10 text-4xl font-medium text text-center'
+							style={{ color: "white" }}
+						>
 							{t(data?.categories[cat]?.name)}
 						</h1>
 
@@ -83,7 +111,10 @@ const MenuPage = () => {
 								(item: any) => (
 									<div
 										key={item.name}
-										className='border w-full rounded-lg p-3 bg-white/90 hover:shadow-lg flex flex-col gap-4'
+										className='border w-full rounded-lg p-3 hover:shadow-lg flex flex-col gap-4'
+										style={{
+											backgroundColor: "white",
+										}}
 										onClick={() =>
 											handleOpenModal(item.name)
 										}
@@ -104,8 +135,18 @@ const MenuPage = () => {
 											<h2 className='w-full text-start font-bold text-sm md:text-lg truncate'>
 												{item.name}
 											</h2>
-											<p className='text-secondary text-sm md:text-md font-bold flex items-end w-full'>
-												<span className='text-primary pr-1'>
+											<p
+												className='text-sm md:text-md font-bold flex items-end w-full'
+												style={{
+													color: "var(--color-secondary)",
+												}}
+											>
+												<span
+													className='pr-1'
+													style={{
+														color: "var(--color-primary)",
+													}}
+												>
 													Price:
 												</span>
 												$ {item.price}
