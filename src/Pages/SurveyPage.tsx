@@ -11,6 +11,7 @@ import {
 	useMutation,
 } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { getThemeColors } from "../utils";
 
 type RatingsT = {
 	questionId: string;
@@ -23,6 +24,7 @@ const SurveyPage: React.FC = () => {
 	const navigate = useNavigate();
 	const [isExploding, setIsExploding] =
 		useState<boolean>(false);
+	const theme = getThemeColors();
 
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["Survey"],
@@ -118,7 +120,7 @@ const SurveyPage: React.FC = () => {
 	return (
 		<div
 			className='w-screen min-h-screen flex justify-center items-center font-montserrat pt-20'
-			style={{ color: "var(--color-primary" }}
+			style={{ color: theme.primary }}
 		>
 			<div className='flex flex-col w-9/12 p-4 py-8 gap-12'>
 				{/* Header */}
@@ -129,7 +131,7 @@ const SurveyPage: React.FC = () => {
 					</h1>
 					<h1
 						className='text-secondary font-noto-kufi-arabic'
-						style={{ color: "var(--color-secondary" }}
+						style={{ color: theme.secondary }}
 					>
 						نأمل أن تكون وجبتك كانت ممتعة كما تمنيت
 					</h1>
@@ -169,7 +171,7 @@ const SurveyPage: React.FC = () => {
 					onClick={handleSubmit}
 					className='mt-4 bg-secondary font-semibold py-4 px-4 rounded-md'
 					style={{
-						backgroundColor: "var(--color-secondary",
+						backgroundColor: theme.secondary,
 						color: "white",
 					}}
 				>

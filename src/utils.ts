@@ -46,8 +46,8 @@ export const getThemeColors = (): {
 		? JSON.parse(themeString)
 		: null;
 	return {
-		primary: (theme && theme.primary) || "black",
-		secondary: (theme && theme.secondary) || "white",
-		background: (theme && theme.bg) || "transparent",
+		primary: (theme && theme.primary),
+		secondary: (theme && theme.secondary),
+		background: (theme && theme.bg),
 	};
 };

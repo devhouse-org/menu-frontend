@@ -43,6 +43,8 @@ const HomePage: React.FC<props> = ({
 				data.data.name
 			);
 
+			localStorage.setItem("logo", data.data.image);
+
 			setShowNav(true);
 			navigate("/menu");
 		},
@@ -54,7 +56,7 @@ const HomePage: React.FC<props> = ({
 	});
 
 	console.log("id", localStorage.getItem("RestaurantID"));
-	
+
 	// Handle Code Submit
 	const handleSubmit = () => {
 		if (accessCode) {

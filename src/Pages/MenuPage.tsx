@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
 
-
 const MenuPage = () => {
 	// State to track which modal is open
 	const [openModalId, setOpenModalId] = useState<
@@ -14,6 +13,7 @@ const MenuPage = () => {
 	>(null);
 	const [cat, setCat] = useState(0);
 	const { t } = useTranslation();
+	const theme = getThemeColors();
 
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["menu"],
@@ -27,15 +27,10 @@ const MenuPage = () => {
 		},
 	});
 
-	console.log(
-		"theme",
-		JSON.parse(localStorage.getItem("theme"))
-	);
-
-		// console.log(
-		// 	"primary",
-		// 	JSON.parse(localStorage.getItem("theme")).primary
-		// );
+	// console.log(
+	// 	"theme",
+	// 	JSON.parse(localStorage.getItem("theme"))
+	// );
 
 	// Handle opening a modal
 	const handleOpenModal = (itemId: string) => {
@@ -59,8 +54,8 @@ const MenuPage = () => {
 		<div
 			className='relative min-h-screen flex font-montserrat'
 			style={{
-				color: getThemeColors().primary,
-				backgroundColor: getThemeColors().background,
+				color: theme.primary,
+				backgroundColor: theme.background,
 			}}
 		>
 			<div className='pt-24 flex flex-col items-center'>
@@ -70,7 +65,7 @@ const MenuPage = () => {
 						className='w-3/12 font-semibold sticky top-28 mt-10 h-fit overflow-y-auto'
 						style={{
 							color: "white",
-							backgroundColor: "var(--color-background)",
+							backgroundColor: theme.background,
 						}}
 					>
 						<h2 className='font-bold w-full py-5 flex justify-center items-center'>
@@ -79,7 +74,7 @@ const MenuPage = () => {
 						<hr
 							className='w-fill h-1 border-0 rounded '
 							style={{
-								backgroundColor: "var(--color-secondary)",
+								backgroundColor: theme.secondary,
 							}}
 						></hr>
 
@@ -94,7 +89,7 @@ const MenuPage = () => {
 											style={{
 												backgroundColor:
 													index === cat
-														? "var(--color-secondary)"
+														? theme.secondary
 														: "transparent",
 												color: "white",
 											}}
@@ -150,13 +145,13 @@ const MenuPage = () => {
 											<p
 												className='text-sm md:text-md font-bold flex items-end w-full'
 												style={{
-													color: "var(--color-secondary)",
+													color: theme.secondary,
 												}}
 											>
 												<span
 													className='pr-1'
 													style={{
-														color: "var(--color-primary)",
+														color: theme.primary,
 													}}
 												>
 													Price:

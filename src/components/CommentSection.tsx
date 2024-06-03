@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getThemeColors } from "../utils";
 
 interface CommentSectionProps {
 	onChange: (comment: string) => void;
@@ -15,6 +16,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 }) => {
 	const [currentComment, setCurrentComment] =
 		useState(comment);
+	const theme = getThemeColors();
 
 	useEffect(() => {
 		setCurrentComment(comment);
@@ -45,17 +47,15 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				onChange={handleInputChange}
 				className='border rounded-md px-3 py-2 w-full h-24 focus:outline-none'
 				style={{
-					borderColor: "var(--color-secondary)",
-					backgroundColor: "var(--color-white)",
+					borderColor: theme.secondary,
+					backgroundColor: "white",
 					color: "var(--color-gray-800)",
 				}}
 				onFocus={(e) =>
-					(e.target.style.borderColor =
-						"var(--color-primary)")
+					(e.target.style.borderColor = theme.primary)
 				}
 				onBlur={(e) =>
-					(e.target.style.borderColor =
-						"var(--color-secondary)")
+					(e.target.style.borderColor = theme.secondary)
 				}
 			/>
 		</div>

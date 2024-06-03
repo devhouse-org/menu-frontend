@@ -1,17 +1,20 @@
-import BG from "../assets/BG.png";
+// import BG from "../assets/BG.png";
 import React from "react";
+import { getThemeColors } from "../utils";
 
 interface props {
 	handleLogout: () => void;
 }
 
 const WelcomePage: React.FC<props> = ({ handleLogout }) => {
+	const theme = getThemeColors();
+
 	return (
 		<div
 			className='relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat p-6'
 			style={{
 				color: "white",
-				backgroundColor: "var(--color-background)",
+				backgroundColor: theme.background,
 			}}
 		>
 			{/* Background Pattern */}
@@ -29,7 +32,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 					Welcome,
 					<span
 						className='pl-3'
-						style={{ color: "var(--color-secondary)" }}
+						style={{ color: theme.secondary }}
 					>
 						{localStorage.getItem("restaurantName")}
 					</span>
@@ -40,7 +43,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 					className='mt-4 w-full text-white font-semibold py-4 px-4 rounded-md'
 					style={{
 						color: "white",
-						backgroundColor: "var(--color-secondary)",
+						backgroundColor: theme.secondary,
 					}}
 				>
 					Log Out

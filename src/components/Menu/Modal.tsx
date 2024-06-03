@@ -1,5 +1,5 @@
 import React from "react";
-import {getThemeColors} from '../../utils'
+import { getThemeColors } from "../../utils";
 
 interface Props {
 	open: boolean;
@@ -12,12 +12,14 @@ const Modal: React.FC<Props> = ({
 	onClose,
 	children,
 }) => {
+	const theme = getThemeColors();
+
 	return (
 		<div
 			style={{
 				visibility: open ? "visible" : "hidden",
 				backgroundColor: open
-					? "var(--color-primary-hover)"
+					? "rgba(0, 0, 0, 0.30)"
 					: "transparent",
 			}}
 			className={`z-50 fixed shadow-lg inset-0 flex justify-center items-center transition-colors`}
@@ -42,7 +44,7 @@ const Modal: React.FC<Props> = ({
 			>
 				<button
 					style={{
-						color: getThemeColors().primary,
+						color: theme.primary,
 					}}
 					className='absolute top-2 right-2 py-1 px-2  rounded-md hover:bg-gray-50 hover:text-gray-600'
 					onClick={onClose}

@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/Logo-H.png";
+// import logo from "../assets/Logo-H.png";
 import LanguageSelector from "./LanguageSelector";
 import { Menu } from "lucide-react";
 import { IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { getThemeColors } from "../utils";
+
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
 	const { t, i18n } = useTranslation();
+	const logoSrc =
+		localStorage.getItem("logo");
+	const theme = getThemeColors();
 
 	const toggleMenu = () => {
 		setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -35,17 +40,23 @@ const Navbar: React.FC = () => {
 	return (
 		<nav
 			style={{
-				backgroundColor: "var(--color-background)",
+				backgroundColor: theme.background,
 				color: "white",
 			}}
 			className='p-4 px-6 flex items-center justify-between fixed z-50 w-screen'
 		>
 			<Link to='/'>
-				<img
-					src={logo}
-					alt='Logo'
-					className='h-12'
-				/>
+				{logoSrc ? (
+					<img
+						src={logoSrc}
+						alt='Logo'
+						className='h-12'
+					/>
+				) : (
+					<h1 className='text-lg font-bold'>
+						{localStorage.getItem("restaurantName")}
+					</h1>
+				)}
 			</Link>
 			<div className='flex items-center gap-5'>
 				<LanguageSelector />
@@ -71,16 +82,14 @@ const Navbar: React.FC = () => {
 							} mt-1 w-max rounded-md shadow-lg font-montserrat`}
 							style={{
 								backgroundColor: "white",
-								color: "var(--color-primary)",
+								color: theme.primary,
 							}}
 						>
 							<Link
 								to='/'
-								className='block px-4 py-2 rounded-md'
+								className='block px-4 py-2 rounded-md hover:'
 								style={{
 									color: "var(--color-gray-800)",
-									backgroundColor:
-										"var(--color-secondaryHover)",
 								}}
 								onClick={toggleMenu}
 							>
@@ -92,8 +101,6 @@ const Navbar: React.FC = () => {
 								className='block px-4 py-2 rounded-md'
 								style={{
 									color: "var(--color-gray-800)",
-									backgroundColor:
-										"var(--color-secondaryHover)",
 								}}
 								onClick={toggleMenu}
 							>
@@ -104,8 +111,6 @@ const Navbar: React.FC = () => {
 								className='block px-4 py-2 rounded-md'
 								style={{
 									color: "var(--color-gray-800)",
-									backgroundColor:
-										"var(--color-secondaryHover)",
 								}}
 								onClick={toggleMenu}
 							>
