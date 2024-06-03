@@ -34,3 +34,20 @@ export const showSuccessToast = (message: string) => {
         transition: Slide,
     });
 };
+
+// Theme
+export const getThemeColors = (): {
+	primary: string;
+	secondary: string;
+	background: string;
+} => {
+	const themeString = localStorage.getItem("theme");
+	const theme = themeString
+		? JSON.parse(themeString)
+		: null;
+	return {
+		primary: (theme && theme.primary) || "black",
+		secondary: (theme && theme.secondary) || "white",
+		background: (theme && theme.bg) || "transparent",
+	};
+};

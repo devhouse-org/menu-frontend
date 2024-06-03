@@ -34,9 +34,15 @@ const HomePage: React.FC<props> = ({
 				data.data.accessCode
 			);
 			localStorage.setItem(
+				"theme",
+				JSON.stringify(data.data.theme)
+			);
+
+			localStorage.setItem(
 				"restaurantName",
 				data.data.name
 			);
+
 			setShowNav(true);
 			navigate("/menu");
 		},
@@ -48,7 +54,7 @@ const HomePage: React.FC<props> = ({
 	});
 
 	console.log("id", localStorage.getItem("RestaurantID"));
-
+	
 	// Handle Code Submit
 	const handleSubmit = () => {
 		if (accessCode) {

@@ -1,4 +1,5 @@
 import React from "react";
+import {getThemeColors} from '../../utils'
 
 interface Props {
 	open: boolean;
@@ -41,7 +42,7 @@ const Modal: React.FC<Props> = ({
 			>
 				<button
 					style={{
-						color: "var(--color-secondary)",
+						color: getThemeColors().primary,
 					}}
 					className='absolute top-2 right-2 py-1 px-2  rounded-md hover:bg-gray-50 hover:text-gray-600'
 					onClick={onClose}

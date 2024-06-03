@@ -4,6 +4,8 @@ import Modal from "../components/Menu/Modal";
 import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { getThemeColors } from "../utils";
+
 
 const MenuPage = () => {
 	// State to track which modal is open
@@ -24,6 +26,16 @@ const MenuPage = () => {
 			return response.data;
 		},
 	});
+
+	console.log(
+		"theme",
+		JSON.parse(localStorage.getItem("theme"))
+	);
+
+		// console.log(
+		// 	"primary",
+		// 	JSON.parse(localStorage.getItem("theme")).primary
+		// );
 
 	// Handle opening a modal
 	const handleOpenModal = (itemId: string) => {
@@ -47,8 +59,8 @@ const MenuPage = () => {
 		<div
 			className='relative min-h-screen flex font-montserrat'
 			style={{
-				color: "var(--color-primary)",
-				backgroundColor: "var(--color-background)",
+				color: getThemeColors().primary,
+				backgroundColor: getThemeColors().background,
 			}}
 		>
 			<div className='pt-24 flex flex-col items-center'>
