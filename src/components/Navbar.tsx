@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
 	return (
 		<nav
 			style={{
-				backgroundColor: theme.background,
+				backgroundColor: theme.primary,
 				color: "white",
 			}}
 			className='p-4 px-6 flex items-center justify-between fixed z-50 w-screen'

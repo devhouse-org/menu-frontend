@@ -189,8 +189,18 @@ const MenuPage = () => {
 							{item.name}
 						</h2>
 						<p>{item.description}</p>
-						<p className='text-secondary text-xl font-bold flex items-end w-full pt-3'>
-							<span className='text-primary pr-1'>
+						<p
+							className='text-sm md:text-md font-bold flex items-end w-full'
+							style={{
+								color: theme.secondary,
+							}}
+						>
+							<span
+								className='pr-1'
+								style={{
+									color: theme.primary,
+								}}
+							>
 								Price:
 							</span>
 							$ {item.price}
