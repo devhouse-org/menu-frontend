@@ -55,7 +55,7 @@ const MenuPage = () => {
 			className='relative min-h-screen min-w-screen flex font-montserrat'
 			style={{
 				color: theme.primary,
-				backgroundColor: theme.background,
+				backgroundColor: "white",
 			}}
 		>
 			<div className='pt-24 flex flex-col items-center'>
@@ -64,8 +64,8 @@ const MenuPage = () => {
 					<div
 						className='w-3/12 font-semibold sticky top-28 mt-10 h-fit overflow-y-auto'
 						style={{
-							color: "white",
-							backgroundColor: theme.background,
+							color: theme.primary,
+							backgroundColor: "white",
 						}}
 					>
 						<h2 className='font-bold w-full py-5 flex justify-center items-center'>
@@ -91,7 +91,10 @@ const MenuPage = () => {
 													index === cat
 														? theme.secondary
 														: "transparent",
-												color: "white",
+												color:
+													index === cat
+														? "white"
+														: theme.primary,
 											}}
 											onClick={() => setCat(index)}
 											key={item.name}
@@ -107,7 +110,7 @@ const MenuPage = () => {
 					<div className={`w-9/12 flex flex-col h-full`}>
 						<h1
 							className='z-10 text-4xl font-medium text text-center'
-							style={{ color: "white" }}
+							style={{ color: theme.secondary }}
 						>
 							{t(data?.categories[cat]?.name)}
 						</h1>
