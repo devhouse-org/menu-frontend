@@ -121,7 +121,7 @@ const MenuPage = () => {
 								(item: any) => (
 									<div
 										key={item.name}
-										className='border w-full rounded-lg p-3 hover:shadow-lg flex flex-col gap-4'
+										className='border w-full rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4'
 										style={{
 											backgroundColor: "white",
 										}}
