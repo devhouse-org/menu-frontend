@@ -109,8 +109,8 @@ const MenuPage = () => {
 
 					<div className={`w-9/12 flex flex-col h-full`}>
 						<h1
-							className='z-10 text-4xl font-medium text text-center'
-							style={{ color: theme.secondary }}
+							className='z-10 text-5xl font-bold text text-center'
+							style={{ color: theme.primary }}
 						>
 							{t(data?.categories[cat]?.name)}
 						</h1>
