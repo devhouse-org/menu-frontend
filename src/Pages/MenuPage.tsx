@@ -52,7 +52,7 @@ const MenuPage = () => {
 
 	return (
 		<div
-			className='relative min-h-screen flex font-montserrat'
+			className='relative min-h-screen min-w-screen flex font-montserrat'
 			style={{
 				color: theme.primary,
 				backgroundColor: theme.background,
@@ -134,7 +134,7 @@ const MenuPage = () => {
 														: "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
 												}
 												alt={item.name}
-												className='w-full xl:h-80 h-32 object-cover rounded-xl'
+												className='lg:h-80 lg:w-full md:h-32 w-80 h-24 object-cover rounded-xl'
 											/>
 										</div>
 
