@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import BG from "../assets/BG.png";
 import Modal from "../components/Menu/Modal";
 import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
+import { Menu } from "lucide-react";
 
 const MenuPage = () => {
 	// State to track which modal is open
 	const [openModalId, setOpenModalId] = useState<
 		string | null
 	>(null);
+	const [showSideBar, setShowSideBar] = useState(true)
 	const [cat, setCat] = useState(0);
 	const { t } = useTranslation();
 	const theme = getThemeColors();
@@ -41,7 +43,25 @@ const MenuPage = () => {
 	const handleCloseModal = () => {
 		setOpenModalId(null);
 	};
+	// Add the effect to set sidebar state to false on mobile
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth <= 768) {
+				setShowSideBar(false);
+			}
+		};
 
+		// Initial check
+		handleResize();
+
+		// Add event listener for resize
+		window.addEventListener('resize', handleResize);
+
+		// Cleanup event listener on component unmount
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 	if (isPending) {
 		return <div>Loading...</div>;
 	}
@@ -58,11 +78,11 @@ const MenuPage = () => {
 				backgroundColor: "white",
 			}}
 		>
-			<div className='pt-24 flex flex-col items-center'>
+			<div className='pt-24'>
 				<div className='flex p-4 gap-2 relative'>
 					{/* sidebar */}
 					<div
-						className='w-3/12 font-semibold sticky top-28 mt-10 h-fit overflow-y-auto'
+						className={`${showSideBar ? 'md:w-3/12' : ' w-0'} transition-all font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
 						style={{
 							color: theme.primary,
 							backgroundColor: "white",
@@ -83,9 +103,8 @@ const MenuPage = () => {
 								(item: any, index: number) => {
 									return (
 										<li
-											className={`p-2 pl-3 cursor-pointer transition-all ${
-												index === cat ? "rounded-xl" : ""
-											}`}
+											className={`p-2 pl-3 cursor-pointer transition-all ${index === cat ? "rounded-xl" : ""
+												}`}
 											style={{
 												backgroundColor:
 													index === cat
@@ -107,64 +126,70 @@ const MenuPage = () => {
 						</ul>
 					</div>
 
-					<div className={`w-9/12 flex flex-col h-full`}>
-						<h1
-							className='z-10 text-5xl font-bold text text-center'
-							style={{ color: theme.primary }}
-						>
-							{t(data?.categories[cat]?.name)}
-						</h1>
+					<div className={`${showSideBar ? 'md:w-9/12 ' : 'w-full'} `}>
 
-						{/* Items Card */}
-						<div className='grid md:grid-cols-3 grid-cols-2 gap-4 z-10 py-16'>
-							{data?.categories[cat]?.items.map(
-								(item: any) => (
-									<div
-										key={item.name}
-										className='border w-full rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4'
-										style={{
-											backgroundColor: "white",
-										}}
-										onClick={() =>
-											handleOpenModal(item.name)
-										}
-									>
-										<div className='w-full flex justify-center items-center'>
-											<img
-												src={
-													item.image
-														? item.image
-														: "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
-												}
-												alt={item.name}
-												className='lg:h-80 lg:w-full md:h-32 w-80 h-24 object-cover rounded-xl'
-											/>
-										</div>
+						<div className=''>
+							<div className="flex items-center">
+								<Menu size={35} onClick={() => { setShowSideBar(!showSideBar) }} className="cursor-pointer hover:bg-gray-100 " />
+								<h1
+									className='z-10 text-5xl font-bold text-center w-full'
+									style={{ color: theme.primary }}
+								>
+									{t(data?.categories[cat]?.name)}
+								</h1>
 
-										<div className='flex flex-col justify-center gap-2 w-full'>
-											<h2 className='w-full text-start font-bold text-sm md:text-lg truncate'>
-												{item.name}
-											</h2>
-											<p
-												className='text-sm md:text-md font-bold flex items-end w-full'
-												style={{
-													color: theme.secondary,
-												}}
-											>
-												<span
-													className='pr-1'
+								{/* Items Card */}
+							</div>
+							<div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 z-10 py-16">
+								{data?.categories[cat]?.items.map(
+									(item: any) => (
+										<div
+											key={item.name}
+											className='border w-full rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4'
+											style={{
+												backgroundColor: "white",
+											}}
+											onClick={() =>
+												handleOpenModal(item.name)
+											}
+										>
+											<div className='w-full flex justify-center items-center'>
+												<img
+													src={
+														item.image
+															? item.image
+															: "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
+													}
+													alt={item.name}
+													className='lg:h-48 lg:w-full h-28 w-80 object-cover rounded-xl'
+												/>
+											</div>
+
+											<div className='flex flex-col justify-center gap-2 w-full'>
+												<h2 className='w-full text-start font-bold text-sm md:text-lg truncate'>
+													{item.name}
+												</h2>
+												<p
+													className='text-sm md:text-md font-bold flex items-end w-full'
 													style={{
-														color: theme.primary,
+														color: theme.secondary,
 													}}
 												>
-													Price:
-												</span>
-												$ {item.price}
-											</p>
+													<span
+														className='pr-1'
+														style={{
+															color: theme.primary,
+														}}
+													>
+														Price:
+													</span>
+													$ {item.price}
+												</p>
+											</div>
 										</div>
-									</div>
-								)
-							)}
+									)
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
