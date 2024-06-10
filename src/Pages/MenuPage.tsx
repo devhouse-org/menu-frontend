@@ -5,7 +5,7 @@ import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
-import { Menu } from "lucide-react";
+import { ArrowBigLeft, ArrowBigLeftDash, ArrowBigRight, ArrowBigRightDash, Menu } from "lucide-react";
 
 const MenuPage = () => {
 	// State to track which modal is open
@@ -130,7 +130,12 @@ const MenuPage = () => {
 
 						<div className=''>
 							<div className="flex items-center">
-								<Menu size={35} onClick={() => { setShowSideBar(!showSideBar) }} className="cursor-pointer hover:bg-gray-100 " />
+								{
+									showSideBar ? 
+									<ArrowBigLeft size={35} onClick={() => { setShowSideBar(false) }} className="cursor-pointer hover:bg-gray-100 " />
+									:
+									<ArrowBigRight size={35} onClick={() => { setShowSideBar(true) }} className="cursor-pointer hover:bg-gray-100 " />
+								}
 								<h1
 									className='z-10 text-5xl font-bold text-center w-full'
 									style={{ color: theme.primary }}
