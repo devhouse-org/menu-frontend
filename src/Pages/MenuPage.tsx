@@ -5,7 +5,7 @@ import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
-import { ArrowBigLeft, ArrowBigLeftDash, ArrowBigRight, ArrowBigRightDash, Menu } from "lucide-react";
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 const MenuPage = () => {
 	// State to track which modal is open
