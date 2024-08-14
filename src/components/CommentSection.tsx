@@ -28,7 +28,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				</h1>
 			</div>
 			<div>
-				<label>Name</label>
+				<label>Name*</label>
 				<input 
 					type="text" 
 					placeholder="your name" 
@@ -38,7 +38,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>Phone Number</label>
+				<label>Phone Number*</label>
 				<input 
 					type="tel" 
 					placeholder="your phone number" 
@@ -58,7 +58,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>Comment</label>
+				<label>Comment*</label>
 				<textarea
 					placeholder='Enter your comment...'
 					value={comment}
