@@ -46,7 +46,7 @@ const SurveyPage: React.FC = () => {
 		}) => {
 			return axiosInstance.post("/customer-review", reviewData);
 		},
-		onSuccess(data: any) {
+		onSuccess() {
 			showSuccessToast("Successfully Submitted");
 		},
 		onError(error: any) {
