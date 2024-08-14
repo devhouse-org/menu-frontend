@@ -8,7 +8,11 @@
   --color-secondary-hover:#FFD7C7;
   --color-background: #103B6B;
 }
-
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,4 +22,23 @@
   html {
     font-family: Montserrat, system-ui sans-serif;
   }
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

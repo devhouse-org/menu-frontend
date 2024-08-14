@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { NumericFormat } from 'react-number-format';
 
 const MenuPage = () => {
 	// State to track which modal is open
@@ -82,7 +83,7 @@ const MenuPage = () => {
 				<div className='flex p-4 gap-2 relative'>
 					{/* sidebar */}
 					<div
-						className={`${showSideBar ? 'md:w-3/12' : ' w-0'} transition-all font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
+						className={`${showSideBar ? 'md:w-3/12' : ' w-0'} transition-all max-h-[600px] font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
 						style={{
 							color: theme.primary,
 							backgroundColor: "white",
@@ -188,7 +189,8 @@ const MenuPage = () => {
 													>
 														Price:
 													</span>
-													$ {item.price}
+													<span className="mx-1">IQD</span>
+													 <NumericFormat value={item.price} thousandSeparator=","/>
 												</p>
 											</div>
 										</div>
@@ -236,7 +238,8 @@ const MenuPage = () => {
 							>
 								Price:
 							</span>
-							$ {item.price}
+							<span className="mx-1">IQD</span>
+							 <NumericFormat value={item.price} thousandSeparator=","/>
 						</p>
 					</div>
 				</Modal>

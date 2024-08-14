@@ -13,7 +13,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 		<div
 			className='relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat p-6'
 			style={{
-				color: "white",
+				// color: "white",
 				backgroundColor: theme.background,
 			}}
 		>
@@ -28,7 +28,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 			></div> */}
 			<div className='flex flex-col justify-center items-center w-9/12 gap-24 p-6 z-20'>
 				{/* Text */}
-				<h1 className='text-4xl'>
+				<h1 className='text-4xl bg-'>
 					Welcome,
 					<span
 						className='pl-3'

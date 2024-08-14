@@ -6,12 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { showErrorToast, showSuccessToast } from "../utils";
 import ConfettiExplosion from "react-confetti-explosion";
 import axiosInstance from "../axiosInstance";
-import {
-	useQuery,
-	useMutation,
-} from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { getThemeColors } from "../utils";
+import { useSurveyStore } from "../store/surveyStore";
 
 type RatingsT = {
 	questionId: string;
@@ -20,19 +18,18 @@ type RatingsT = {
 
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState<RatingsT[]>([]);
-	const [comment, setComment] = useState<string>("");
 	const navigate = useNavigate();
-	const [isExploding, setIsExploding] =
-		useState<boolean>(false);
+	const [isExploding, setIsExploding] = useState<boolean>(false);
 	const theme = getThemeColors();
+
+	// Access the Zustand store values
+	const { comment, name, email, phone, setComment, setName, setEmail, setPhone } = useSurveyStore();
 
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["Survey"],
 		queryFn: async () => {
 			const response = await axiosInstance.get(
-				`/question/restaurant/${localStorage.getItem(
-					"RestaurantID"
-				)}`
+				`/question/restaurant/${localStorage.getItem("RestaurantID")}`
 			);
 			return response.data;
 		},
@@ -41,16 +38,15 @@ const SurveyPage: React.FC = () => {
 	const mutation = useMutation({
 		mutationFn: (reviewData: {
 			comment: string;
+			name: string;
+			email: string;
+			phone: string;
 			resturantId: string;
 			ratings: RatingsT[];
 		}) => {
-			return axiosInstance.post(
-				"/customer-review",
-				reviewData
-			);
+			return axiosInstance.post("/customer-review", reviewData);
 		},
 		onSuccess(data: any) {
-			console.log("post", data.data);
 			showSuccessToast("Successfully Submitted");
 		},
 		onError(error: any) {
@@ -70,43 +66,41 @@ const SurveyPage: React.FC = () => {
 		return <div>Error</div>;
 	}
 
-	const handleRatingSelect = (
-		questionId: string,
-		score: number
-	) => {
+	const handleRatingSelect = (questionId: string, score: number) => {
 		setRatings((prevRatings) => {
 			return [...prevRatings, { questionId, score }];
 		});
 	};
 
-	const handleCommentChange = (commentText: string) => {
-		setComment(commentText);
-	};
-
 	const handleSubmit = () => {
 		let isValid = true;
 
-		if (!comment) {
-			showErrorToast("Please, Write your Comment");
+		if (!comment || !name || !email || !phone) {
+			showErrorToast("Please fill in all fields.");
 			isValid = false;
 		}
-		const restaurantId =
-			localStorage.getItem("RestaurantID");
+
+		const restaurantId = localStorage.getItem("RestaurantID");
 		if (!restaurantId) {
-			return; // TODO : logout
+			return; // TODO: handle missing restaurant ID, perhaps log out
 		}
+
 		if (isValid) {
 			mutation.mutate({
 				comment: comment,
+				name: name,
+				email: email,
+				phone: phone,
 				resturantId: restaurantId,
 				ratings: ratings,
 			});
 
-			// Reset ratings
+			// Reset ratings and Zustand store values
 			setRatings([]);
-
-			// Reset Comment
 			setComment("");
+			setName("");
+			setEmail("");
+			setPhone("");
 			setIsExploding(true);
 
 			// Reset confetti explosion after a delay
@@ -119,18 +113,17 @@ const SurveyPage: React.FC = () => {
 
 	return (
 		<div
-			className='w-screen min-h-screen flex justify-center items-center font-montserrat pt-20'
+			className="w-screen min-h-screen flex justify-center items-center font-montserrat pt-20"
 			style={{ color: theme.primary }}
 		>
-			<div className='flex flex-col w-9/12 p-4 py-8 gap-12'>
+			<div className="flex flex-col w-9/12 p-4 py-8 gap-12">
 				{/* Header */}
-				<div className='w-full flex flex-col justify-center items-center text-2xl text-center gap-2'>
-					<h1 className='pt-3 font-bold'>
-						We hope your meal was as delightful as you
-						hoped!
+				<div className="w-full flex flex-col justify-center items-center text-2xl text-center gap-2">
+					<h1 className="pt-3 font-bold">
+						We hope your meal was as delightful as you hoped!
 					</h1>
 					<h1
-						className='text-secondary font-noto-kufi-arabic'
+						className="text-secondary font-noto-kufi-arabic"
 						style={{ color: theme.secondary }}
 					>
 						نأمل أن تكون وجبتك كانت ممتعة كما تمنيت
@@ -138,7 +131,7 @@ const SurveyPage: React.FC = () => {
 				</div>
 
 				{/* Rate Quality */}
-				<div className='w-full flex flex-col gap-10 justify-center items-center'>
+				<div className="w-full flex flex-col gap-10 justify-center items-center">
 					{/* Food Quality */}
 					{data.map((q: any) => {
 						return (
@@ -159,17 +152,12 @@ const SurveyPage: React.FC = () => {
 				</div>
 
 				{/* Comment */}
-				<CommentSection
-					onChange={handleCommentChange}
-					titleAr={"الملاحظات"}
-					titleEn={"Comments"}
-					comment={comment}
-				/>
+				<CommentSection titleAr={"الملاحظات"} titleEn={"Comments"} />
 
 				{/* Submit */}
 				<button
 					onClick={handleSubmit}
-					className='mt-4 bg-secondary font-semibold py-4 px-4 rounded-md'
+					className="mt-4 bg-secondary font-semibold py-4 px-4 rounded-md"
 					style={{
 						backgroundColor: theme.secondary,
 						color: "white",
@@ -178,7 +166,7 @@ const SurveyPage: React.FC = () => {
 					Submit
 				</button>
 
-				<div className='w-full flex justify-center items-center'>
+				<div className="w-full flex justify-center items-center">
 					{isExploding && (
 						<ConfettiExplosion
 							force={0.8}

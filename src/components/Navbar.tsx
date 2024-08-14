@@ -47,11 +47,13 @@ const Navbar: React.FC = () => {
 		>
 			<Link to='/'>
 				{logoSrc ? (
-					<img
-						src={logoSrc}
-						alt='Logo'
-						className='h-12'
-					/>
+					<div className="w-36 p-1 rounded shadow  bg-white">
+						<img
+							src={logoSrc}
+							alt='Logo'
+							className='h-12'
+						/>
+					</div>
 				) : (
 					<h1 className='text-lg font-bold'>
 						{localStorage.getItem("restaurantName")}
