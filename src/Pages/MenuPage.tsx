@@ -21,6 +21,7 @@ const MenuPage = () => {
 			const response = await axiosInstance.get(
 				`/restaurant/access/${localStorage.getItem("accessCode")}`
 			);
+			setSelectedCategoryId(response.data.categories[0].id);
 			return response.data;
 		},
 	});
