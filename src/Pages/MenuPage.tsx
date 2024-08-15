@@ -119,7 +119,7 @@ const MenuPage = () => {
           </div>
 
           <div
-            className={`${showSideBar ? "md:w-[50%] lg:w-[70%] " : "w-full"} `}
+            className={`${showSideBar ? "md:w-[50%] lg:w-[100%] " : "w-full"} `}
           >
             <div className="">
               <div className="flex items-center">
