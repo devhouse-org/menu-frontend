@@ -20,7 +20,7 @@ function LanguageSelector() {
       }}
       className="flex items-center text-xs cursor-pointer shadow-lg gap-1 p-1.5 px-2 relative rounded-lg "
     >
-      {i18n.language === "ar" ? "اللغة العربية" : "English"}
+      {i18n.language === "ar" ? "English" :"اللغة العربية" }
       <Globe size={18} style={{ color: theme.secondary }} />
     </button>
   );
