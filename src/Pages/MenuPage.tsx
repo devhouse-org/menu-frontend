@@ -80,10 +80,9 @@ const MenuPage = () => {
     >
       <div className="pt-24">
         <div className="flex p-4 gap-2 relative">
-          {/* sidebar */}
           <div
             className={`${
-              showSideBar ? "md:w-3/12" : "w-0"
+              showSideBar ? "md:w-[50%]" : " w-0"
             } transition-all max-h-[600px] font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
             style={{
               color: theme.primary,
@@ -182,7 +181,13 @@ const MenuPage = () => {
               </div>
 
               {/* Items Card */}
-              <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 z-10 py-16">
+              <div
+                className={`grid ${
+                  showSideBar
+                    ? "lg:grid-cols-2 "
+                    : "lg:grid-cols-3 grid-cols-2 "
+                }  gap-4 z-10 py-16 px-6 `}
+              >
                 {selectedCategory.items.map((item: any) => (
                   <div
                     key={item.id}
