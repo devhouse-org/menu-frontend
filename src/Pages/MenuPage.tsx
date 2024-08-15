@@ -82,7 +82,7 @@ const MenuPage = () => {
         <div className="flex p-4 gap-2 relative">
           <div
             className={`${
-              showSideBar ? "md:w-[50%]" : " w-0"
+              showSideBar ? "md:w-80" : " w-0"
             } transition-all max-h-[600px] font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
             style={{
               color: theme.primary,
@@ -191,7 +191,7 @@ const MenuPage = () => {
                 {selectedCategory.items.map((item: any) => (
                   <div
                     key={item.id}
-                    className="border w-full rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4"
+                    className="border w-80 rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4"
                     style={{
                       backgroundColor: "white",
                     }}
@@ -205,7 +205,7 @@ const MenuPage = () => {
                             : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
                         }
                         alt={item.name}
-                        className="lg:h-48 lg:w-full h-28 w-80 object-cover rounded-xl"
+                        className="lg:h-48 lg:w-96 h-28 w-96 object-cover rounded-xl"
                       />
                     </div>
 
@@ -225,7 +225,7 @@ const MenuPage = () => {
                             color: theme.primary,
                           }}
                         >
-                          Price:
+                          {t("price")}
                         </span>
                         <span className="mx-1">{t("IQD")}</span>
                         <div>{item.price.toLocaleString()}</div>
@@ -274,7 +274,7 @@ const MenuPage = () => {
                   color: theme.primary,
                 }}
               >
-                Price:
+                {t("price")}
               </span>
               <span className="mx-1">{t("IQD")}</span>
               <div>{item.price.toLocaleString()}</div>
