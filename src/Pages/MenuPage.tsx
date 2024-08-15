@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import BG from "../assets/BG.png";
 import Modal from "../components/Menu/Modal";
 import axiosInstance from "../axiosInstance";
 import { useQuery } from "@tanstack/react-query";
@@ -10,11 +9,9 @@ import { NumericFormat } from 'react-number-format';
 
 const MenuPage = () => {
 	// State to track which modal is open
-	const [openModalId, setOpenModalId] = useState<
-		string | null
-	>(null);
-	const [showSideBar, setShowSideBar] = useState(true)
-	const [cat, setCat] = useState(0);
+	const [openModalId, setOpenModalId] = useState<string | null>(null);
+	const [showSideBar, setShowSideBar] = useState(true);
+	const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 	const { t } = useTranslation();
 	const theme = getThemeColors();
 
@@ -22,18 +19,11 @@ const MenuPage = () => {
 		queryKey: ["menu"],
 		queryFn: async () => {
 			const response = await axiosInstance.get(
-				`/restaurant/access/${localStorage.getItem(
-					"accessCode"
-				)}`
+				`/restaurant/access/${localStorage.getItem("accessCode")}`
 			);
 			return response.data;
 		},
 	});
-
-	// console.log(
-	// 	"theme",
-	// 	JSON.parse(localStorage.getItem("theme"))
-	// );
 
 	// Handle opening a modal
 	const handleOpenModal = (itemId: string) => {
@@ -44,6 +34,7 @@ const MenuPage = () => {
 	const handleCloseModal = () => {
 		setOpenModalId(null);
 	};
+
 	// Add the effect to set sidebar state to false on mobile
 	useEffect(() => {
 		const handleResize = () => {
@@ -56,13 +47,14 @@ const MenuPage = () => {
 		handleResize();
 
 		// Add event listener for resize
-		window.addEventListener('resize', handleResize);
+		window.addEventListener("resize", handleResize);
 
 		// Cleanup event listener on component unmount
 		return () => {
-			window.removeEventListener('resize', handleResize);
+			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
+
 	if (isPending) {
 		return <div>Loading...</div>;
 	}
@@ -70,6 +62,10 @@ const MenuPage = () => {
 	if (isError) {
 		return <div>Error</div>;
 	}
+
+	const selectedCategory = data.categories.find(
+		(category: any) => category.id === selectedCategoryId
+	) || data.categories[0];
 
 	return (
 		<div
@@ -83,7 +79,7 @@ const MenuPage = () => {
 				<div className='flex p-4 gap-2 relative'>
 					{/* sidebar */}
 					<div
-						className={`${showSideBar ? 'md:w-3/12' : ' w-0'} transition-all max-h-[600px] font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
+						className={`${showSideBar ? "md:w-3/12" : "w-0"} transition-all max-h-[600px] font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
 						style={{
 							color: theme.primary,
 							backgroundColor: "white",
@@ -93,70 +89,85 @@ const MenuPage = () => {
 							{t("Food Categories")}
 						</h2>
 						<hr
-							className='w-fill h-1 border-0 rounded '
+							className='w-fill h-1 border-0 rounded'
 							style={{
 								backgroundColor: theme.secondary,
 							}}
 						></hr>
 
 						<ul className='mt-5 text-sm md:text-lg'>
-							{data.categories.map(
-								(item: any, index: number) => {
-									return (
-										<li
-											className={`p-2 pl-3 cursor-pointer transition-all ${index === cat ? "rounded-xl" : ""
-												}`}
-											style={{
-												backgroundColor:
-													index === cat
-														? theme.secondary
-														: "transparent",
-												color:
-													index === cat
-														? "white"
-														: theme.primary,
-											}}
-											onClick={() => setCat(index)}
-											key={item.name}
-										>
-											{t(item.name)}
-										</li>
-									);
-								}
-							)}
+							{data.categories.map((category: any) => {
+								return (
+									<li
+										className={`p-2 pl-3 cursor-pointer transition-all ${
+											category.id === selectedCategoryId
+												? "rounded-xl"
+												: ""
+										}`}
+										style={{
+											backgroundColor:
+												category.id === selectedCategoryId
+													? theme.secondary
+													: "transparent",
+											color:
+												category.id === selectedCategoryId
+													? "white"
+													: theme.primary,
+										}}
+										onClick={() =>
+											setSelectedCategoryId(category.id)
+										}
+										key={category.id}
+									>
+										{t(category.name)}
+									</li>
+								);
+							})}
 						</ul>
 					</div>
 
-					<div className={`${showSideBar ? 'md:w-9/12 ' : 'w-full'} `}>
-
+					<div
+						className={`${showSideBar ? "md:w-9/12" : "w-full"}`}
+					>
 						<div className=''>
-							<div className="flex items-center">
-								{
-									showSideBar ? 
-									<ArrowBigLeft size={35} onClick={() => { setShowSideBar(false) }} className="cursor-pointer hover:bg-gray-100 " />
-									:
-									<ArrowBigRight size={35} onClick={() => { setShowSideBar(true) }} className="cursor-pointer hover:bg-gray-100 " />
-								}
+							<div className='flex items-center'>
+								{showSideBar ? (
+									<ArrowBigLeft
+										size={35}
+										onClick={() => {
+											setShowSideBar(false);
+										}}
+										className='cursor-pointer hover:bg-gray-100 '
+									/>
+								) : (
+									<ArrowBigRight
+										size={35}
+										onClick={() => {
+											setShowSideBar(true);
+										}}
+										className='cursor-pointer hover:bg-gray-100 '
+									/>
+								)}
 								<h1
 									className='z-10 text-5xl font-bold text-center w-full'
 									style={{ color: theme.primary }}
 								>
-									{t(data?.categories[cat]?.name)}
+									{t(selectedCategory.name)}
 								</h1>
 
 								{/* Items Card */}
 							</div>
-							<div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 z-10 py-16">
-								{data?.categories[cat]?.items.map(
+							<div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 z-10 py-16'>
+								{selectedCategory.items.map(
 									(item: any) => (
 										<div
-											key={item.name}
+											key={item.id}
 											className='border w-full rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4'
 											style={{
 												backgroundColor: "white",
 											}}
 											onClick={() =>
-												handleOpenModal(item.name)
+												handleOpenModal(item.id)
 											}
 										>
 											<div className='w-full flex justify-center items-center'>
@@ -189,8 +200,13 @@ const MenuPage = () => {
 													>
 														Price:
 													</span>
-													<span className="mx-1">IQD</span>
-													 <NumericFormat value={item.price} thousandSeparator=","/>
+													<span className='mx-1'>
+														IQD
+													</span>
+													<NumericFormat
+														value={item.price}
+														thousandSeparator=','
+													/>
 												</p>
 											</div>
 										</div>
@@ -203,10 +219,10 @@ const MenuPage = () => {
 			</div>
 
 			{/* Modals */}
-			{data?.categories[cat]?.items.map((item: any) => (
+			{selectedCategory.items.map((item: any) => (
 				<Modal
-					key={item.name}
-					open={openModalId === item.name}
+					key={item.id}
+					open={openModalId === item.id}
 					onClose={handleCloseModal}
 				>
 					{/* Modal content for each item */}
@@ -238,8 +254,11 @@ const MenuPage = () => {
 							>
 								Price:
 							</span>
-							<span className="mx-1">IQD</span>
-							 <NumericFormat value={item.price} thousandSeparator=","/>
+							<span className='mx-1'>IQD</span>
+							<NumericFormat
+								value={item.price}
+								thousandSeparator=','
+							/>
 						</p>
 					</div>
 				</Modal>
