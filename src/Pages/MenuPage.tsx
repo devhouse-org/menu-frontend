@@ -104,7 +104,7 @@ const MenuPage = () => {
                 return (
                   <li
                     className={`p-2 pl-3 cursor-pointer transition-all ${
-                      category.id === selectedCategoryId ? "rounded-xl" : ""
+                      category.id === selectedCategoryId ? "rounded" : ""
                     }`}
                     style={{
                       backgroundColor:
@@ -130,7 +130,7 @@ const MenuPage = () => {
             className={`${showSideBar ? "md:w-[50%] lg:w-[100%] " : "w-full"} `}
           >
             <div className="">
-              <div className="flex items-center">
+              <div className="flex items-center gap-2">
                 {i18n.language === "en" ? (
                   showSideBar ? (
                     <ArrowBigLeft
@@ -168,10 +168,9 @@ const MenuPage = () => {
                 )}
 
                 <h1
-                  className="z-10 text-5xl font-bold text-center w-full"
+                  className="z-10 text-3xl font-bold text-center w-full"
                   style={{
                     color: theme.primary,
-                    textAlign: i18n.language === "en" ? "left" : "right",
                   }}
                 >
                   {t(selectedCategory.name)}
@@ -191,7 +190,7 @@ const MenuPage = () => {
                 {selectedCategory.items.map((item: any) => (
                   <div
                     key={item.id}
-                    className="border w-80 rounded-lg p-3 shadow-md hover:shadow-lg flex flex-col gap-4"
+                    className="border w-80 rounded p-3 shadow-md hover:shadow-lg flex flex-col gap-4"
                     style={{
                       backgroundColor: "white",
                     }}
@@ -205,7 +204,7 @@ const MenuPage = () => {
                             : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
                         }
                         alt={item.name}
-                        className="lg:h-48 lg:w-96 h-28 w-96 object-cover rounded-xl"
+                        className="lg:h-48 lg:w-96 h-28 w-96 object-cover rounded"
                       />
                     </div>
 
@@ -213,7 +212,7 @@ const MenuPage = () => {
                       <h2 className="w-full text-start font-bold text-sm md:text-lg truncate">
                         {t(item.name)}
                       </h2>
-                      <p
+                      <div
                         className="text-sm md:text-md font-bold flex items-end w-full"
                         style={{
                           color: theme.secondary,
@@ -228,8 +227,8 @@ const MenuPage = () => {
                           {t("price")}
                         </span>
                         <span className="mx-1">{t("IQD")}</span>
-                        <div>{item.price.toLocaleString()}</div>
-                      </p>
+                        <p>{item.price.toLocaleString()}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -255,14 +254,14 @@ const MenuPage = () => {
                   : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
               }
               alt={item.name}
-              className="w-full object-contain rounded-2xl"
+              className="w-full object-contain rounded"
             />
             <h2 className="w-full text-center font-bold h-1/4 text-2xl py-3">
               {t(item.name)}
             </h2>
             <p>{t(item.description)}</p>
 
-            <p
+            <div
               className="text-sm md:text-md font-bold flex items-end w-full"
               style={{
                 color: theme.secondary,
@@ -277,8 +276,8 @@ const MenuPage = () => {
                 {t("price")}
               </span>
               <span className="mx-1">{t("IQD")}</span>
-              <div>{item.price.toLocaleString()}</div>
-            </p>
+              <p>{item.price.toLocaleString()}</p>
+            </div>
           </div>
         </Modal>
       ))}

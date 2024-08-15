@@ -1,6 +1,7 @@
 // import BG from "../assets/BG.png";
 import React from "react";
 import { getThemeColors } from "../utils";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	handleLogout: () => void;
@@ -8,7 +9,7 @@ interface props {
 
 const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 	const theme = getThemeColors();
-
+	const {t} = useTranslation()
 	return (
 		<div
 			className='relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat p-6'
@@ -29,12 +30,12 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 			<div className='flex flex-col justify-center items-center w-9/12 gap-24 p-6 z-20'>
 				{/* Text */}
 				<h1 className='text-4xl bg-'>
-					Welcome,
+					{t("Welcome")},
 					<span
 						className='pl-3'
 						style={{ color: theme.secondary }}
 					>
-						{localStorage.getItem("restaurantName")}
+						{t(localStorage.getItem("restaurantName") as string)}
 					</span>
 				</h1>
 				{/* Logout button */}
@@ -46,7 +47,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 						backgroundColor: theme.secondary,
 					}}
 				>
-					Log Out
+					{t("Log Out")}
 				</button>
 			</div>
 		</div>
