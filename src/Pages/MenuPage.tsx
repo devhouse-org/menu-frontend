@@ -218,7 +218,7 @@ const MenuPage = () => {
                             color: theme.primary,
                           }}
                         >
-                          Price:
+                          {t("Price")}:
                         </span>
                         <span className="mx-1">{t("IQD")}</span>
                         <div>{item.price.toLocaleString()}</div>
@@ -253,7 +253,7 @@ const MenuPage = () => {
             <h2 className="w-full text-center font-bold h-1/4 text-2xl py-3">
               {t(item.name)}
             </h2>
-            <p>{item.description}</p>
+            <p>{t(item.description)}</p>
             <p
               className="text-sm md:text-md font-bold flex items-end w-full"
               style={{
@@ -266,7 +266,7 @@ const MenuPage = () => {
                   color: theme.primary,
                 }}
               >
-                {t("Price:")}
+                {t("Price")}:
               </span>
               <span className="mx-1">{t("IQD")}</span>
               <div>{item.price.toLocaleString()}</div>
