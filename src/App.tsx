@@ -9,6 +9,7 @@ import MenuPage from "./Pages/MenuPage";
 import SurveyPage from "./Pages/SurveyPage";
 import Navbar from "./components/Navbar";
 import WelcomePage from "./Pages/WelcomePage";
+import ThankYouPage from "./Pages/thanks";
 
 const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
@@ -67,6 +68,10 @@ const App: React.FC = () => {
 				<Route
 					path='/menu'
 					element={<MenuPage />}
+				/>
+				<Route
+					path='/thankyou'
+					element={<ThankYouPage />}
 				/>
 				<Route
 					path='/survey'
