@@ -125,7 +125,7 @@ const SurveyPage: React.FC = () => {
 						We hope your meal was as delightful as you hoped!
 					</h1>
 					<h1
-						className="text-secondary font-noto-kufi-arabic"
+						className="text-secondary"
 						style={{ color: theme.secondary }}
 					>
 						نأمل أن تكون وجبتك كانت ممتعة كما تمنيت

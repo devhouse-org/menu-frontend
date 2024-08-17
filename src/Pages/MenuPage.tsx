@@ -25,6 +25,7 @@ const MenuPage = () => {
       setSelectedCategory(response.data.categories[0]);
       return response.data;
     },
+    refetchOnWindowFocus: false
   });
 
   // Handle opening a modal
@@ -78,11 +79,12 @@ const MenuPage = () => {
         <div className="flex p-4 gap-2 relative">
           <div
             className={`${
-              showSideBar ? "md:w-80" : " w-0"
-            } transition-all max-h-[600px] border font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
+              showSideBar ? "md:w-80 border p-1" : " w-0"
+            } transition-all max-h-[600px]  rounded font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
             style={{
               color: theme.primary,
               backgroundColor: "white",
+              borderColor: theme.primary
             }}
           >
             <h2 className="font-bold w-full py-5 flex justify-center items-center">
@@ -95,11 +97,11 @@ const MenuPage = () => {
               }}
             ></hr>
 
-            <ul className="mt-5 text-sm md:text-lg">
+            <ul className="mt-5 text-sm md:text-lg divide-y ">
               {data.categories.map((category: any) => {
                 return (
-                  <li
-                    className={`p-2 pl-3 cursor-pointer transition-all ${
+                  <li 
+                    className={`p-2 pl-3 cursor-pointer transition-all  ${
                       category?.id === selectedCategory?.id ? "rounded" : ""
                     }`}
                     style={{

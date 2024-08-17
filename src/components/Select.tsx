@@ -32,7 +32,7 @@ const Select: React.FC<DropdownProps> = ({
       <div>
         <div className="flex justify-between">
           <h1 className="text-lg font-bold mb-2">{titleEn}</h1>
-          <h1 className="text-lg font-bold mb-2 font-noto-kufi-arabic">
+          <h1 className="text-lg font-bold mb-2">
             {titleAr}
           </h1>
         </div>
