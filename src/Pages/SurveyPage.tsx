@@ -108,7 +108,7 @@ const SurveyPage: React.FC = () => {
 			// Reset confetti explosion after a delay
 			setTimeout(() => {
 				setIsExploding(false);
-				navigate("/menu");
+				navigate("/thankyou");
 			}, 2500);
 		}
 	};
