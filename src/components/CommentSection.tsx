@@ -49,7 +49,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>{t("Birthday")}</label>
+				<label>{t("Birthday")}*</label>
 				<input 
 					type="date" 
 					placeholder={t("your birthday")}
@@ -59,7 +59,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>{t("Comment")}*</label>
+				<label>{t("Comment")}</label>
 				<textarea
 					placeholder={t('Enter your comment...')}
 					value={comment}

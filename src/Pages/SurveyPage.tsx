@@ -77,7 +77,7 @@ const SurveyPage: React.FC = () => {
 	const handleSubmit = () => {
 		let isValid = true;
 
-		if (!comment || !name || !phone) {
+		if (!name || !phone || !birthday) {
 			showErrorToast(t("Please fill in the required fields."));
 			isValid = false;
 		}
