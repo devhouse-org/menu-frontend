@@ -10,7 +10,7 @@ const MenuPage = () => {
   // State to track which modal is open
   const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [showSideBar, setShowSideBar] = useState(true);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+  const [selectedCategory, setSelectedCategory] = useState<any | null>(
     null
   );
   const { t, i18n } = useTranslation();
@@ -22,7 +22,7 @@ const MenuPage = () => {
       const response = await axiosInstance.get(
         `/restaurant/access/${localStorage.getItem("accessCode")}`
       );
-      setSelectedCategoryId(response.data.categories[0].id);
+      setSelectedCategory(response.data.categories[0]);
       return response.data;
     },
   });
@@ -65,10 +65,6 @@ const MenuPage = () => {
     return <div>Error</div>;
   }
 
-  const selectedCategory =
-    data.categories.find(
-      (category: any) => category.id === selectedCategoryId
-    ) || data.categories[0];
 
   return (
     <div
@@ -83,7 +79,7 @@ const MenuPage = () => {
           <div
             className={`${
               showSideBar ? "md:w-80" : " w-0"
-            } transition-all max-h-[600px] font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
+            } transition-all max-h-[600px] border font-semibold sticky top-28 mt-10 h-fit overflow-y-auto`}
             style={{
               color: theme.primary,
               backgroundColor: "white",
@@ -104,19 +100,19 @@ const MenuPage = () => {
                 return (
                   <li
                     className={`p-2 pl-3 cursor-pointer transition-all ${
-                      category.id === selectedCategoryId ? "rounded" : ""
+                      category.id === selectedCategory.id? "rounded" : ""
                     }`}
                     style={{
                       backgroundColor:
-                        category.id === selectedCategoryId
+                        category.id === selectedCategory.id
                           ? theme.secondary
                           : "transparent",
                       color:
-                        category.id === selectedCategoryId
+                        category.id === selectedCategory.id
                           ? "white"
                           : theme.primary,
                     }}
-                    onClick={() => setSelectedCategoryId(category.id)}
+                    onClick={() => setSelectedCategory(category)}
                     key={category.id}
                   >
                     {t(category.name)}
@@ -185,7 +181,7 @@ const MenuPage = () => {
                   showSideBar
                     ? "lg:grid-cols-2 "
                     : "lg:grid-cols-3 grid-cols-2 "
-                }  gap-4 z-10 py-16 px-6 `}
+                }  gap-4 z-10 py-16 px-2 `}
               >
                 {selectedCategory.items.map((item: any) => (
                   <div
