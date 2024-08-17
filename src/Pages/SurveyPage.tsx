@@ -10,6 +10,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { getThemeColors } from "../utils";
 import { useSurveyStore } from "../store/surveyStore";
+import { useTranslation } from "react-i18next";
 
 type RatingsT = {
 	questionId: string;
@@ -19,11 +20,12 @@ type RatingsT = {
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState<RatingsT[]>([]);
 	const navigate = useNavigate();
+	const {t} = useTranslation()
 	const [isExploding, setIsExploding] = useState<boolean>(false);
 	const theme = getThemeColors();
 
 	// Access the Zustand store values
-	const { comment, name, email, phone, setComment, setName, setEmail, setPhone } = useSurveyStore();
+	const { comment, name, birthday, phone, setComment, setName, setBirthday, setPhone } = useSurveyStore();
 
 	const { data, isError, isPending } = useQuery({
 		queryKey: ["Survey"],
@@ -39,7 +41,7 @@ const SurveyPage: React.FC = () => {
 		mutationFn: (reviewData: {
 			comment: string;
 			name: string;
-			email: string;
+			birthday: string;
 			phone: string;
 			resturantId: string;
 			ratings: RatingsT[];
@@ -47,23 +49,23 @@ const SurveyPage: React.FC = () => {
 			return axiosInstance.post("/customer-review", reviewData);
 		},
 		onSuccess() {
-			showSuccessToast("Successfully Submitted");
+			showSuccessToast(t("Successfully Submitted"));
 		},
 		onError(error: any) {
-			showErrorToast("Submission failed");
+			showErrorToast(t("Submission failed"));
 			console.error(
-				"Submission error:",
+				t("Submission error:"),
 				error.response ? error.response.data : error.message
 			);
 		},
 	});
 
 	if (isPending) {
-		return <div>Loading...</div>;
+		return <div>{t("Loading...")}</div>;
 	}
 
 	if (isError) {
-		return <div>Error</div>;
+		return <div>{t("Error")}</div>;
 	}
 
 	const handleRatingSelect = (questionId: string, score: number) => {
@@ -76,7 +78,7 @@ const SurveyPage: React.FC = () => {
 		let isValid = true;
 
 		if (!comment || !name || !phone) {
-			showErrorToast("Please fill in the required fields.");
+			showErrorToast(t("Please fill in the required fields."));
 			isValid = false;
 		}
 
@@ -89,7 +91,7 @@ const SurveyPage: React.FC = () => {
 			mutation.mutate({
 				comment: comment,
 				name: name,
-				email: email,
+				birthday: birthday,
 				phone: phone,
 				resturantId: restaurantId,
 				ratings: ratings,
@@ -99,7 +101,7 @@ const SurveyPage: React.FC = () => {
 			setRatings([]);
 			setComment("");
 			setName("");
-			setEmail("");
+			setBirthday("");
 			setPhone("");
 			setIsExploding(true);
 
@@ -163,7 +165,7 @@ const SurveyPage: React.FC = () => {
 						color: "white",
 					}}
 				>
-					Submit
+					{t("Submit")}
 				</button>
 
 				<div className="w-full flex justify-center items-center">

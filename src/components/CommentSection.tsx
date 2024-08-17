@@ -1,6 +1,7 @@
 import React from "react";
 import { getThemeColors } from "../utils";
 import { useSurveyStore } from "../store/surveyStore";
+import { t } from "i18next";
 
 interface CommentSectionProps {
 	titleAr: string;
@@ -15,7 +16,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 	const theme = getThemeColors();
 
 	// Access state and setter functions from the store
-	const { comment, name, email, phone, setComment, setName, setEmail, setPhone } = useSurveyStore();
+	const { comment, name, birthday, phone, setComment, setName, setBirthday, setPhone } = useSurveyStore();
 
 	return (
 		<div className='mt-4 w-full space-y-4'>
@@ -28,39 +29,39 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				</h1>
 			</div>
 			<div>
-				<label>Name*</label>
+				<label>{t("Name")}*</label>
 				<input 
 					type="text" 
-					placeholder="your name" 
+					placeholder={t("your name")} 
 					className="block w-full p-2 rounded border" 
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 				/>
 			</div>
 			<div>
-				<label>Phone Number*</label>
+				<label>{t("Phone Number")}*</label>
 				<input 
 					type="tel" 
-					placeholder="your phone number" 
+					placeholder={t("your phone number")} 
 					className="block w-full p-2 rounded border" 
 					value={phone}
 					onChange={(e) => setPhone(e.target.value)}
 				/>
 			</div>
 			<div>
-				<label>Email</label>
+				<label>{t("Birthday")}</label>
 				<input 
-					type="email" 
-					placeholder="your email" 
+					type="date" 
+					placeholder={t("your birthday")}
 					className="block w-full p-2 rounded border" 
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					value={birthday}
+					onChange={(e) => setBirthday(e.target.value)}
 				/>
 			</div>
 			<div>
-				<label>Comment*</label>
+				<label>{t("Comment")}*</label>
 				<textarea
-					placeholder='Enter your comment...'
+					placeholder={t('Enter your comment...')}
 					value={comment}
 					onChange={(e) => setComment(e.target.value)}
 					className='border rounded-md px-3 py-2 w-full h-24 focus:outline-none'
