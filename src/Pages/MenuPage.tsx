@@ -100,22 +100,22 @@ const MenuPage = () => {
                 return (
                   <li
                     className={`p-2 pl-3 cursor-pointer transition-all ${
-                      category.id === selectedCategory.id? "rounded" : ""
+                      category?.id === selectedCategory?.id ? "rounded" : ""
                     }`}
                     style={{
                       backgroundColor:
-                        category.id === selectedCategory.id
+                        category?.id === selectedCategory?.id
                           ? theme.secondary
                           : "transparent",
                       color:
-                        category.id === selectedCategory.id
+                        category?.id === selectedCategory?.id
                           ? "white"
                           : theme.primary,
                     }}
                     onClick={() => setSelectedCategory(category)}
-                    key={category.id}
-                  >
-                    {t(category.name)}
+                    key={category?.id}
+                  > 
+                    {t(category?.name)}
                   </li>
                 );
               })}
@@ -169,7 +169,7 @@ const MenuPage = () => {
                     color: theme.primary,
                   }}
                 >
-                  {t(selectedCategory.name)}
+                  {t(selectedCategory?.name)}
                 </h1>
 
                 {/* Items Card */}
@@ -183,9 +183,9 @@ const MenuPage = () => {
                     : "lg:grid-cols-3 grid-cols-2 "
                 }  gap-4 z-10 py-16 px-2 `}
               >
-                {selectedCategory.items.map((item: any) => (
+                {selectedCategory?.items?.map((item: any) => (
                   <div
-                    key={item.id}
+                    key={item?.id}
                     className="border w-80 rounded p-3 shadow-md hover:shadow-lg flex flex-col gap-4"
                     style={{
                       backgroundColor: "white",
@@ -195,7 +195,7 @@ const MenuPage = () => {
                     <div className="w-full flex justify-center items-center">
                       <img
                         src={
-                          item.image
+                          item?.image
                             ? item.image
                             : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
                         }
@@ -206,7 +206,7 @@ const MenuPage = () => {
 
                     <div className="flex flex-col justify-center gap-2 w-full">
                       <h2 className="w-full text-start font-bold text-sm md:text-lg truncate">
-                        {t(item.name)}
+                        {t(item?.name)}
                       </h2>
                       <div
                         className="text-sm md:text-md font-bold flex items-end w-full"
@@ -223,7 +223,7 @@ const MenuPage = () => {
                           {t("price")}
                         </span>
                         <span className="mx-1">{t("IQD")}</span>
-                        <p>{item.price.toLocaleString()}</p>
+                        <p>{item?.price.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
@@ -235,7 +235,7 @@ const MenuPage = () => {
       </div>
 
       {/* Modals */}
-      {selectedCategory.items.map((item: any) => (
+      {selectedCategory?.items?.map((item: any) => (
         <Modal
           key={item.id}
           open={openModalId === item.id}
