@@ -29,7 +29,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				</h1>
 			</div>
 			<div>
-				<label>{t("Name")}*</label>
+				<label className="font-semibold">{t("Name")}*</label>
 				<input 
 					type="text" 
 					placeholder={t("your name")} 
@@ -39,7 +39,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>{t("Phone Number")}*</label>
+				<label className="font-semibold">{t("Phone Number")}*</label>
 				<input 
 					type="tel" 
 					placeholder={t("your phone number")} 
@@ -49,7 +49,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>{t("Birthday")}*</label>
+				<label className="font-semibold">{t("Birthday")}*</label>
 				<input 
 					type="date" 
 					placeholder={t("your birthday")}
@@ -59,7 +59,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 				/>
 			</div>
 			<div>
-				<label>{t("Comment")}</label>
+				<label className="font-semibold">{t("Comment")}</label>
 				<textarea
 					placeholder={t('Enter your comment...')}
 					value={comment}
