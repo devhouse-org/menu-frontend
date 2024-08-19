@@ -20,10 +20,18 @@ type RatingsT = {
 const SurveyPage: React.FC = () => {
 	const [ratings, setRatings] = useState<RatingsT[]>([]);
 	const navigate = useNavigate();
-	const {t} = useTranslation()
+	const { t } = useTranslation()
 	const [isExploding, setIsExploding] = useState<boolean>(false);
 	const theme = getThemeColors();
+	const [selectedDate, setSelectedDate] = useState<{ year: string; month: string; day: string }>({
+		year: '',
+		month: '',
+		day: ''
+	});
 
+	const handleDateChange = (year: string, month: string, day: string) => {
+		setSelectedDate({ year, month, day });
+	};
 	// Access the Zustand store values
 	const { comment, name, birthday, phone, setComment, setName, setBirthday, setPhone } = useSurveyStore();
 

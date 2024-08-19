@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 // import { CiFaceSmile } from "react-icons/ci";
 // import { CiFaceMeh } from "react-icons/ci";
 // import { CiFaceFrown } from "react-icons/ci";
@@ -20,6 +21,7 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 	titleAr,
 	rating,
 }) => {
+	const {i18n} = useTranslation()
 	const [selectedRating, setSelectedRating] = useState<
 		number | null
 	>(rating);
@@ -37,15 +39,11 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 
 	return (
 		<div className='w-full'>
-			<div className='flex justify-between'>
-				<h1 className='text-lg font-bold mb-2'>
-					{titleEn}
-				</h1>
-				<h1 className='text-lg font-bold mb-2'>
-					{titleAr}
+			<div className='flex items-center justify-between'>
+				<h1 className='text-2xl font-semibold mb-2'>
+					{i18n.language === "en" ? titleEn : titleAr}
 				</h1>
 			</div>
-
 			<div className=' flex gap-5 justify-center items-center text-6xl'>
 				<FaFaceSmileBeam
 					className={`cursor-pointer p-1  ${
@@ -74,6 +72,7 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 					onClick={() => handleSelect(3)}
 				/>
 			</div>
+
 		</div>
 	);
 };
