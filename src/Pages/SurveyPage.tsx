@@ -122,13 +122,7 @@ const SurveyPage: React.FC = () => {
 				{/* Header */}
 				<div className="w-full flex flex-col justify-center items-center text-2xl text-center gap-2">
 					<h1 className="pt-3 font-bold">
-						We hope your meal was as delightful as you hoped!
-					</h1>
-					<h1
-						className="text-secondary"
-						style={{ color: theme.secondary }}
-					>
-						نأمل أن تكون وجبتك كانت ممتعة كما تمنيت
+						{t("We hope your meal was as delightful as you hoped!")}
 					</h1>
 				</div>
 

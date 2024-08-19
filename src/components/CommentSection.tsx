@@ -2,6 +2,7 @@ import React from "react";
 import { getThemeColors } from "../utils";
 import { useSurveyStore } from "../store/surveyStore";
 import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 interface CommentSectionProps {
 	titleAr: string;
@@ -12,7 +13,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 	titleEn,
 	titleAr,
 }) => {
-
+	const {i18n} = useTranslation()
 	const theme = getThemeColors();
 
 	// Access state and setter functions from the store
@@ -22,10 +23,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		<div className='mt-4 w-full space-y-4'>
 			<div className='flex justify-between'>
 				<h1 className='text-lg font-bold mb-2'>
-					{titleEn}
-				</h1>
-				<h1 className='text-lg font-bold mb-2'>
-					{titleAr}
+					{i18n.language === 'en' ? titleEn : titleAr}
 				</h1>
 			</div>
 			<div>
