@@ -45,6 +45,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startYear = 1900, endYear = new
       <select
         value={year}
         onChange={handleYearChange}
+        style={{backgroundColor:"white"}}
         className="p-2 border rounded focus:outline-none w-28 focus:ring-2"
       >
         <option disabled value="">Year</option>
@@ -58,6 +59,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startYear = 1900, endYear = new
       <select
         value={month}
         onChange={handleMonthChange}
+        style={{backgroundColor:"white"}}
         className="p-2 border rounded focus:outline-none w-28 focus:ring-2"
       >
         <option disabled value="">Month</option>
@@ -71,6 +73,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startYear = 1900, endYear = new
       <select
         value={day}
         onChange={handleDayChange}
+        style={{backgroundColor:"white"}}
         disabled={!year || !month}
         className="p-2 border rounded focus:outline-none w-28 focus:ring-2"
       >
