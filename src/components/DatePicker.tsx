@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import { getThemeColors } from '../utils';
+import { t } from 'i18next';
 
 interface DatePickerProps {
   startYear?: number;
@@ -48,7 +49,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startYear = 1900, endYear = new
         style={{backgroundColor:"white"}}
         className="p-2 border rounded focus:outline-none w-28 focus:ring-2"
       >
-        <option disabled value="">Year</option>
+        <option disabled value="">{t("Year")}</option>
         {years.map((y) => (
           <option key={y} value={y}>
             {y}
@@ -62,7 +63,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startYear = 1900, endYear = new
         style={{backgroundColor:"white"}}
         className="p-2 border rounded focus:outline-none w-28 focus:ring-2"
       >
-        <option disabled value="">Month</option>
+        <option disabled value="">{t("Month")}</option>
         {months.map((m) => (
           <option key={m} value={m}>
             {m}
@@ -77,7 +78,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startYear = 1900, endYear = new
         disabled={!year || !month}
         className="p-2 border rounded focus:outline-none w-28 focus:ring-2"
       >
-        <option disabled value="">Day</option>
+        <option disabled value="">{t("Day")}</option>
         {days.map((d) => (
           <option key={d} value={d}>
             {d}
