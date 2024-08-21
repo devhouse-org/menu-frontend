@@ -47,11 +47,11 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 			<div className=' flex gap-5 justify-center items-center text-6xl'>
 				<FaFaceSmileBeam
 					className={`cursor-pointer p-1  ${
-						selectedRating === 1
+						selectedRating === 3
 							? "text-green-500 border-2 border-gray-400 rounded-full"
 							: "text-green-500"
 					}`}
-					onClick={() => handleSelect(1)}
+					onClick={() => handleSelect(3)}
 				/>
 
 				<FaFaceMeh
@@ -65,11 +65,11 @@ const RatingSelector: React.FC<RatingSelectorProps> = ({
 
 				<FaFaceFrown
 					className={`cursor-pointer p-1 ${
-						selectedRating === 3
+						selectedRating === 1
 							? "text-red-500 border-2 border-gray-400 rounded-full"
 							: "text-red-500"
 					}`}
-					onClick={() => handleSelect(3)}
+					onClick={() => handleSelect(1)}
 				/>
 			</div>
 
