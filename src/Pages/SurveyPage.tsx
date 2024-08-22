@@ -91,7 +91,6 @@ const SurveyPage: React.FC = () => {
 
 	const handleRatingSelect = (questionId: string, score: number) => {
 		setRatings((prevRatings) => {
-			console.log(prevRatings)
 			const existingRatingIndex = prevRatings.findIndex(
 				(r) => r.questionId === questionId
 			);
@@ -106,7 +105,6 @@ const SurveyPage: React.FC = () => {
 				})
 			}
 			else{
-				console.log("inside not exisiting")
 				return [...prevRatings,{ questionId, score }]
 			}
 		})
