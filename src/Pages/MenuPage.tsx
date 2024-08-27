@@ -5,14 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import LazyLoad from "react-lazy-load";
 
 const MenuPage = () => {
   // State to track which modal is open
   const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [showSideBar, setShowSideBar] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<any | null>(
-    null
-  );
+  const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const { t, i18n } = useTranslation();
   const theme = getThemeColors();
 
@@ -25,7 +24,7 @@ const MenuPage = () => {
       setSelectedCategory(response.data.categories[0]);
       return response.data;
     },
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 
   // Handle opening a modal
@@ -66,7 +65,6 @@ const MenuPage = () => {
     return <div>{t("Error")}</div>;
   }
 
-
   return (
     <div
       className="relative min-h-screen min-w-screen flex font-montserrat"
@@ -84,7 +82,7 @@ const MenuPage = () => {
             style={{
               color: theme.primary,
               backgroundColor: "white",
-              borderColor: theme.primary
+              borderColor: theme.primary,
             }}
           >
             <h2 className="font-bold w-full py-5 flex justify-center items-center">
@@ -100,7 +98,7 @@ const MenuPage = () => {
             <ul className="mt-5 text-sm md:text-lg divide-y ">
               {data.categories.map((category: any) => {
                 return (
-                  <li 
+                  <li
                     className={`p-2 pl-3 cursor-pointer transition-all  ${
                       category?.id === selectedCategory?.id ? "rounded" : ""
                     }`}
@@ -116,7 +114,7 @@ const MenuPage = () => {
                     }}
                     onClick={() => setSelectedCategory(category)}
                     key={category?.id}
-                  > 
+                  >
                     {t(category?.name)}
                   </li>
                 );
@@ -195,15 +193,17 @@ const MenuPage = () => {
                     onClick={() => handleOpenModal(item.id)}
                   >
                     <div className="w-full flex justify-center items-center">
-                      <img
-                        src={
-                          item?.image
-                            ? item.image
-                            : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
-                        }
-                        alt={item.name}
-                        className="lg:h-48 lg:w-96 h-28 w-96 object-cover rounded"
-                      />
+                      <LazyLoad height={190}>
+                        <img
+                          src={
+                            item?.image
+                              ? item.image
+                              : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
+                          }
+                          alt={item.name}
+                          className="lg:h-48 lg:w-96 h-28 w-96 object-cover rounded"
+                        />
+                      </LazyLoad>
                     </div>
 
                     <div className="flex flex-col justify-center gap-2 w-full">
@@ -245,15 +245,17 @@ const MenuPage = () => {
         >
           {/* Modal content for each item */}
           <div>
-            <img
-              src={
-                item.image
-                  ? item.image
-                  : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
-              }
-              alt={item.name}
-              className="w-full object-contain rounded"
-            />
+            <LazyLoad>
+              <img
+                src={
+                  item.image
+                    ? item.image
+                    : "https://luigispizzakenosha.com/wp-content/uploads/placeholder.png"
+                }
+                alt={item.name}
+                className="w-full object-contain rounded"
+              />
+            </LazyLoad>
             <h2 className="w-full text-center font-bold h-1/4 text-2xl py-3">
               {t(item.name)}
             </h2>
