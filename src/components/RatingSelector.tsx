@@ -55,17 +55,11 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     isDragging.current = true;
   };
 
-  const handleTouchStart = () => {
-    isDragging.current = true;
-  };
 
   const handlePointerUp = () => {
     isDragging.current = false;
   };
 
-  const handleTouchEnd = () => {
-    isDragging.current = false;
-  };
 
   const handlePointerMove = (score: number) => {
     if (isDragging.current) {
@@ -73,17 +67,12 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     }
   };
 
-  const handleTouchMove = (score: number) => {
-    if (isDragging.current) {
-      setCurrentRating(score);
-    }
-  };
+
 
   return (
     <div
       className="flex items-center mt-4"
       onPointerUp={handlePointerUp} // Finalize selection
-      onTouchEnd={handleTouchEnd} // For touch devices
     >
       {[1, 2, 3, 4, 5].map((star) => (
         <motion.svg
@@ -97,9 +86,7 @@ const RatingSelector: React.FC<RatingStarProps> = ({
           viewBox="0 0 22 20"
           onClick={() => handleRatingClick(star)}
           onPointerDown={handlePointerDown} // Start dragging with pointer
-          onTouchStart={handleTouchStart} // Start dragging with touch
           onPointerEnter={() => handlePointerMove(star)} // Handle pointer drag over stars
-          onTouchMove={() => handleTouchMove(star)} // Handle touch drag over stars
           whileTap={{ scale: 1.7 }} // Adds the scale animation on click
           transition={{ type: "spring", stiffness: 300 }} // Spring effect for smooth scaling
         >
