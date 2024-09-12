@@ -13,11 +13,19 @@ const RatingSelector: React.FC<RatingStarProps> = ({
   const [currentRating, setCurrentRating] = useState<number>(rating);
   const isDragging = useRef<boolean>(false);
 
+  // Create refs for the audio elements
+  const defaultAudioRef = useRef<HTMLAudioElement | null>(null);
+  const fiveStarAudioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
     setCurrentRating(rating);
   }, [rating]);
 
   useEffect(() => {
+    // Initialize the audio elements
+    defaultAudioRef.current = new Audio("public/stars.mp3");
+    fiveStarAudioRef.current = new Audio("public/5stars.mp3");
+
     const handlePointerUpOutside = () => {
       if (isDragging.current) {
         isDragging.current = false; // Stop dragging when pointer is released outside
@@ -34,6 +42,13 @@ const RatingSelector: React.FC<RatingStarProps> = ({
   const handleRatingClick = (score: number) => {
     setCurrentRating(score);
     onRatingSelect(score);
+
+    // Play the appropriate audio effect
+    if (score === 5 && fiveStarAudioRef.current) {
+      fiveStarAudioRef.current.play();
+    } else if (defaultAudioRef.current) {
+      defaultAudioRef.current.play();
+    }
   };
 
   const handlePointerDown = () => {
@@ -58,7 +73,7 @@ const RatingSelector: React.FC<RatingStarProps> = ({
       {[1, 2, 3, 4, 5].map((star) => (
         <motion.svg
           key={star}
-          className={`w-10 h-10 cursor-pointer ms-1 ${
+          className={`w-10 h-10 cursor-pointer ms-1 outline-none ${
             currentRating >= star ? "text-yellow-400" : "text-gray-300"
           }`}
           aria-hidden="true"
