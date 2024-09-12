@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import sound1 from "/public/stars.mp3"
+import fiveStarSound from "/public/5stars.mp3"
 
 interface RatingStarProps {
   rating: number;
@@ -11,21 +13,16 @@ const RatingSelector: React.FC<RatingStarProps> = ({
   onRatingSelect,
 }) => {
   const [currentRating, setCurrentRating] = useState<number>(rating);
+  const voice1 = new Audio(sound1)
+  const fiveStarVoice = new Audio(fiveStarSound)
   const isDragging = useRef<boolean>(false);
 
-  // Create refs for the audio elements
-  const defaultAudioRef = useRef<HTMLAudioElement | null>(null);
-  const fiveStarAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setCurrentRating(rating);
   }, [rating]);
 
   useEffect(() => {
-    // Initialize the audio elements
-    defaultAudioRef.current = new Audio("public/stars.mp3");
-    fiveStarAudioRef.current = new Audio("public/5stars.mp3");
-
     const handlePointerUpOutside = () => {
       if (isDragging.current) {
         isDragging.current = false; // Stop dragging when pointer is released outside
@@ -44,10 +41,12 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     onRatingSelect(score);
 
     // Play the appropriate audio effect
-    if (score === 5 && fiveStarAudioRef.current) {
-      fiveStarAudioRef.current.play();
-    } else if (defaultAudioRef.current) {
-      defaultAudioRef.current.play();
+    if (score === 5) {
+		fiveStarVoice.currentTime = 0
+		fiveStarVoice.play();
+    } else {
+		voice1.currentTime = 0
+		voice1.play();
     }
   };
 
