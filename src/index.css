@@ -23,6 +23,9 @@ html {
   html {
     font-family: "Roboto", sans-serif;
   }
+  html[lang='ar']{
+    
+  }
 }
 /* width */
 ::-webkit-scrollbar {

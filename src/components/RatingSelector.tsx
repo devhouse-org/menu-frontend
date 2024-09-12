@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import sound1 from "/public/stars.mp3"
-import fiveStarSound from "/public/5stars.mp3"
+import fiveStarSound from "/public/five.mp3"
 
 interface RatingStarProps {
   rating: number;
