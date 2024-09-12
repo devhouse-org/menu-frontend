@@ -1,80 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-// import { CiFaceSmile } from "react-icons/ci";
-// import { CiFaceMeh } from "react-icons/ci";
-// import { CiFaceFrown } from "react-icons/ci";
+// RatingStar.tsx
+import React, { useState, useEffect } from "react";
 
-import { FaFaceFrown } from "react-icons/fa6";
-import { FaFaceSmileBeam } from "react-icons/fa6";
-import { FaFaceMeh } from "react-icons/fa6";
-
-interface RatingSelectorProps {
-	onSelect: (rating: number) => void;
-	titleEn: string;
-	titleAr: string;
-	rating: number | null;
+interface RatingStarProps {
+  rating: number;
+  onRatingSelect: (score: number) => void;
 }
 
-const RatingSelector: React.FC<RatingSelectorProps> = ({
-	onSelect,
-	titleEn,
-	titleAr,
-	rating,
+const RatingSelector: React.FC<RatingStarProps> = ({
+  rating,
+  onRatingSelect,
 }) => {
-	const {i18n} = useTranslation()
-	const [selectedRating, setSelectedRating] = useState<
-		number | null
-	>(rating);
+  const [currentRating, setCurrentRating] = useState<number>(rating);
 
+  useEffect(() => {
+    setCurrentRating(rating);
+  }, [rating]);
 
-	useEffect(() => {
-		setSelectedRating(rating);
-	}, [rating]);
+  const handleRatingClick = (score: number) => {
+    setCurrentRating(score);
+    onRatingSelect(score);
+  };
 
-	const handleSelect = (rating: number) => {
-		setSelectedRating(rating);
-		onSelect(rating);
-	};
-
-
-	return (
-		<div className='w-full'>
-			<div className='flex items-center justify-between'>
-				<h1 className='text-2xl font-semibold mb-2'>
-					{i18n.language === "en" ? titleEn : titleAr}
-				</h1>
-			</div>
-			<div className=' flex gap-5 justify-center items-center text-6xl'>
-				<FaFaceSmileBeam
-					className={`cursor-pointer p-1  ${
-						selectedRating === 3
-							? "text-green-500 border-2 border-gray-400 rounded-full"
-							: "text-green-500"
-					}`}
-					onClick={() => handleSelect(3)}
-				/>
-
-				<FaFaceMeh
-					className={`cursor-pointer p-1 ${
-						selectedRating === 2
-							? "text-yellow-500 border-2 border-gray-400 rounded-full"
-							: "text-yellow-500"
-					}`}
-					onClick={() => handleSelect(2)}
-				/>
-
-				<FaFaceFrown
-					className={`cursor-pointer p-1 ${
-						selectedRating === 1
-							? "text-red-500 border-2 border-gray-400 rounded-full"
-							: "text-red-500"
-					}`}
-					onClick={() => handleSelect(1)}
-				/>
-			</div>
-
-		</div>
-	);
+  return (
+    <div className="flex items-center mt-4">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          className={`w-10 h-10 cursor-pointer ms-1 ${
+            currentRating >= star ? "text-yellow-400" : "text-gray-300"
+          }`}
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 22 20"
+          onClick={() => handleRatingClick(star)}
+        >
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+        </svg>
+      ))}
+    </div>
+  );
 };
 
 export default RatingSelector;
