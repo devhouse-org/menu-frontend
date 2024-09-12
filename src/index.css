@@ -1,32 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Zain:wght@200;300;400;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Noto+Kufi+Arabic:wght@100..900&display=swap");
+
 :root {
-  --color-primary: #103B6B;
-  --color-primary-hover: rgba(16, 59, 107, 0.50);
-  --color-secondary: #FF5815;
-  --color-secondary-hover:#FFD7C7;
-  --color-background: #103B6B;
+  --color-primary: #103b6b;
+  --color-primary-hover: rgba(16, 59, 107, 0.5);
+  --color-secondary: #ff5815;
+  --color-secondary-hover: #ffd7c7;
+  --color-background: #103b6b;
 }
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
+  /* Default font for the entire document */
   html {
-    font-family: "Roboto", sans-serif;
+    font-family: "Fredoka", sans-serif;
+  }
+
+  /* Arabic-specific font override */
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div {
+    font-family: "Noto Kufi Arabic", sans-serif;
+  }
+
+  /* You can further target specific Arabic elements */
+  [lang="ar"] {
+    font-family: "Noto Kufi Arabic", sans-serif;
   }
   html[lang='ar']{
     
   }
 }
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
