@@ -21,7 +21,7 @@ type RatingsT = {
 const SurveyPage: React.FC = () => {
   const [ratings, setRatings] = useState<RatingsT[]>([]);
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isExploding, setIsExploding] = useState<boolean>(false);
   const theme = getThemeColors();
   const [selectedDate, setSelectedDate] = useState<{
@@ -164,9 +164,12 @@ const SurveyPage: React.FC = () => {
           {/* Food Quality */}
           {data.map((q: any) => (
             <div key={q.id} className="flex flex-col items-center">
-              <h3 className="text-xl font-semibold">
-                {t(q.enTitle)} / {t(q.title)}
-              </h3>
+              {i18n.language === "en" ? (
+                <h3 className="text-xl font-semibold">{t(q.enTitle)}</h3>
+              ) : (
+                <h3 className="text-xl font-semibold">{t(q.title)}</h3>
+              )}
+
               <RatingSelector
                 rating={ratings.find((r) => r.questionId === q.id)?.score || 0}
                 onRatingSelect={(score) => handleRatingSelect(q.id, score)}
