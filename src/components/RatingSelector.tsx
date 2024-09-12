@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion"; // Import Framer Motion
+import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 interface RatingStarProps {
   rating: number;
@@ -11,6 +11,7 @@ const RatingSelector: React.FC<RatingStarProps> = ({
   onRatingSelect,
 }) => {
   const [currentRating, setCurrentRating] = useState<number>(rating);
+  const isDragging = useRef<boolean>(false);
 
   useEffect(() => {
     setCurrentRating(rating);
@@ -21,8 +22,25 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     onRatingSelect(score);
   };
 
+  const handlePointerDown = () => {
+    isDragging.current = true;
+  };
+
+  const handlePointerUp = () => {
+    isDragging.current = false;
+  };
+
+  const handlePointerMove = (score: number) => {
+    if (isDragging.current) {
+      setCurrentRating(score);
+    }
+  };
+
   return (
-    <div className="flex items-center mt-4">
+    <div
+      className="flex items-center mt-4"
+      onPointerUp={handlePointerUp} // Finalize selection
+    >
       {[1, 2, 3, 4, 5].map((star) => (
         <motion.svg
           key={star}
@@ -34,6 +52,8 @@ const RatingSelector: React.FC<RatingStarProps> = ({
           fill="currentColor"
           viewBox="0 0 22 20"
           onClick={() => handleRatingClick(star)}
+          onPointerDown={handlePointerDown} // Start dragging
+          onPointerEnter={() => handlePointerMove(star)} // Handle drag over stars
           whileTap={{ scale: 1.7 }} // Adds the scale animation on click
           transition={{ type: "spring", stiffness: 300 }} // Spring effect for smooth scaling
         >
