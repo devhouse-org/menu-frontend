@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import sound1 from "/public/stars.mp3"
-import fiveStarSound from "/public/five.mp3"
+import sound1 from "/public/stars.mp3";
+import fiveStarSound from "/public/five.mp3";
 
 interface RatingStarProps {
   rating: number;
@@ -13,10 +13,9 @@ const RatingSelector: React.FC<RatingStarProps> = ({
   onRatingSelect,
 }) => {
   const [currentRating, setCurrentRating] = useState<number>(rating);
-  const voice1 = new Audio(sound1)
-  const fiveStarVoice = new Audio(fiveStarSound)
+  const voice1 = new Audio(sound1);
+  const fiveStarVoice = new Audio(fiveStarSound);
   const isDragging = useRef<boolean>(false);
-
 
   useEffect(() => {
     setCurrentRating(rating);
@@ -30,31 +29,45 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     };
 
     document.addEventListener("pointerup", handlePointerUpOutside);
+    document.addEventListener("touchend", handlePointerUpOutside); // For touch devices
 
     return () => {
       document.removeEventListener("pointerup", handlePointerUpOutside);
+      document.removeEventListener("touchend", handlePointerUpOutside);
     };
   }, []);
+
+  const playSound = (score: number) => {
+    if (score === 5) {
+      fiveStarVoice.currentTime = 0;
+      fiveStarVoice.play();
+    } else {
+      voice1.currentTime = 0;
+      voice1.play();
+    }
+  };
 
   const handleRatingClick = (score: number) => {
     setCurrentRating(score);
     onRatingSelect(score);
-
-    // Play the appropriate audio effect
-    if (score === 5) {
-		fiveStarVoice.currentTime = 0
-		fiveStarVoice.play();
-    } else {
-		voice1.currentTime = 0
-		voice1.play();
-    }
+    playSound(score); // Play the appropriate sound
   };
 
-  const handlePointerDown = () => {
+  const handlePointerDown = (score: number) => {
     isDragging.current = true;
+    playSound(score); // Play sound on pointer down
+  };
+
+  const handleTouchStart = (score: number) => {
+    isDragging.current = true;
+    playSound(score); // Play sound on touch start
   };
 
   const handlePointerUp = () => {
+    isDragging.current = false;
+  };
+
+  const handleTouchEnd = () => {
     isDragging.current = false;
   };
 
@@ -64,10 +77,17 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     }
   };
 
+  const handleTouchMove = (score: number) => {
+    if (isDragging.current) {
+      setCurrentRating(score);
+    }
+  };
+
   return (
     <div
       className="flex items-center mt-4"
       onPointerUp={handlePointerUp} // Finalize selection
+      onTouchEnd={handleTouchEnd} // For touch devices
     >
       {[1, 2, 3, 4, 5].map((star) => (
         <motion.svg
@@ -80,8 +100,10 @@ const RatingSelector: React.FC<RatingStarProps> = ({
           fill="currentColor"
           viewBox="0 0 22 20"
           onClick={() => handleRatingClick(star)}
-          onPointerDown={handlePointerDown} // Start dragging
-          onPointerEnter={() => handlePointerMove(star)} // Handle drag over stars
+          onPointerDown={() => handlePointerDown(star)} // Play sound and start dragging on pointer down
+          onTouchStart={() => handleTouchStart(star)} // Play sound and start dragging on touch start
+          onPointerEnter={() => handlePointerMove(star)} // Handle pointer drag over stars
+          onTouchMove={() => handleTouchMove(star)} // Handle touch drag over stars
           whileTap={{ scale: 1.7 }} // Adds the scale animation on click
           transition={{ type: "spring", stiffness: 300 }} // Spring effect for smooth scaling
         >
