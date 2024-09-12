@@ -17,6 +17,20 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     setCurrentRating(rating);
   }, [rating]);
 
+  useEffect(() => {
+    const handlePointerUpOutside = () => {
+      if (isDragging.current) {
+        isDragging.current = false; // Stop dragging when pointer is released outside
+      }
+    };
+
+    document.addEventListener("pointerup", handlePointerUpOutside);
+
+    return () => {
+      document.removeEventListener("pointerup", handlePointerUpOutside);
+    };
+  }, []);
+
   const handleRatingClick = (score: number) => {
     setCurrentRating(score);
     onRatingSelect(score);
