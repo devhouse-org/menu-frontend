@@ -37,7 +37,11 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     };
   }, []);
 
-  const playSound = (score: number) => {
+  const handleRatingClick = (score: number) => {
+    setCurrentRating(score);
+    onRatingSelect(score);
+
+    // Play the appropriate audio effect
     if (score === 5) {
       fiveStarVoice.currentTime = 0;
       fiveStarVoice.play();
@@ -47,20 +51,12 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     }
   };
 
-  const handleRatingClick = (score: number) => {
-    setCurrentRating(score);
-    onRatingSelect(score);
-    playSound(score); // Play the appropriate sound
+  const handlePointerDown = () => {
+    isDragging.current = true;
   };
 
-  const handlePointerDown = (score: number) => {
+  const handleTouchStart = () => {
     isDragging.current = true;
-    playSound(score); // Play sound on pointer down
-  };
-
-  const handleTouchStart = (score: number) => {
-    isDragging.current = true;
-    playSound(score); // Play sound on touch start
   };
 
   const handlePointerUp = () => {
@@ -100,8 +96,8 @@ const RatingSelector: React.FC<RatingStarProps> = ({
           fill="currentColor"
           viewBox="0 0 22 20"
           onClick={() => handleRatingClick(star)}
-          onPointerDown={() => handlePointerDown(star)} // Play sound and start dragging on pointer down
-          onTouchStart={() => handleTouchStart(star)} // Play sound and start dragging on touch start
+          onPointerDown={handlePointerDown} // Start dragging with pointer
+          onTouchStart={handleTouchStart} // Start dragging with touch
           onPointerEnter={() => handlePointerMove(star)} // Handle pointer drag over stars
           onTouchMove={() => handleTouchMove(star)} // Handle touch drag over stars
           whileTap={{ scale: 1.7 }} // Adds the scale animation on click
