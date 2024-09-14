@@ -42,13 +42,13 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     onRatingSelect(score);
 
     // Play the appropriate audio effect
-    if (score === 5) {
-      fiveStarVoice.currentTime = 0;
-      fiveStarVoice.play();
-    } else {
-      voice1.currentTime = 0;
-      voice1.play();
-    }
+    // if (score === 5) {
+    //   fiveStarVoice.currentTime = 0;
+    //   fiveStarVoice.play();
+    // } else {
+    //   voice1.currentTime = 0;
+    //   voice1.play();
+    // }
   };
 
   const handlePointerDown = () => {
