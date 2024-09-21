@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 // import { motion } from "framer-motion";
-import sound1 from "/public/stars.mp3";
-import fiveStarSound from "/public/five.mp3";
+// import sound1 from "/public/stars.mp3";
+// import fiveStarSound from "/public/five.mp3";
 
 interface RatingStarProps {
   rating: number;
@@ -13,8 +13,8 @@ const RatingSelector: React.FC<RatingStarProps> = ({
   onRatingSelect,
 }) => {
   const [currentRating, setCurrentRating] = useState<number>(rating);
-  const voice1 = new Audio(sound1);
-  const fiveStarVoice = new Audio(fiveStarSound);
+  // const voice1 = new Audio(sound1);
+  // const fiveStarVoice = new Audio(fiveStarSound);
   const isDragging = useRef<boolean>(false);
 
   useEffect(() => {
@@ -42,13 +42,13 @@ const RatingSelector: React.FC<RatingStarProps> = ({
     onRatingSelect(score);
 
     // Play the appropriate audio effect
-    if (score === 5) {
-      fiveStarVoice.currentTime = 0;
-      fiveStarVoice.play();
-    } else {
-      voice1.currentTime = 0;
-      voice1.play();
-    }
+    // if (score === 5) {
+    //   fiveStarVoice.currentTime = 0;
+    //   fiveStarVoice.play();
+    // } else {
+    //   voice1.currentTime = 0;
+    //   voice1.play();
+    // }
   };
 
   // const handlePointerDown = () => {
