@@ -186,7 +186,7 @@ const SurveyPage: React.FC = () => {
           onClick={handleSubmit}
           className="mt-4 bg-secondary font-semibold py-4 px-4 rounded-md"
           style={{
-            backgroundColor: theme.secondary,
+            backgroundColor: theme.primary,
             color: "white",
           }}
         >
