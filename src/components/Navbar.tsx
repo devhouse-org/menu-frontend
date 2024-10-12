@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
     >
       <Link to="/">
         {logoSrc ? (
-          <div className="w-36 p-1 rounded shadow  bg-white">
+          <div className=" px-5 py-1 rounded shadow flex items-center justify-center bg-white">
             <img src={logoSrc} alt="Logo" className="h-12" />
           </div>
         ) : (
