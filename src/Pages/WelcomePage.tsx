@@ -32,7 +32,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
         {/* Text */}
         <h1 className="text-4xl">
           {t("Welcome")},
-          <span className="pl-3" style={{ color: theme.secondary }}>
+          <span className="pl-3" style={{ color: theme.primary }}>
             {t(localStorage.getItem("restaurantName") as string)}
           </span>
         </h1>
@@ -43,7 +43,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
           className="mt-4 w-full text-xl text-center text-white font-semibold py-4 px-4 rounded-md"
           style={{
             color: "white",
-            backgroundColor: theme.secondary,
+            backgroundColor: theme.primary,
           }}
         >
           {t("Menu")}
@@ -53,7 +53,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
           className="mt-4 w-full text-xl text-white  text-center  font-semibold py-4 px-4 rounded-md "
           style={{
             color: "white",
-            backgroundColor: theme.secondary,
+            backgroundColor: theme.primary,
           }}
         >
           {t("Survey")}
@@ -65,7 +65,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
           className="mt-4 w-full text-white text-xl font-semibold py-4 px-4 rounded-md"
           style={{
             color: "white",
-            backgroundColor: theme.secondary,
+            backgroundColor: theme.primary,
           }}
         >
           {t("Log Out")}
