@@ -38,72 +38,54 @@ const Navbar: React.FC = () => {
         backgroundColor: theme.primary,
         color: "white",
       }}
-      className="p-4 px-6 flex items-center justify-between fixed z-50 w-screen"
+      className="p-4 px-6 flex items-center justify-between z-50 w-full"
     >
-      <Link to="/">
+      <Link to="/" className="flex items-center">
         {logoSrc ? (
-          <div className=" px-5 py-1 rounded shadow flex items-center justify-center bg-white">
-            <img src={logoSrc} alt="Logo" className="h-12" />
+          <div className="px-3 py-1 rounded shadow flex items-center justify-center bg-white">
+            <img src={logoSrc} alt="Logo" className="h-10 max-w-[150px] object-contain" />
           </div>
         ) : (
-          <h1 className="text-lg font-bold">
+          <h1 className="text-xl font-bold truncate max-w-[200px]">
             {localStorage.getItem("restaurantName")}
           </h1>
         )}
       </Link>
-      <div className="flex items-center gap-5  ">
+      <div className="flex items-center gap-4">
         <LanguageSelector />
-        <div className="relative flex">
-          <button onClick={toggleMenu} className="focus:outline-none">
+        <div className="relative">
+          <button onClick={toggleMenu} className="focus:outline-none p-2 hover:bg-opacity-20 hover:bg-white rounded-full transition-colors">
             {isOpen ? (
-              <IoClose className="h-8 w-8" />
+              <IoClose className="h-6 w-6" />
             ) : (
-              <Menu className="h-8 w-8" />
+              <Menu className="h-6 w-6" />
             )}
           </button>
 
           {isOpen && (
             <div
               ref={menuRef}
-              className={`absolute top-12 ${
-                i18n.language === "ar" ? "-right-28" : "-left-20"
-              } mt-1 w-max rounded-md shadow-lg font-montserrat`}
+              className={`absolute top-full ${
+                i18n.language === "ar" ? "right-0" : "left-0"
+              } mt-2 w-48 rounded-md shadow-lg font-montserrat overflow-hidden`}
               style={{
                 backgroundColor: "white",
                 color: theme.primary,
               }}
             >
-              <Link
-                to="/"
-                className="block px-4 py-2 rounded-md hover:"
-                style={{
-                  color: "var(--color-gray-800)",
-                }}
-                onClick={toggleMenu}
-              >
-                {t("Home")}
-              </Link>
-
-              <Link
-                to="/menu"
-                className="block px-4 py-2 rounded-md"
-                style={{
-                  color: "var(--color-gray-800)",
-                }}
-                onClick={toggleMenu}
-              >
-                {t("Menu")}
-              </Link>
-              <Link
-                to="/survey"
-                className="block px-4 py-2 rounded-md"
-                style={{
-                  color: "var(--color-gray-800)",
-                }}
-                onClick={toggleMenu}
-              >
-                {t("Survey")}
-              </Link>
+              {["Home", "Menu", "Survey"].map((item) => (
+                <Link
+                  key={item}
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className="block px-4 py-3 hover:bg-gray-100 transition-colors"
+                  style={{
+                    color: "var(--color-gray-800)",
+                  }}
+                  onClick={toggleMenu}
+                >
+                  {t(item)}
+                </Link>
+              ))}
             </div>
           )}
         </div>
