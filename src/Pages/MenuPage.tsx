@@ -4,6 +4,8 @@ import axios from '../axiosInstance';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "../components/ui/drawer";
 import { getThemeColors } from '@/utils';
+import { useTranslation } from 'react-i18next';
+// Import the translation function
 
 interface CategoryType {
   id: string;
@@ -30,6 +32,7 @@ const fetchItems = async (categoryId: string) => {
 };
 
 const MenuPage: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const theme = getThemeColors();
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
@@ -77,9 +80,9 @@ const MenuPage: React.FC = () => {
             }`}
           >
             {category.icon && (
-              <img src={category.icon} alt={category.name} className="w-5 h-5 mr-2" />
+              <img src={category.icon} alt={t(category.name)} className="w-5 h-5 mr-2" />
             )}
-            {category.name}
+            {t(category.name)}
           </button>
         ))}
       </div>
@@ -90,26 +93,26 @@ const MenuPage: React.FC = () => {
               <Card className="cursor-pointer shadow-md transition-shadow duration-300">
                 <CardHeader>
                   {item.image && (
-                    <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded-t-lg" />
+                    <img src={item.image} alt={t(item.name)} className="w-full h-48 object-cover rounded-t-lg" />
                   )}
-                  <CardTitle className="text-lg font-semibold mt-2">{item.name}</CardTitle>
-                  <CardDescription className="text-sm text-gray-500 truncate">{item.description}</CardDescription>
+                  <CardTitle className="text-lg font-semibold mt-2">{t(item.name)}</CardTitle>
+                  <CardDescription className="text-sm text-gray-500 truncate">{t(item.description || '')}</CardDescription>
                 </CardHeader>
                 <CardFooter>
-                  <p className="text-primary font-bold text-green-600">IQD {item.price.toLocaleString()}</p>
+                  <p className="text-primary font-bold text-green-600">{t('IQD {price}', { price: item.price.toLocaleString() })}</p>
                 </CardFooter>
               </Card>
             </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader>
-                <DrawerTitle>{item.name}</DrawerTitle>
-                <DrawerDescription className="text-sm text-gray-500">{item.description}</DrawerDescription>
+                <DrawerTitle>{t(item.name)}</DrawerTitle>
+                <DrawerDescription className="text-sm text-gray-500">{t(item.description || '')}</DrawerDescription>
               </DrawerHeader>
               <div className="p-4">
                 {item.image && (
-                  <img src={item.image} alt={item.name} className="w-full h-64 object-cover rounded-lg mb-4" />
+                  <img src={item.image} alt={t(item.name)} className="w-full h-64 object-cover rounded-lg mb-4" />
                 )}
-                <p className="text-lg font-bold text-primary mb-2">IQD {item.price.toLocaleString()}</p>
+                <p className="text-lg font-bold text-primary mb-2">{t('IQD {price}', { price: item.price.toLocaleString() })}</p>
                 {/* Add more details or actions here */}
               </div>
             </DrawerContent>
