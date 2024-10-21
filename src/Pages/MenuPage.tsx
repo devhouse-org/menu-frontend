@@ -22,7 +22,7 @@ interface ItemType {
 }
 
 const fetchCategories = async () => {
-  const response = await axios.get(`/category?page=all&restaurantId=${localStorage.getItem('restaurantId')}`);
+  const response = await axios.get(`/category?page=all&restaurantId=${localStorage.getItem('RestaurantID')}`);
   return response.data.items;
 };
 
