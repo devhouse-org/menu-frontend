@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from '../axiosInstance';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "../components/ui/drawer";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { getThemeColors } from '@/utils';
 import { useTranslation } from 'react-i18next';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 // Import the translation function
 
 interface CategoryType {
@@ -73,11 +73,10 @@ const MenuPage: React.FC = () => {
             ref={(el) => categoryRefs.current[category.id] = el}
             style={category.id === selectedCategory ? { backgroundColor: theme.primary } : {}}
             onClick={() => handleCategoryClick(category.id)}
-            className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap ${
-              category.id === selectedCategory
-                ? 'text-primary-foreground'
-                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-            }`}
+            className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap ${category.id === selectedCategory
+              ? 'text-primary-foreground'
+              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+              }`}
           >
             {category.icon && (
               <img src={category.icon} alt={t(category.name)} className="w-5 h-5 mr-2" />
@@ -88,8 +87,25 @@ const MenuPage: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((item: ItemType) => (
-          <Drawer key={item.id}>
-            <DrawerTrigger asChild>
+          /**
+           * 
+           <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline">Edit Profile</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <ProfileForm />
+        </DialogContent>
+      </Dialog>
+           */
+          <Dialog key={item.id}>
+            <DialogTrigger asChild>
               <Card className="cursor-pointer shadow-md transition-shadow duration-300">
                 <CardHeader>
                   {item.image && (
@@ -102,12 +118,12 @@ const MenuPage: React.FC = () => {
                   <p className="text-primary font-bold text-green-600">{t('IQD')} {item.price.toLocaleString()}</p>
                 </CardFooter>
               </Card>
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerTitle>{t(item.name)}</DrawerTitle>
-                <DrawerDescription className="text-sm text-gray-500">{t(item.description || '')}</DrawerDescription>
-              </DrawerHeader>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t(item.name)}</DialogTitle>
+                <DialogDescription className="text-sm text-gray-500">{t(item.description || '')}</DialogDescription>
+              </DialogHeader>
               <div className="p-4">
                 {item.image && (
                   <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
@@ -115,8 +131,8 @@ const MenuPage: React.FC = () => {
                 <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
                 {/* Add more details or actions here */}
               </div>
-            </DrawerContent>
-          </Drawer>
+            </DialogContent>
+          </Dialog>
         ))}
       </div>
     </div>
