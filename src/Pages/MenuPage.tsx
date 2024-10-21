@@ -93,13 +93,13 @@ const MenuPage: React.FC = () => {
               <Card className="cursor-pointer shadow-md transition-shadow duration-300">
                 <CardHeader>
                   {item.image && (
-                    <img src={item.image} alt={t(item.name)} className="w-full h-48 object-cover rounded-t-lg" />
+                    <img src={item.image} alt={t(item.name)} className="w-full object-fit h-60 rounded-t-lg" />
                   )}
                   <CardTitle className="text-lg font-semibold mt-2">{t(item.name)}</CardTitle>
                   <CardDescription className="text-sm text-gray-500 truncate">{t(item.description || '')}</CardDescription>
                 </CardHeader>
                 <CardFooter>
-                  <p className="text-primary font-bold text-green-600">{t('IQD {price}', { price: item.price.toLocaleString() })}</p>
+                  <p className="text-primary font-bold text-green-600">{t('IQD')} {item.price.toLocaleString()}</p>
                 </CardFooter>
               </Card>
             </DrawerTrigger>
@@ -110,9 +110,9 @@ const MenuPage: React.FC = () => {
               </DrawerHeader>
               <div className="p-4">
                 {item.image && (
-                  <img src={item.image} alt={t(item.name)} className="w-full h-64 object-cover rounded-lg mb-4" />
+                  <img src={item.image} alt={t(item.name)} className="w-full object-fit  rounded-lg mb-4" />
                 )}
-                <p className="text-lg font-bold text-primary mb-2">{t('IQD {price}', { price: item.price.toLocaleString() })}</p>
+                <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
                 {/* Add more details or actions here */}
               </div>
             </DrawerContent>
