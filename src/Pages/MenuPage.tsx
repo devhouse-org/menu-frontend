@@ -110,7 +110,7 @@ const MenuPage: React.FC = () => {
               </DrawerHeader>
               <div className="p-4">
                 {item.image && (
-                  <img src={item.image} alt={t(item.name)} className="w-full object-fit  rounded-lg mb-4" />
+                  <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
                 )}
                 <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
                 {/* Add more details or actions here */}
