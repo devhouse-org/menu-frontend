@@ -1,36 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-// import logo from "../assets/Logo-H.png";
 import LanguageSelector from "./LanguageSelector";
 import { Menu } from "lucide-react";
-import { IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
   const logoSrc = localStorage.getItem("logo");
   const theme = getThemeColors();
-
-  const toggleMenu = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
-
-  // Handle Mouse Click outside
-  const closeMenu = (event: MouseEvent) => {
-    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", closeMenu);
-    return () => {
-      document.removeEventListener("mousedown", closeMenu);
-    };
-  }, []);
 
   return (
     <nav
@@ -53,42 +37,35 @@ const Navbar: React.FC = () => {
       </Link>
       <div className="flex items-center gap-4">
         <LanguageSelector />
-        <div className="relative">
-          <button onClick={toggleMenu} className="focus:outline-none p-2 hover:bg-opacity-20 hover:bg-white rounded-full transition-colors">
-            {isOpen ? (
-              <IoClose className="h-6 w-6" />
-            ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="focus:outline-none p-2 hover:bg-opacity-20 hover:bg-white rounded-full transition-colors">
               <Menu className="h-6 w-6" />
-            )}
-          </button>
-
-          {isOpen && (
-            <div
-              ref={menuRef}
-              className={`absolute top-full ${
-                i18n.language === "ar" ? "right-0" : "left-0"
-              } mt-2 w-48 rounded-md shadow-lg font-montserrat overflow-hidden`}
-              style={{
-                backgroundColor: "white",
-                color: theme.primary,
-              }}
-            >
-              {["Home", "Menu", "Survey"].map((item) => (
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align={i18n.language === "ar" ? "end" : "start"}
+            className="w-48"
+            style={{
+              backgroundColor: "white",
+              color: theme.primary,
+            }}
+          >
+            {["Home", "Menu", "Survey"].map((item) => (
+              <DropdownMenuItem key={item} asChild>
                 <Link
-                  key={item}
                   to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                  className="block px-4 py-3 hover:bg-gray-100 transition-colors"
+                  className="w-full px-4 py-3 hover:bg-gray-100 transition-colors"
                   style={{
                     color: "var(--color-gray-800)",
                   }}
-                  onClick={toggleMenu}
                 >
                   {t(item)}
                 </Link>
-              ))}
-            </div>
-          )}
-        </div>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );
