@@ -5,7 +5,6 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../com
 import { getThemeColors } from '@/utils';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-// Import the translation function
 
 interface CategoryType {
   id: string;
@@ -87,23 +86,6 @@ const MenuPage: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((item: ItemType) => (
-          /**
-           * 
-           <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline">Edit Profile</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <ProfileForm />
-        </DialogContent>
-      </Dialog>
-           */
           <Dialog key={item.id}>
             <DialogTrigger asChild>
               <Card className="cursor-pointer shadow-md transition-shadow duration-300">
@@ -129,7 +111,6 @@ const MenuPage: React.FC = () => {
                   <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
                 )}
                 <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
-                {/* Add more details or actions here */}
               </div>
             </DialogContent>
           </Dialog>
