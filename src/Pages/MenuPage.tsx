@@ -5,6 +5,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../com
 import { getThemeColors } from '@/utils';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface CategoryType {
   id: string;
@@ -41,7 +42,7 @@ const MenuPage: React.FC = () => {
     queryFn: fetchCategories
   });
 
-  const { data: items = [] } = useQuery({
+  const { data: items = [], isPending: isItemsLoading } = useQuery({
     queryKey: ['items', selectedCategory],
     queryFn: () => fetchItems(selectedCategory!),
     enabled: !!selectedCategory
@@ -85,36 +86,53 @@ const MenuPage: React.FC = () => {
         ))}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.map((item: ItemType) => (
-          <Dialog key={item.id}>
-            <DialogTrigger asChild>
-              <Card className="cursor-pointer shadow-md transition-shadow duration-300">
-                <CardHeader>
+        {isItemsLoading ? (
+          // Render skeletons when items are loading
+          Array.from({ length: 6 }).map((_, index) => (
+            <Card key={index} className="shadow-md animate-pulse">
+              <CardHeader>
+                <Skeleton className="w-full h-60 rounded-t-lg" />
+                <Skeleton className="h-6 w-3/4 mt-2" />
+                <Skeleton className="h-4 w-1/2 mt-2" />
+              </CardHeader>
+              <CardFooter>
+                <Skeleton className="h-5 w-1/4" />
+              </CardFooter>
+            </Card>
+          ))
+        ) : (
+          // Render actual items when data is loaded
+          items.map((item: ItemType) => (
+            <Dialog key={item.id}>
+              <DialogTrigger asChild>
+                <Card className="cursor-pointer shadow-md transition-shadow duration-300">
+                  <CardHeader>
+                    {item.image && (
+                      <img src={item.image} alt={t(item.name)} className="w-full object-fit h-60 rounded-t-lg" />
+                    )}
+                    <CardTitle className="text-lg font-semibold mt-2">{t(item.name)}</CardTitle>
+                    <CardDescription className="text-sm text-gray-500 truncate">{t(item.description || '')}</CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <p className="text-primary font-bold text-green-600">{t('IQD')} {item.price.toLocaleString()}</p>
+                  </CardFooter>
+                </Card>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t(item.name)}</DialogTitle>
+                  <DialogDescription className="text-sm text-gray-500">{t(item.description || '')}</DialogDescription>
+                </DialogHeader>
+                <div className="p-4">
                   {item.image && (
-                    <img src={item.image} alt={t(item.name)} className="w-full object-fit h-60 rounded-t-lg" />
+                    <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
                   )}
-                  <CardTitle className="text-lg font-semibold mt-2">{t(item.name)}</CardTitle>
-                  <CardDescription className="text-sm text-gray-500 truncate">{t(item.description || '')}</CardDescription>
-                </CardHeader>
-                <CardFooter>
-                  <p className="text-primary font-bold text-green-600">{t('IQD')} {item.price.toLocaleString()}</p>
-                </CardFooter>
-              </Card>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t(item.name)}</DialogTitle>
-                <DialogDescription className="text-sm text-gray-500">{t(item.description || '')}</DialogDescription>
-              </DialogHeader>
-              <div className="p-4">
-                {item.image && (
-                  <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
-                )}
-                <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
-              </div>
-            </DialogContent>
-          </Dialog>
-        ))}
+                  <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
+                </div>
+              </DialogContent>
+            </Dialog>
+          ))
+        )}
       </div>
     </div>
   );
