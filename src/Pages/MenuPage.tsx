@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from '../axiosInstance';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { getThemeColors } from '@/utils';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 interface CategoryType {
   id: string;
@@ -21,6 +23,14 @@ interface ItemType {
   price: number;
 }
 
+interface DealType {
+  id: string;
+  title: string;
+  description: string;
+  discount?: number;
+  image?: string;
+}
+
 const fetchCategories = async () => {
   const response = await axios.get(`/category?page=all&restaurantId=${localStorage.getItem('RestaurantID')}`);
   return response.data.items;
@@ -31,9 +41,15 @@ const fetchItems = async (categoryId: string) => {
   return response.data.items;
 };
 
+const fetchDeals = async () => {
+  const response = await axios.get(`/deal?page=all&restaurantId=${localStorage.getItem('RestaurantID')}&published=true`);
+  return response.data.items;
+};
+
 const MenuPage: React.FC = () => {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState(''); // New state for search term
   const theme = getThemeColors();
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -46,6 +62,11 @@ const MenuPage: React.FC = () => {
     queryKey: ['items', selectedCategory],
     queryFn: () => fetchItems(selectedCategory!),
     enabled: !!selectedCategory
+  });
+
+  const { data: deals = [], isPending: isDealsLoading } = useQuery({
+    queryKey: ['deals'],
+    queryFn: fetchDeals
   });
 
   useEffect(() => {
@@ -64,75 +85,135 @@ const MenuPage: React.FC = () => {
     }
   };
 
+  // New function to filter items based on search term
+  const filteredItems = items.filter((item: ItemType) =>
+    t(item.name).toLowerCase().includes(searchTerm.toLowerCase()) ||
+    t(item.description || '').toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="p-4">
-      <div ref={scrollContainerRef} className="flex overflow-x-auto pb-4 mb-6 space-x-2">
-        {categories.map((category: CategoryType) => (
-          <button
-            key={category.id}
-            ref={(el) => categoryRefs.current[category.id] = el}
-            style={category.id === selectedCategory ? { backgroundColor: theme.primary } : {}}
-            onClick={() => handleCategoryClick(category.id)}
-            className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap ${category.id === selectedCategory
-              ? 'text-primary-foreground'
-              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-              }`}
-          >
-            {category.icon && (
-              <img src={category.icon} alt={t(category.name)} className="w-5 h-5 mr-2" />
-            )}
-            {t(category.name)}
-          </button>
-        ))}
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {isItemsLoading ? (
-          // Render skeletons when items are loading
-          Array.from({ length: 6 }).map((_, index) => (
-            <Card key={index} className="shadow-md animate-pulse">
-              <CardHeader>
-                <Skeleton className="w-full h-60 rounded-t-lg" />
-                <Skeleton className="h-6 w-3/4 mt-2" />
-                <Skeleton className="h-4 w-1/2 mt-2" />
-              </CardHeader>
-              <CardFooter>
-                <Skeleton className="h-5 w-1/4" />
-              </CardFooter>
-            </Card>
-          ))
-        ) : (
-          // Render actual items when data is loaded
-          items.map((item: ItemType) => (
-            <Dialog key={item.id}>
-              <DialogTrigger asChild>
-                <Card className="cursor-pointer shadow-md transition-shadow duration-300">
-                  <CardHeader>
-                    {item.image && (
-                      <img src={item.image} alt={t(item.name)} className="w-full object-fit h-60 rounded-t-lg" />
-                    )}
-                    <CardTitle className="text-lg font-semibold mt-2">{t(item.name)}</CardTitle>
-                    <CardDescription className="text-sm text-gray-500 truncate">{t(item.description || '')}</CardDescription>
-                  </CardHeader>
-                  <CardFooter>
-                    <p className="text-primary font-bold text-green-600">{t('IQD')} {item.price.toLocaleString()}</p>
-                  </CardFooter>
-                </Card>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t(item.name)}</DialogTitle>
-                  <DialogDescription className="text-sm text-gray-500">{t(item.description || '')}</DialogDescription>
-                </DialogHeader>
-                <div className="p-4">
-                  {item.image && (
-                    <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
-                  )}
-                  <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
-                </div>
-              </DialogContent>
-            </Dialog>
-          ))
+    <div className="flex flex-col h-screen">
+       {/* Deals Carousel */}
+       {deals.length > 0 && (
+          <div className="p-4">
+            <h2 className="text-2xl font-bold mb-4">{t('Special Deals')}</h2>
+            <Carousel className="w-full rounded-lg" opts={{ loop: true, align: "center" }}>
+              <CarouselContent>
+                {deals.map((deal: DealType) => (
+                  <CarouselItem key={deal.id} className="basis-full">
+                    <div className="relative">
+                      <Card className="overflow-hidden rounded-lg">
+                        <CardContent className="p-0">
+                          {deal.image && (
+                            <img src={deal.image} alt={t(deal.title)} className="w-full h-64 object-contain" />
+                          )}
+                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
+                            <h3 className="text-xl font-semibold mb-2">{t(deal.title)}</h3>
+                            <p className="text-sm">{t(deal.description)}</p>
+                          </div>
+                          {deal.discount && (
+                            <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                              {deal.discount}% OFF
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+            </Carousel>
+          </div>
         )}
+      <div className="sticky top-0 z-10 bg-background p-4 ">
+        {/* Search bar */}
+        <div className="mb-4">
+          <Input
+            type="text"
+            placeholder={t('Search items...')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-full"
+          />
+        </div>
+
+        {/* Categories section */}
+        <div ref={scrollContainerRef} className="flex overflow-x-auto pb-4 space-x-2">
+          {categories.map((category: CategoryType) => (
+            <button
+              key={category.id}
+              ref={(el) => categoryRefs.current[category.id] = el}
+              style={category.id === selectedCategory ? { backgroundColor: theme.primary } : {}}
+              onClick={() => handleCategoryClick(category.id)}
+              className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap ${category.id === selectedCategory
+                  ? 'text-primary-foreground'
+                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                }`}
+            >
+              {category.icon && (
+                <img src={category.icon} alt={t(category.name)} className="w-5 h-5 mr-2" />
+              )}
+              {t(category.name)}
+            </button>
+          ))}
+        </div>
+      </div>
+       
+      {/* Items grid */}
+      <div className="flex-grow overflow-y-auto p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {isItemsLoading ? (
+            // Render skeletons when items are loading
+            Array.from({ length: 6 }).map((_, index) => (
+              <Card key={index} className="shadow-md animate-pulse">
+                <CardHeader>
+                  <Skeleton className="w-full h-60 rounded-t-lg" />
+                  <Skeleton className="h-6 w-3/4 mt-2" />
+                  <Skeleton className="h-4 w-1/2 mt-2" />
+                </CardHeader>
+                <CardFooter>
+                  <Skeleton className="h-5 w-1/4" />
+                </CardFooter>
+              </Card>
+            ))
+          ) : filteredItems.length > 0 ? (
+            // Render filtered items
+            filteredItems.map((item: ItemType) => (
+              <Dialog key={item.id}>
+                <DialogTrigger asChild>
+                  <Card className="cursor-pointer shadow-md transition-shadow duration-300">
+                    <CardHeader>
+                      {item.image && (
+                        <img src={item.image} alt={t(item.name)} className="w-full object-contain h-60 rounded-t-lg" />
+                      )}
+                      <CardTitle className="text-lg font-semibold mt-2">{t(item.name)}</CardTitle>
+                      <CardDescription className="text-sm text-gray-500 truncate">{t(item.description || '')}</CardDescription>
+                    </CardHeader>
+                    <CardFooter>
+                      <p className="text-primary font-bold text-green-600">{t('IQD')} {item.price.toLocaleString()}</p>
+                    </CardFooter>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t(item.name)}</DialogTitle>
+                    <DialogDescription className="text-sm text-gray-500">{t(item.description || '')}</DialogDescription>
+                  </DialogHeader>
+                  <div className="p-4">
+                    {item.image && (
+                      <img src={item.image} alt={t(item.name)} className="w-full object-cover rounded-lg mb-4" style={{ maxHeight: '60vh' }} />
+                    )}
+                    <p className="text-lg font-bold text-primary mb-2">{t('IQD')} {item.price.toLocaleString()}</p>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))
+          ) : (
+            // Show a message when no items match the search
+            <p className="col-span-full text-center text-gray-500">{t('No items found matching your search.')}</p>
+          )}
+        </div>
       </div>
     </div>
   );
