@@ -47,7 +47,8 @@ const fetchDeals = async () => {
 };
 
 const MenuPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
+  
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
   const theme = getThemeColors();
@@ -71,7 +72,15 @@ const MenuPage: React.FC = () => {
   // Handle scroll to check if we're near the end
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
-    const isNearEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 20;
+    let isNearEnd = null;
+    
+    if (i18n.language === 'ar') {
+      // For Arabic, check if we're near the right edge since scrollLeft will be negative
+      isNearEnd = Math.abs(container.scrollLeft) + container.clientWidth >= container.scrollWidth - 20;
+    } else {
+      // For LTR languages, check if we're near the right edge
+      isNearEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 20;
+    }
 
     if (isNearEnd && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
