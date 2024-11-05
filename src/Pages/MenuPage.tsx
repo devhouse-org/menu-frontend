@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { iconOptions } from '@/utils/data';
 
 interface CategoryType {
   id: string;
@@ -91,6 +92,12 @@ const MenuPage: React.FC = () => {
     t(item.description || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const getIconComponent = (iconName?: string) => {
+    if (!iconName) return null;
+    const icon = iconOptions.find((option: { title: string; value: any }) => option.title === iconName);
+    return icon ? icon.value : null;
+  };
+
   return (
     <div className="flex flex-col h-screen">
        {/* Deals Carousel */}
@@ -139,20 +146,22 @@ const MenuPage: React.FC = () => {
         </div>
 
         {/* Categories section */}
-        <div ref={scrollContainerRef} className="flex overflow-x-auto pb-4 space-x-2">
+        <div ref={scrollContainerRef} className="flex overflow-x-auto pb-4">
           {categories.map((category: CategoryType) => (
             <button
               key={category.id}
               ref={(el) => categoryRefs.current[category.id] = el}
               style={category.id === selectedCategory ? { backgroundColor: theme.primary } : {}}
               onClick={() => handleCategoryClick(category.id)}
-              className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap ${category.id === selectedCategory
+              className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap mx-2 ${category.id === selectedCategory
                   ? 'text-primary-foreground'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                 }`}
             >
               {category.icon && (
-                <img src={category.icon} alt={t(category.name)} className="w-5 h-5 mr-2" />
+                <span className="mr-2 text-lg">
+                  {getIconComponent(category.icon)}
+                </span>
               )}
               {t(category.name)}
             </button>
