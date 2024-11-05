@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import axios from '../axiosInstance';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { getThemeColors } from '@/utils';
@@ -32,9 +32,9 @@ interface DealType {
   image?: string;
 }
 
-const fetchCategories = async () => {
-  const response = await axios.get(`/category?page=all&restaurantId=${localStorage.getItem('RestaurantID')}`);
-  return response.data.items;
+const fetchCategories = async ({ pageParam = 1 }) => {
+  const response = await axios.get(`/category?page=${pageParam}&restaurantId=${localStorage.getItem('RestaurantID')}`);
+  return response.data;
 };
 
 const fetchItems = async (categoryId: string) => {
@@ -43,21 +43,50 @@ const fetchItems = async (categoryId: string) => {
 };
 
 const fetchDeals = async () => {
-  const response = await axios.get(`/deal?page=all&restaurantId=${localStorage.getItem('RestaurantID')}&published=true`);
+  const response = await axios.get(`/deal?restaurantId=${localStorage.getItem('RestaurantID')}&published=true`);
   return response.data.items;
 };
 
 const MenuPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
+  
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
   const theme = getThemeColors();
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { data: categories = [] } = useQuery({
+  const {
+    data: categoriesData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryFn: fetchCategories,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1,
   });
+
+  // Flatten categories data from all pages
+  const categories = categoriesData?.pages.flatMap(page => page.items) ?? [];
+
+  // Handle scroll to check if we're near the end
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    let isNearEnd = null;
+    
+    if (i18n.language === 'ar') {
+      // For Arabic, check if we're near the right edge since scrollLeft will be negative
+      isNearEnd = Math.abs(container.scrollLeft) + container.clientWidth >= container.scrollWidth - 20;
+    } else {
+      // For LTR languages, check if we're near the right edge
+      isNearEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 20;
+    }
+
+    if (isNearEnd && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   const { data: items = [], isPending: isItemsLoading } = useQuery({
     queryKey: ['items', selectedCategory],
@@ -97,6 +126,25 @@ const MenuPage: React.FC = () => {
     const icon = iconOptions.find((option: { title: string; value: any }) => option.title === iconName);
     return icon ? icon.value : null;
   };
+  // Add a new useEffect to check for scroll possibility
+  useEffect(() => {
+    const checkForScroll = () => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      // If there's no horizontal scroll and we have more pages to load
+      if (container.scrollWidth <= container.clientWidth && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    };
+
+    // Check initially and after any window resize
+    checkForScroll();
+    window.addEventListener('resize', checkForScroll);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkForScroll);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, categoriesData]);
 
   return (
     <div className="flex flex-col h-screen">
@@ -145,8 +193,12 @@ const MenuPage: React.FC = () => {
           />
         </div>
 
-        {/* Categories section */}
-        <div ref={scrollContainerRef} className="flex overflow-x-auto pb-4">
+        {/* Modified categories section with onScroll handler */}
+        <div 
+          ref={scrollContainerRef} 
+          className="flex overflow-x-auto pb-4 space-x-2"
+          onScroll={handleScroll}
+        >
           {categories.map((category: CategoryType) => (
             <button
               key={category.id}
@@ -156,7 +208,7 @@ const MenuPage: React.FC = () => {
               className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap mx-2 ${category.id === selectedCategory
                   ? 'text-primary-foreground'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                }`}
+              }`}
             >
               {category.icon && (
                 <span className="mr-2 text-lg">
@@ -166,6 +218,11 @@ const MenuPage: React.FC = () => {
               {t(category.name)}
             </button>
           ))}
+          {isFetchingNextPage && (
+            <div className="flex items-center px-4">
+              <Skeleton className="h-8 w-20" />
+            </div>
+          )}
         </div>
       </div>
        
