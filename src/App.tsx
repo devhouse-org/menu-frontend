@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import WelcomePage from "./Pages/WelcomePage";
 import ThankYouPage from "./Pages/thanks";
 
+
 const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
 	const [showNav, setShowNav] = useState<boolean>(false);
