@@ -27,7 +27,7 @@ i18n
     },
     // Backend options for fetching translations
     backend: {
-      loadPath: 'https://grand-mellienum-surveys-backend.onrender.com/locales/{{lng}}.json' // Adjust the path based on your backend setup
+      loadPath: `${import.meta.env.VITE_API_BASE_URL}/locales/{{lng}}.json`
     },
     // Enable debug mode
     debug: true,
