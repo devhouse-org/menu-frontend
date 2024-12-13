@@ -4,11 +4,11 @@ import Backend from 'i18next-http-backend';
 
 const getDefaultLanguage = () => {
   const storedLanguage = localStorage.getItem('language');
-  document.body.dir = storedLanguage === 'ar' ? 'rtl' : 'ltr'
-  if(storedLanguage) return storedLanguage
+  document.body.dir = storedLanguage === 'ar' ? 'rtl' : 'ltr';
+  if (storedLanguage) return storedLanguage;
   else {
-    localStorage.setItem('language','en')
-    return 'en'
+    localStorage.setItem('language', 'en');
+    return 'en';
   }
 };
 
@@ -34,7 +34,14 @@ i18n
     // React specific options
     react: {
       useSuspense: false
-    }
+    },
+    // Custom configurations for handling long keys
+    keySeparator: false, // Disable key nesting by treating the key literally
+    nsSeparator: false, // Disable namespace parsing in keys
+    interpolation: {
+      escapeValue: false // Disable escaping to handle special characters in keys
+    },
+    returnObjects: true // Allow returning objects or handling complex keys
   });
 
 export default i18n;
