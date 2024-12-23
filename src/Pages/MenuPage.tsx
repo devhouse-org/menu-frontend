@@ -208,7 +208,7 @@ const MenuPage: React.FC = () => {
                           <img
                             src={deal.image}
                             alt={t(deal.title)}
-                            className="w-full h-64 object-contain"
+                            className="w-full h-64 object-cover"
                           />
                         )}
                         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
