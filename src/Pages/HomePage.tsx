@@ -6,6 +6,10 @@ import axiosInstance from "../axiosInstance";
 import { showErrorToast } from "../utils";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface props {
 	accessCode: string;
@@ -65,50 +69,44 @@ const HomePage: React.FC<props> = ({
 	};
 
 	return (
-		<div className='relative w-screen min-h-screen flex justify-center items-center font-montserrat text-primary'>
-			{/* Background Pattern */}
-			<div className='absolute bg-white w-full h-full z-0 backdrop-blur-sm'></div>
-
-			<div className='flex flex-col justify-center items-center w-9/12 gap-24 z-10 h-screen p-6 md:p-24'>
-				{/* Logo */}
-				<div className='h-1/2 flex justify-center items-center '>
-					<img
-						src={logo}
-						alt='Logo'
-						className='lg:h-full object-contain'
-					/>
-				</div>
-
-				{/* Input */}
-				<div className='h-1/2 w-full flex flex-col gap-5'>
-					<div className='w-full flex justify-center'>
-						<h1 className='text-[#c01638] text-2xl'>
-							Enter your Access Code
-						</h1>
+		<div className='flex justify-center items-center p-4 min-h-screen bg-background text-foreground font-montserrat'>
+			<Card className='w-full max-w-md'>
+				<CardHeader className='space-y-4'>
+					<div className='flex justify-center'>
+						<img src={logo} alt='Logo' className='object-contain h-16 md:h-20' />
 					</div>
-
-					<input
-						type='text'
-						value={accessCode}
-						onChange={handleAccessCodeChange}
-						className='border border-[#c01638] p-4 rounded w-full focus:outline-none focus:ring-1 focus:ring-[#c01638]'
-						placeholder='Enter your access code'
-					/>
-
-					<button
-						disabled={mutation.isPending}
-						onClick={handleSubmit}
-						className={`mt-4 w-full bg-[#c01638] hover:bg-[#c01638] text-white font-semibold py-4 px-4 rounded-md ${
-							mutation.isPending
-								? "animate-pulse cursor-not-allowed bg-slate-500"
-								: ""
-						}`}
+					<CardTitle className='text-xl text-center text-primary'>
+						Enter your Access Code
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<form
+						className='space-y-4'
+						onSubmit={(e) => {
+							e.preventDefault();
+							handleSubmit();
+						}}
 					>
-						Submit
-					</button>
+						<div className='space-y-2'>
+							<Input
+								id='accessCode'
+								type='text'
+								value={accessCode}
+								onChange={handleAccessCodeChange}
+								autoFocus
+								autoComplete='one-time-code'
+								disabled={mutation.isPending}
+								placeholder='Enter your access code'
+								className='w-full focus-visible:ring-primary'
+							/>
+						</div>
+						<Button type='submit' size='sm' disabled={mutation.isPending} className='w-full'>
+							{mutation.isPending ? 'Submitting...' : 'Submit'}
+						</Button>
+					</form>
 					<ToastContainer />
-				</div>
-			</div>
+				</CardContent>
+			</Card>
 		</div>
 	);
 };
