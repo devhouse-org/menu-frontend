@@ -12,6 +12,9 @@ import { getThemeColors } from "../utils";
 import { useSurveyStore } from "../store/surveyStore";
 import { useTranslation } from "react-i18next";
 import RatingSelector from "../components/RatingSelector";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { AlertCircle, Loader2 } from "lucide-react";
 
 type RatingsT = {
   questionId: string;
@@ -83,11 +86,30 @@ const SurveyPage: React.FC = () => {
   });
 
   if (isPending) {
-    return <div>{t("Loading...")}</div>;
+    return (
+      <div className="w-screen min-h-screen flex items-center justify-center">
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span>{t("Loading...")}</span>
+        </div>
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>{t("Error")}</div>;
+    return (
+      <div className="w-screen min-h-screen flex items-center justify-center p-6">
+        <Card className="max-w-md w-full">
+          <CardHeader className="flex flex-row items-center gap-2">
+            <AlertCircle className="h-5 w-5 text-red-500" />
+            <CardTitle className="text-base">{t("Error")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">{t("Something went wrong while loading the survey.")}</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   const handleRatingSelect = (questionId: string, score: number) => {
@@ -148,50 +170,56 @@ const SurveyPage: React.FC = () => {
 
   return (
     <div
-      className="w-screen min-h-screen flex justify-center items-center font-montserrat pt-20"
+      className="w-screen min-h-screen flex justify-center items-start font-montserrat pt-24 pb-10"
       style={{ color: theme.primary }}
     >
-      <div className="flex flex-col w-9/12 p-4 py-8 gap-12">
+      <div className="w-full max-w-3xl lg:max-w-4xl px-4 flex flex-col gap-8">
         {/* Header */}
-        <div className="w-full flex flex-col justify-center items-center text-2xl text-center gap-2">
-          <h1 className="pt-3 font-bold">
-            {t("We hope your meal was as delightful as you hoped!")}
-          </h1>
-        </div>
+        <Card className="shadow-sm">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold tracking-tight">
+              {t("We hope your meal was as delightful as you hoped!")}
+            </CardTitle>
+          </CardHeader>
+        </Card>
 
-        {/* Rate Quality */}
-        <div className="w-full flex flex-col gap-10 justify-center items-center">
-          {/* Food Quality */}
+        {/* Questions */}
+        <div className="flex flex-col gap-4">
           {data.map((q: any) => (
-            <div key={q.id} className="flex flex-col items-center">
-              {i18n.language === "en" ? (
-                <h3 className="text-xl font-semibold">{t(q.enTitle)}</h3>
-              ) : (
-                <h3 className="text-xl font-semibold">{t(q.title)}</h3>
-              )}
-
-              <RatingSelector
-                rating={ratings.find((r) => r.questionId === q.id)?.score || 0}
-                onRatingSelect={(score) => handleRatingSelect(q.id, score)}
-              />
-            </div>
+            <Card key={q.id} className="shadow-sm">
+              <CardHeader className="items-center">
+                <CardTitle className="text-lg font-semibold text-center">
+                  {i18n.language === "en" ? t(q.enTitle) : t(q.title)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex justify-center">
+                <RatingSelector
+                  rating={ratings.find((r) => r.questionId === q.id)?.score || 0}
+                  onRatingSelect={(score) => handleRatingSelect(q.id, score)}
+                />
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         {/* Comment */}
-        <CommentSection titleAr={"الملاحظات"} titleEn={"Comments"} />
+        <Card className="shadow-sm">
+          <CardContent className="pt-6">
+            <CommentSection titleAr={"الملاحظات"} titleEn={"Comments"} />
+          </CardContent>
+        </Card>
 
         {/* Submit */}
-        <button
-          onClick={handleSubmit}
-          className="mt-4 bg-secondary font-semibold py-4 px-4 rounded-md"
-          style={{
-            backgroundColor: theme.primary,
-            color: "white",
-          }}
-        >
-          {t("Submit")}
-        </button>
+        <div className="flex justify-center">
+          <Button
+            onClick={handleSubmit}
+            aria-label={t("Submit")}
+            className="mt-2 px-8 py-6 text-base font-semibold"
+            style={{ backgroundColor: theme.primary, color: "white" }}
+          >
+            {t("Submit")}
+          </Button>
+        </div>
 
         <div className="w-full flex justify-center items-center">
           {isExploding && (

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
-import { Menu, Star } from "lucide-react";
+import { Menu as MenuIcon, Star, Utensils } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { getThemeColors } from "../utils";
 import {
@@ -37,6 +37,17 @@ const Navbar: React.FC = () => {
       </Link>
       <div className="flex items-center gap-4">
         <NavLink 
+          to="/menu" 
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-3 py-2 text-sm font-medium text-white rounded-md transition-colors group ${
+              isActive ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-20'
+            }`
+          }
+        >
+          <Utensils className="h-4 w-4 group-hover:fill-current" />
+          {t("Menu")}
+        </NavLink>
+        <NavLink 
           to="/survey" 
           className={({ isActive }) =>
             `flex items-center gap-2 px-3 py-2 text-sm font-medium text-white rounded-md transition-colors group ${
@@ -51,7 +62,7 @@ const Navbar: React.FC = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="focus:outline-none p-2 hover:bg-opacity-20 hover:bg-white rounded-full transition-colors">
-              <Menu className="h-6 w-6" />
+              <MenuIcon className="h-6 w-6" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
