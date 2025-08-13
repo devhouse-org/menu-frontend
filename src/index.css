@@ -46,9 +46,7 @@ html {
   [lang="ar"] {
     font-family: "Noto Kufi Arabic", sans-serif;
   }
-  html[lang='ar']{
-    
-  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;

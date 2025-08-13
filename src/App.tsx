@@ -79,8 +79,8 @@ const App: React.FC = () => {
 				<Route
 					path='/survey'
 					element={<SurveyPage />}
-				/>
-			</Routes>
+					/>
+				</Routes>
 			</Layout>
 		</Router>
 	);

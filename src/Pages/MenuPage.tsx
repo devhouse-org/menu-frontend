@@ -25,10 +25,9 @@ import axios from "../axiosInstance";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "../components/ui/card";
 
 interface CategoryType {
@@ -189,7 +188,7 @@ const MenuPage: React.FC = () => {
     return () => window.removeEventListener("resize", checkForScroll);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, categoriesData]);
 
-  return (
+  return (  
       <div className="flex relative flex-col p-3 h-full rounded-full">
         {/* Backdrop tinted with primary color */}
         <div

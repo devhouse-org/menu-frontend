@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
               `flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ring-1 ${
                 isActive
                   ? 'bg-primary text-primary-foreground ring-primary/40'
-                  : 'bg-white/80 text-foreground ring-black/5 hover:bg-white'
+                  : 'bg-white/80 text-primary ring-black/5 hover:bg-white'
               }`
             }
           >

@@ -70,14 +70,13 @@ const HomePage: React.FC<props> = ({
 			{/* Background image + overlay */}
 			<div className='absolute inset-0 -z-10'>
 				<img src={bg} alt='' className='object-cover w-full h-full' />
-				<div className='absolute inset-0 bg-black/60' />
 			</div>
 
 			{/* Centered access panel */}
 			<div className='flex relative z-10 justify-center items-center p-4 min-h-screen'>
 				<div className='w-full max-w-sm'>
 					{/* Logo and heading */}
-					<div className='flex flex-col items-center mb-5 text-center text-white'>
+					<div className='flex flex-col items-center mb-5 text-center'>
 						<img
 							src={localStorage.getItem("logo") || logo}
 							alt='Logo'
@@ -86,7 +85,7 @@ const HomePage: React.FC<props> = ({
 						<h1 className='mt-4 text-2xl font-semibold tracking-wide'>
 							{localStorage.getItem("restaurantName") || "Welcome"}
 						</h1>
-						<p className='mt-1 text-sm text-white/70'>Enter your access code to continue</p>
+						<p className='mt-1 text-sm'>Enter your access code to continue</p>
 					</div>
 
 					{/* Frosted glass form */}

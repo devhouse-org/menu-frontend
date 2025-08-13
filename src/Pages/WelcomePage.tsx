@@ -13,7 +13,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
   const { t } = useTranslation();
   return (
     <div
-      className="relative w-screen min-h-screen flex flex-col justify-center items-center font-montserrat p-6"
+      className="flex relative flex-col justify-center items-center p-6 w-screen min-h-screen font-montserrat"
       style={{
         // color: "white",
         backgroundColor: theme.background,
@@ -21,14 +21,14 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
     >
       {/* Background Pattern */}
       {/* <div
-				className='absolute bg-primary w-full h-full z-0 backdrop-blur-sm'
+				className='absolute z-0 w-full h-full backdrop-blur-sm bg-primary'
 				style={{
 					backgroundImage: `url(${BG})`,
 					backgroundSize: "cover",
 					backgroundPosition: "center",
 				}}
 			></div> */}
-      <div className="flex flex-col justify-center items-center w-9/12 gap-6 p-6 z-20">
+      <div className="flex z-20 flex-col gap-6 justify-center items-center p-6 w-9/12">
         {/* Text */}
         <h1 className="text-4xl">
           {t("Welcome")},
@@ -40,7 +40,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
 
         <Link
           to="/menu"
-          className="mt-4 w-full text-xl text-center text-white font-semibold py-4 px-4 rounded-md"
+          className="px-4 py-4 mt-4 w-full text-xl font-semibold text-center text-white rounded-md"
           style={{
             color: "white",
             backgroundColor: theme.primary,
@@ -50,7 +50,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
         </Link>
         <Link
           to="/survey"
-          className="mt-4 w-full text-xl text-white  text-center  font-semibold py-4 px-4 rounded-md "
+          className="px-4 py-4 mt-4 w-full text-xl font-semibold text-center text-white rounded-md"
           style={{
             color: "white",
             backgroundColor: theme.primary,
@@ -62,7 +62,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
         {/* Logout button */}
         <button
           onClick={handleLogout}
-          className="mt-4 w-full text-white text-xl font-semibold py-4 px-4 rounded-md"
+          className="px-4 py-4 mt-4 w-full text-xl font-semibold text-white rounded-md"
           style={{
             color: "white",
             backgroundColor: theme.primary,
@@ -72,7 +72,7 @@ const WelcomePage: React.FC<props> = ({ handleLogout }) => {
         </button>
       </div>
     </div>
-  );
+    );
 };
 
 export default WelcomePage;

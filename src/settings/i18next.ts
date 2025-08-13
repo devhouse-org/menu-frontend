@@ -26,11 +26,12 @@ i18n
       caches: ['localStorage']
     },
     // Backend options for fetching translations
+    // don't for get to return the variable to VITE_API_BASE_URL
     backend: {
       loadPath: `${import.meta.env.VITE_API_BASE_URL}/locales/{{lng}}.json`
     },
     // Enable debug mode
-    debug: true,
+    debug: false,
     // React specific options
     react: {
       useSuspense: false

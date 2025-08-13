@@ -5,10 +5,10 @@ const ThankYouPage = () => {
     const {t} = useTranslation()
     const theme = getThemeColors();
     return (
-      <div className="flex items-center justify-center min-h-screen ">
-        <div className="bg-white p-10 border rounded-lg shadow-lg text-center">
-          <h1 className="text-3xl font-semibold text-gray-800 mb-4">{t("Thank You!")}</h1>
-          <p className="text-gray-600 mb-6">
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="p-10 text-center bg-white rounded-lg border shadow-lg">
+          <h1 className="mb-4 text-3xl font-semibold text-gray-800">{t("Thank You!")}</h1>
+          <p className="mb-6 text-gray-600">
             {t("Your submission has been received. We appreciate your feedback.")}
           </p>
           <button
@@ -16,7 +16,7 @@ const ThankYouPage = () => {
             background:theme.primary,
             color:"white"
           }}
-            className=" text-white px-4 py-2 rounded-lg transition duration-200"
+            className="px-4 py-2 text-white rounded-lg transition duration-200"
             onClick={() => window.location.href = '/menu'}
           >
             {t("Back to Menu")}

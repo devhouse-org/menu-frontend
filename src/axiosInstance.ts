@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from 'axios';
 const createAxiosInstance = (): AxiosInstance => {
   // Customize Axios instance with your configuration options
   const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL, // Your API base URL
+    baseURL: import.meta.env.VITE_API_BASE_URL, // Your API base URL
     timeout: 10000, // Request timeout in milliseconds
     headers: {
       'Content-Type': 'application/json', // Example header
