@@ -10,6 +10,7 @@ import SurveyPage from "./Pages/SurveyPage";
 import Navbar from "./components/Navbar";
 import WelcomePage from "./Pages/WelcomePage";
 import ThankYouPage from "./Pages/thanks";
+import Layout from "./layout/Layout";
 
 
 const App: React.FC = () => {
@@ -47,6 +48,7 @@ const App: React.FC = () => {
 
 	return (
 		<Router>
+			<Layout>
 			{showNav && <Navbar />}
 			<Routes>
 				<Route
@@ -79,6 +81,7 @@ const App: React.FC = () => {
 					element={<SurveyPage />}
 				/>
 			</Routes>
+			</Layout>
 		</Router>
 	);
 };
