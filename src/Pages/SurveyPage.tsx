@@ -75,10 +75,6 @@ const SurveyPage: React.FC = () => {
     },
     onError(error: any) {
       showErrorToast(t("Submission failed"));
-      console.error(
-        t("Submission error:"),
-        error.response ? error.response.data : error.message
-      );
     },
   });
 
@@ -148,19 +144,19 @@ const SurveyPage: React.FC = () => {
 
   return (
     <div
-      className="w-screen min-h-screen flex justify-center items-center font-montserrat pt-20"
+      className="flex justify-center items-center pt-20 w-screen min-h-screen font-montserrat"
       style={{ color: theme.primary }}
     >
-      <div className="flex flex-col w-9/12 p-4 py-8 gap-12">
+      <div className="flex flex-col gap-12 p-4 py-8 w-9/12">
         {/* Header */}
-        <div className="w-full flex flex-col justify-center items-center text-2xl text-center gap-2">
+        <div className="flex flex-col gap-2 justify-center items-center w-full text-2xl text-center">
           <h1 className="pt-3 font-bold">
             {t("We hope your meal was as delightful as you hoped!")}
           </h1>
         </div>
 
         {/* Rate Quality */}
-        <div className="w-full flex flex-col gap-10 justify-center items-center">
+        <div className="flex flex-col gap-10 justify-center items-center w-full">
           {/* Food Quality */}
           {data.map((q: any) => (
             <div key={q.id} className="flex flex-col items-center">
@@ -184,7 +180,7 @@ const SurveyPage: React.FC = () => {
         {/* Submit */}
         <button
           onClick={handleSubmit}
-          className="mt-4 bg-secondary font-semibold py-4 px-4 rounded-md"
+          className="px-4 py-4 mt-4 font-semibold rounded-md bg-secondary"
           style={{
             backgroundColor: theme.primary,
             color: "white",
@@ -193,7 +189,7 @@ const SurveyPage: React.FC = () => {
           {t("Submit")}
         </button>
 
-        <div className="w-full flex justify-center items-center">
+        <div className="flex justify-center items-center w-full">
           {isExploding && (
             <ConfettiExplosion
               force={0.8}

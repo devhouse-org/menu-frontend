@@ -29,6 +29,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { iconOptions } from "@/utils/data";
+import { Button } from "@/components/ui/button";
+import { Plus, Heart } from "lucide-react";
 
 interface CategoryType {
   id: string;
@@ -192,33 +194,34 @@ const MenuPage: React.FC = () => {
     <div className="flex flex-col h-screen">
       {/* Deals Carousel */}
       {deals.length > 0 && (
-        <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">{t("Special Deals")}</h2>
-          <Carousel
-            className="w-full rounded-lg"
-            opts={{ loop: true, align: "center" }}
-          >
+        <div className="p-3">
+          <div className="p-3 rounded-2xl ring-1 shadow-md backdrop-blur-md bg-card/70 ring-white/10">
+            <h2 className="mb-3 text-xl font-semibold">{t("Special Deals")}</h2>
+            <Carousel
+              className="w-full rounded-xl"
+              opts={{ loop: true, align: "center" }}
+            >
             <CarouselContent>
               {deals.map((deal: DealType) => (
                 <CarouselItem key={deal.id} className="basis-full">
                   <div className="relative">
-                    <Card className="overflow-hidden rounded-lg">
+                    <Card className="overflow-hidden rounded-xl ring-1 ring-white/10 bg-background/60">
                       <CardContent className="p-0">
                         {deal.image && (
                           <img
                             src={deal.image}
                             alt={t(deal.title)}
-                            className="w-full h-64 object-cover"
+                            className="object-cover w-full h-48"
                           />
                         )}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-                          <h3 className="text-xl font-semibold mb-2">
+                        <div className="absolute right-0 bottom-0 left-0 p-3 text-white bg-gradient-to-t to-transparent from-black/70">
+                          <h3 className="mb-1 text-base font-semibold">
                             {t(deal.title)}
                           </h3>
-                          <p className="text-sm">{t(deal.description)}</p>
+                          <p className="text-xs">{t(deal.description)}</p>
                         </div>
                         {deal.discount && (
-                          <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          <div className="absolute top-3 right-3 px-2 py-0.5 text-xs font-semibold text-white bg-red-600 rounded-full">
                             {deal.discount}% OFF
                           </div>
                         )}
@@ -229,108 +232,118 @@ const MenuPage: React.FC = () => {
               ))}
             </CarouselContent>
             <CarouselPrevious />
-          </Carousel>
+            </Carousel>
+          </div>
         </div>
       )}
-      <div className="sticky top-0 z-10 bg-background p-4 ">
-        {/* Search bar */}
-        <div className="mb-4">
-          <Input
-            type="text"
-            placeholder={t("Search items...")}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-full"
-          />
-        </div>
+      <div className="sticky top-0 z-10 p-3 bg-background">
+        <div className="p-3 rounded-2xl ring-1 shadow-md backdrop-blur-md bg-card/70 ring-white/10">
+          {/* Search bar */}
+          <div className="mb-2">
+            <Input
+              type="text"
+              placeholder={t("Search items...")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full h-9 text-sm rounded-full ring-1 shadow-inner bg-background/60 ring-white/10"
+            />
+          </div>
 
-        {/* Modified categories section with onScroll handler */}
-        <div
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto pb-4 space-x-2"
-          onScroll={handleScroll}
-        >
-          {categories.map((category: CategoryType) => (
-            <button
-              key={category.id}
-              ref={(el) => (categoryRefs.current[category.id] = el)}
-              style={
-                category.id === selectedCategory
-                  ? { backgroundColor: theme.primary }
-                  : {}
-              }
-              onClick={() => handleCategoryClick(category.id)}
-              className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 whitespace-nowrap mx-2 ${
-                category.id === selectedCategory
-                  ? "text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {category.icon && (
-                <span className="mx-2 text-lg">
-                  {getIconComponent(category.icon)}
-                </span>
-              )}
-              {t(category.name)}
-            </button>
-          ))}
-          {isFetchingNextPage && (
-            <div className="flex items-center px-4">
-              <Skeleton className="h-8 w-20" />
-            </div>
-          )}
+          {/* Modified categories section with onScroll handler */}
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto pb-1 space-x-2"
+            onScroll={handleScroll}
+          >
+            {categories.map((category: CategoryType) => (
+              <button
+                key={category.id}
+                ref={(el) => (categoryRefs.current[category.id] = el)}
+                style={
+                  category.id === selectedCategory
+                    ? { backgroundColor: theme.primary }
+                    : {}
+                }
+                onClick={() => handleCategoryClick(category.id)}
+                className={`flex items-center gap-2 px-3 py-1.5 text-sm rounded-full transition-all duration-300 whitespace-nowrap ${
+                  category.id === selectedCategory
+                    ? "text-primary-foreground shadow-md"
+                    : "bg-background/70 text-foreground hover:bg-background"
+                }`}
+              >
+                {category.icon && (
+                  <span className="text-base">
+                    {getIconComponent(category.icon)}
+                  </span>
+                )}
+                {t(category.name)}
+              </button>
+            ))}
+            {isFetchingNextPage && (
+              <div className="flex items-center px-4">
+                <Skeleton className="w-20 h-8" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Items grid */}
-      <div className="flex-grow overflow-y-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+         {/* Items grid */}
+       <div className="overflow-y-auto flex-grow p-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {isItemsLoading ? (
             // Render skeletons when items are loading
             Array.from({ length: 6 }).map((_, index) => (
               <Card key={index} className="shadow-md animate-pulse">
-                <CardHeader>
-                  <Skeleton className="w-full h-60 rounded-t-lg" />
-                  <Skeleton className="h-6 w-3/4 mt-2" />
-                  <Skeleton className="h-4 w-1/2 mt-2" />
+                <CardHeader className="p-3">
+                  <Skeleton className="w-full h-40 rounded-t-lg" />
+                  <Skeleton className="mt-2 w-2/3 h-5" />
+                  <Skeleton className="mt-2 w-1/3 h-4" />
                 </CardHeader>
-                <CardFooter>
-                  <Skeleton className="h-5 w-1/4" />
+                <CardFooter className="p-3">
+                  <Skeleton className="w-1/4 h-4" />
                 </CardFooter>
               </Card>
             ))
           ) : filteredItems.length > 0 ? (
             // Render filtered items
-            filteredItems.map((item: ItemType) => (
-              <Dialog key={item.id}>
+             filteredItems.map((item: ItemType) => (
+               <Dialog key={item.id}>
                 <DialogTrigger asChild>
-                  <Card className="cursor-pointer shadow-md transition-shadow duration-300">
-                    <CardHeader>
+                   <Card className="relative overflow-hidden rounded-3xl bg-card/80 ring-1 ring-white/10 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] transition-all duration-300 cursor-pointer hover:shadow-[0_12px_36px_-10px_rgba(0,0,0,0.35)]">
+                    <CardHeader className="p-0">
                       {item.image && (
-                        <img
-                          src={item.image}
-                          alt={t(item.name)}
-                          className="w-full object-contain h-60 rounded-t-lg"
-                        />
+                         <div className="relative">
+                           <img
+                             src={item.image}
+                             alt={t(item.name)}
+                             className="object-cover w-full h-40"
+                           />
+                           {/* curved top container */}
+                           <div className="absolute inset-x-0 -bottom-3 h-6 backdrop-blur bg-card/80" style={{ borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem' }} />
+                         </div>
                       )}
-                      <CardTitle className="text-lg font-semibold mt-2">
-                        {t(item.name)}
-                      </CardTitle>
-                      <CardDescription className="text-sm text-gray-500 truncate">
-                        {t(item.description || "")}
-                      </CardDescription>
+                       <div className="p-3">
+                         <CardTitle className="text-sm font-semibold">
+                           {t(item.name)}
+                         </CardTitle>
+                         <CardDescription className="mt-1 text-xs text-muted-foreground line-clamp-2">
+                           {t(item.description || "")}
+                         </CardDescription>
+                       </div>
                     </CardHeader>
-                    <CardFooter>
-                      <p className="text-primary font-bold text-green-600">
-                        {t("IQD")} {item.price.toLocaleString()}
-                      </p>
-                    </CardFooter>
+                     <CardFooter className="flex justify-between items-center p-3 pt-0">
+                       <div className="text-sm font-semibold text-primary">{t("IQD")} {item.price.toLocaleString()}</div>
+                       <Button size="sm" className="p-0 w-9 h-9 rounded-full" title={t("Add") as string}>
+                         <Plus className="w-4 h-4" />
+                       </Button>
+                     </CardFooter>
                   </Card>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="h-fit">
                   <DialogHeader>
                     <DialogTitle>{t(item.name)}</DialogTitle>
-                    <DialogDescription className="text-sm text-gray-500">
+                    <DialogDescription className="text-xs text-gray-500">
                       {t(item.description || "")}
                     </DialogDescription>
                   </DialogHeader>
@@ -339,13 +352,18 @@ const MenuPage: React.FC = () => {
                       <img
                         src={item.image}
                         alt={t(item.name)}
-                        className="w-full object-cover rounded-lg mb-4"
-                        style={{ maxHeight: "60vh" }}
+                           className="object-cover mb-3 w-full rounded-lg"
+                           style={{ maxHeight: "40vh" }}
                       />
                     )}
-                    <p className="text-lg font-bold text-primary mb-2">
-                      {t("IQD")} {item.price.toLocaleString()}
-                    </p>
+                         <div className="flex justify-between items-center">
+                           <p className="text-base font-bold text-primary">
+                             {t("IQD")} {item.price.toLocaleString()}
+                           </p>
+                           <Button size="sm">
+                             <Plus className="w-4 h-4" /> {t("Add to Order")}
+                           </Button>
+                         </div>
                   </div>
                 </DialogContent>
               </Dialog>

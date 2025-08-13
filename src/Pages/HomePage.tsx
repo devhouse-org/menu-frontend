@@ -1,15 +1,14 @@
-import React from "react";
-import logo from "../assets/GM-Logo.jpg";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axiosInstance from "../axiosInstance";
-import { showErrorToast } from "../utils";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMutation } from "@tanstack/react-query";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import bg from "../assets/BG.png";
+import logo from "../assets/GM-Logo.jpg";
+import axiosInstance from "../axiosInstance";
+import { showErrorToast } from "../utils";
 
 interface props {
 	accessCode: string;
@@ -31,7 +30,6 @@ const HomePage: React.FC<props> = ({
 			return axiosInstance.post("/restaurant/auth", data);
 		},
 		onSuccess(data: any) {
-			console.log("d", data.data);
 			localStorage.setItem("RestaurantID", data.data.id);
 			localStorage.setItem(
 				"accessCode",
@@ -59,7 +57,6 @@ const HomePage: React.FC<props> = ({
 		},
 	});
 
-	console.log("id", localStorage.getItem("RestaurantID"));
 
 	// Handle Code Submit
 	const handleSubmit = () => {
@@ -69,25 +66,38 @@ const HomePage: React.FC<props> = ({
 	};
 
 	return (
-		<div className='flex justify-center items-center p-4 min-h-screen bg-background text-foreground font-montserrat'>
-			<Card className='w-full max-w-md'>
-				<CardHeader className='space-y-4'>
-					<div className='flex justify-center'>
-						<img src={logo} alt='Logo' className='object-contain h-16 md:h-20' />
+		<div className='relative min-h-screen font-montserrat'>
+			{/* Background image + overlay */}
+			<div className='absolute inset-0 -z-10'>
+				<img src={bg} alt='' className='object-cover w-full h-full' />
+				<div className='absolute inset-0 bg-black/60' />
+			</div>
+
+			{/* Centered access panel */}
+			<div className='flex relative z-10 justify-center items-center p-4 min-h-screen'>
+				<div className='w-full max-w-sm'>
+					{/* Logo and heading */}
+					<div className='flex flex-col items-center mb-5 text-center text-white'>
+						<img
+							src={localStorage.getItem("logo") || logo}
+							alt='Logo'
+							className='object-cover w-14 h-14 bg-white rounded-full ring-2 shadow-md ring-primary/70'
+						/>
+						<h1 className='mt-4 text-2xl font-semibold tracking-wide'>
+							{localStorage.getItem("restaurantName") || "Welcome"}
+						</h1>
+						<p className='mt-1 text-sm text-white/70'>Enter your access code to continue</p>
 					</div>
-					<CardTitle className='text-xl text-center text-primary'>
-						Enter your Access Code
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<form
-						className='space-y-4'
-						onSubmit={(e) => {
-							e.preventDefault();
-							handleSubmit();
-						}}
-					>
-						<div className='space-y-2'>
+
+					{/* Frosted glass form */}
+					<div className='p-5 rounded-2xl border shadow-2xl backdrop-blur-xl border-white/10 bg-white/10'>
+						<form
+							className='space-y-3'
+							onSubmit={(e) => {
+								e.preventDefault();
+								handleSubmit();
+							}}
+						>
 							<Input
 								id='accessCode'
 								type='text'
@@ -97,16 +107,16 @@ const HomePage: React.FC<props> = ({
 								autoComplete='one-time-code'
 								disabled={mutation.isPending}
 								placeholder='Enter your access code'
-								className='w-full focus-visible:ring-primary'
+								className='w-full h-10 rounded-md bg-white/90 text-foreground placeholder:text-muted-foreground focus-visible:ring-primary'
 							/>
-						</div>
-						<Button type='submit' size='sm' disabled={mutation.isPending} className='w-full'>
-							{mutation.isPending ? 'Submitting...' : 'Submit'}
-						</Button>
-					</form>
-					<ToastContainer />
-				</CardContent>
-			</Card>
+							<Button type='submit' size='sm' disabled={mutation.isPending} className='w-full'>
+								{mutation.isPending ? "Submitting..." : "Continue"}
+							</Button>
+						</form>
+						<ToastContainer />
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
