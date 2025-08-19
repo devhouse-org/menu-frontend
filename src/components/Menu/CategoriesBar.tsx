@@ -28,7 +28,7 @@ const fetchCategories = async ({ pageParam = 1 }) => {
 const CategoriesBar: React.FC<Props> = ({ onCategoryChange }) => {
   const theme = getThemeColors();
   const { t, i18n } = useTranslation();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -46,9 +46,9 @@ const CategoriesBar: React.FC<Props> = ({ onCategoryChange }) => {
     gcTime: 1000 * 60 * 10,
   });
 
-  const categories: (CategoryType & { isAll?: boolean })[] = useMemo(() => {
+  const categories: CategoryType[] = useMemo(() => {
     const fetched = categoriesData?.pages.flatMap((page: any) => page.items) ?? [];
-    return [{ id: "all", name: "All", icon: undefined, isAll: true }, ...fetched];
+    return fetched;
   }, [categoriesData]);
 
   useEffect(() => {

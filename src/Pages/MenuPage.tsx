@@ -68,7 +68,7 @@ const fetchDeals = async () => {
 const MenuPage: React.FC = () => {
   const { t } = useTranslation();
 
-  const [selectedCategory, setSelectedCategory] = useState<string | null>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term
 
   const {
@@ -79,12 +79,12 @@ const MenuPage: React.FC = () => {
     isFetchingNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["items", selectedCategory ?? "all"],
+    queryKey: ["items", selectedCategory],
     queryFn: ({ pageParam = 1 }) =>
-      fetchItemsPage(selectedCategory ?? "all", pageParam as number),
+      fetchItemsPage(selectedCategory!, pageParam as number),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     initialPageParam: 1,
-    enabled: !!(selectedCategory ?? "all"),
+    enabled: !!selectedCategory,
     staleTime: 1000 * 60 * 2,
     gcTime: 1000 * 60 * 10,
   });
@@ -136,23 +136,7 @@ const MenuPage: React.FC = () => {
     });
   }, [items, searchTerm, t]);
 
-  const groupedSections = useMemo(() => {
-    if (selectedCategory !== "all") return [] as [
-      string,
-      { name: string; items: ItemType[]; orderNumber: number }
-    ][];
-    const map = new Map<string, { name: string; items: ItemType[]; orderNumber: number }>();
-    for (const item of filteredItems) {
-      const catId = item.category?.id || "uncategorized";
-      const catName = item.category?.name || "Others";
-      const orderNumber = item.category?.orderNumber ?? Number.POSITIVE_INFINITY;
-      if (!map.has(catId)) {
-        map.set(catId, { name: catName, items: [], orderNumber });
-      }
-      map.get(catId)!.items.push(item);
-    }
-    return Array.from(map.entries()).sort(([, a], [, b]) => a.orderNumber - b.orderNumber);
-  }, [filteredItems, selectedCategory]);
+
 
   // Category scroll and pagination are managed inside CategoriesBar
 
@@ -230,7 +214,12 @@ const MenuPage: React.FC = () => {
 
       {/* Items grid */}
       <div className="flex-grow overflow-y-auto p-4">
-        {isItemsLoading ? (
+        {!selectedCategory ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+            <Search className="h-10 w-10 mb-3 opacity-60" />
+            <p className="text-sm md:text-base">{t("Please select a category to view items.")}</p>
+          </div>
+        ) : isItemsLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Render skeletons when items are loading */}
             {Array.from({ length: 6 }).map((_, index) => (
@@ -247,130 +236,63 @@ const MenuPage: React.FC = () => {
             ))}
           </div>
         ) : filteredItems.length > 0 ? (
-          selectedCategory === "all" ? (
-            <div className="space-y-10">
-              {groupedSections.map(([catId, group]) => (
-                <section key={catId}>
-                  <h3 className="text-xl font-semibold mb-4 tracking-tight">{t(group.name)}</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {group.items.map((item: ItemType) => (
-                      <Dialog key={item.id}>
-                        <DialogTrigger asChild>
-                          <Card className="cursor-pointer overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-                            <div className="relative">
-                              {item.image && (
-                                <img
-                                  src={item.image}
-                                  alt={t(item.name)}
-                                  className="w-full aspect-video object-cover"
-                                  loading="lazy"
-                                  decoding="async"
-                                  sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
-                                />
-                              )}
-                              <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-sm font-semibold text-primary border">
-                                {t("IQD")} {item.price.toLocaleString()}
-                              </div>
-                            </div>
-                            <CardHeader>
-                              <CardTitle className="text-base md:text-lg font-semibold tracking-tight">
-                                {t(item.name)}
-                              </CardTitle>
-                              <CardDescription className="text-sm text-muted-foreground line-clamp-2">
-                                {t(item.description || "")}
-                              </CardDescription>
-                            </CardHeader>
-                          </Card>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>{t(item.name)}</DialogTitle>
-                            <DialogDescription className="text-sm text-gray-500">
-                              {t(item.description || "")}
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="p-4">
-                            {item.image && (
-                              <img
-                                src={item.image}
-                                alt={t(item.name)}
-                                className="w-full object-cover rounded-lg mb-4"
-                                style={{ maxHeight: "60vh" }}
-                                loading="lazy"
-                                decoding="async"
-                                sizes="100vw"
-                              />
-                            )}
-                            <p className="text-lg font-bold text-primary mb-2">
-                              {t("IQD")} {item.price.toLocaleString()}
-                            </p>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredItems.map((item: ItemType) => (
-                <Dialog key={item.id}>
-                  <DialogTrigger asChild>
-                    <Card className="cursor-pointer overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-                      <div className="relative">
-                        {item.image && (
-                          <img
-                            src={item.image}
-                            alt={t(item.name)}
-                            className="w-full aspect-video object-cover"
-                            loading="lazy"
-                            decoding="async"
-                            sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
-                          />
-                        )}
-                        <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-sm font-semibold text-primary border">
-                          {t("IQD")} {item.price.toLocaleString()}
-                        </div>
-                      </div>
-                      <CardHeader>
-                        <CardTitle className="text-base md:text-lg font-semibold tracking-tight">
-                          {t(item.name)}
-                        </CardTitle>
-                        <CardDescription className="text-sm text-muted-foreground line-clamp-2">
-                          {t(item.description || "")}
-                        </CardDescription>
-                      </CardHeader>
-                    </Card>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>{t(item.name)}</DialogTitle>
-                      <DialogDescription className="text-sm text-gray-500">
-                        {t(item.description || "")}
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredItems.map((item: ItemType) => (
+              <Dialog key={item.id}>
+                <DialogTrigger asChild>
+                  <Card className="cursor-pointer overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div className="relative">
                       {item.image && (
                         <img
                           src={item.image}
                           alt={t(item.name)}
-                          className="w-full object-cover rounded-lg mb-4"
-                          style={{ maxHeight: "60vh" }}
+                          className="w-full aspect-video object-cover"
                           loading="lazy"
                           decoding="async"
-                          sizes="100vw"
+                          sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
                         />
                       )}
-                      <p className="text-lg font-bold text-primary mb-2">
+                      <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-sm font-semibold text-primary border">
                         {t("IQD")} {item.price.toLocaleString()}
-                      </p>
+                      </div>
                     </div>
-                  </DialogContent>
-                </Dialog>
-              ))}
-            </div>
-          )
+                    <CardHeader>
+                      <CardTitle className="text-base md:text-lg font-semibold tracking-tight">
+                        {t(item.name)}
+                      </CardTitle>
+                      <CardDescription className="text-sm text-muted-foreground line-clamp-2">
+                        {t(item.description || "")}
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t(item.name)}</DialogTitle>
+                    <DialogDescription className="text-sm text-gray-500">
+                      {t(item.description || "")}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="p-4">
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={t(item.name)}
+                        className="w-full object-cover rounded-lg mb-4"
+                        style={{ maxHeight: "60vh" }}
+                        loading="lazy"
+                        decoding="async"
+                        sizes="100vw"
+                      />
+                    )}
+                    <p className="text-lg font-bold text-primary mb-2">
+                      {t("IQD")} {item.price.toLocaleString()}
+                    </p>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
         ) : (
           // Show a message when no items match the search
           <div className="col-span-full flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
