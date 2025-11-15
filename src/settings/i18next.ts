@@ -27,7 +27,7 @@ i18n
     },
     // Backend options for fetching translations
     backend: {
-      loadPath: `${import.meta.env.VITE_API_BASE_URL}/locales/{{lng}}.json`
+      loadPath: `${import.meta.env.VITE_API_BASE_URL}/locale/translations/{{lng}}`
     },
     // Enable debug mode
     debug: true,
