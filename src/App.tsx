@@ -15,6 +15,8 @@ import ThankYouPage from "./Pages/thanks";
 const App: React.FC = () => {
 	const [accessCode, setAccessCode] = useState<string>("");
 	const [showNav, setShowNav] = useState<boolean>(false);
+	const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+
 	// Access Code Change
 	const handleAccessCodeChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -36,30 +38,57 @@ const App: React.FC = () => {
 
 	// Refresh Protection + Auto Domain Detection
 	useEffect(() => {
-		// Import the domain mapping function
-		const getAccessCodeFromDomain = async () => {
-			const { getAccessCodeFromDomain: getDomainCode } = await import(
-				"./utils/restaurantMapping"
-			);
-			return getDomainCode();
+		const authenticateWithCode = async (code: string) => {
+			try {
+				setIsAuthenticating(true);
+				const axiosInstance = (await import("./axiosInstance")).default;
+				const response = await axiosInstance.post("/restaurant/auth", {
+					accessCode: code,
+				});
+
+				// Store restaurant data
+				localStorage.setItem("RestaurantID", response.data.id);
+				localStorage.setItem("accessCode", response.data.accessCode);
+				localStorage.setItem("theme", JSON.stringify(response.data.theme));
+				localStorage.setItem("restaurantName", response.data.name);
+				localStorage.setItem("logo", response.data.image);
+
+				setAccessCode(code);
+				setShowNav(true);
+				setIsAuthenticating(false);
+
+				// Redirect to menu
+				window.location.href = "/menu";
+			} catch (error) {
+				console.error("Authentication failed:", error);
+				setIsAuthenticating(false);
+				localStorage.removeItem("accessCode");
+			}
 		};
 
-		// Check if user is already authenticated
-		const savedAccessCode = localStorage.getItem("accessCode");
+		const initAuth = async () => {
+			// Check if user is already authenticated
+			const savedAccessCode = localStorage.getItem("accessCode");
 
-		if (savedAccessCode) {
-			// User already authenticated
-			setAccessCode(savedAccessCode);
-			setShowNav(true);
-		} else {
-			// Try to detect domain and auto-authenticate
-			getAccessCodeFromDomain().then((domainCode) => {
+			if (savedAccessCode) {
+				// User already authenticated
+				setAccessCode(savedAccessCode);
+				setShowNav(true);
+			} else {
+				// Try to detect domain and auto-authenticate
+				const { getAccessCodeFromDomain } = await import(
+					"./utils/restaurantMapping"
+				);
+				const domainCode = getAccessCodeFromDomain();
+
 				if (domainCode) {
-					// Found matching domain, set access code for auto-submit
-					setAccessCode(domainCode);
+					// Found matching domain, authenticate directly
+					await authenticateWithCode(domainCode);
 				}
-			});
-		}
+			}
+		};
+
+		initAuth();
 	}, []);
 
 	return (
@@ -69,7 +98,15 @@ const App: React.FC = () => {
 				<Route
 					path='/'
 					element={
-						localStorage.getItem("accessCode") ? (
+						isAuthenticating ? (
+							// Show loading screen during authentication
+							<div className='w-screen h-screen flex items-center justify-center bg-white'>
+								<div className='text-center'>
+									<div className='animate-spin rounded-full h-16 w-16 border-b-2 border-[#c01638] mx-auto mb-4'></div>
+									<p className='text-[#c01638] text-xl'>Loading...</p>
+								</div>
+							</div>
+						) : localStorage.getItem("accessCode") ? (
 							<WelcomePage handleLogout={handleLogout} />
 						) : (
 							<HomePage
