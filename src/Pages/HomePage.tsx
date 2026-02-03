@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../assets/GM-Logo.jpg";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -57,6 +57,25 @@ const HomePage: React.FC<props> = ({
 
 	console.log("id", localStorage.getItem("RestaurantID"));
 
+	// Auto-submit effect when accessCode is pre-filled from domain detection
+	useEffect(() => {
+		// Only auto-submit if:
+		// 1. accessCode is set (from domain detection)
+		// 2. Not already authenticated
+		// 3. Not currently loading
+		if (
+			accessCode &&
+			!localStorage.getItem("accessCode") &&
+			!mutation.isPending
+		) {
+			// Small delay to ensure state is ready
+			const timer = setTimeout(() => {
+				mutation.mutate({ accessCode: accessCode });
+			}, 500);
+			return () => clearTimeout(timer);
+		}
+	}, [accessCode]);
+
 	// Handle Code Submit
 	const handleSubmit = () => {
 		if (accessCode) {
@@ -98,11 +117,10 @@ const HomePage: React.FC<props> = ({
 					<button
 						disabled={mutation.isPending}
 						onClick={handleSubmit}
-						className={`mt-4 w-full bg-[#c01638] hover:bg-[#c01638] text-white font-semibold py-4 px-4 rounded-md ${
-							mutation.isPending
-								? "animate-pulse cursor-not-allowed bg-slate-500"
-								: ""
-						}`}
+						className={`mt-4 w-full bg-[#c01638] hover:bg-[#c01638] text-white font-semibold py-4 px-4 rounded-md ${mutation.isPending
+							? "animate-pulse cursor-not-allowed bg-slate-500"
+							: ""
+							}`}
 					>
 						Submit
 					</button>

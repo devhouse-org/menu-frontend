@@ -34,14 +34,31 @@ const App: React.FC = () => {
 		setShowNav(false);
 	};
 
-	// Refresh Protection
+	// Refresh Protection + Auto Domain Detection
 	useEffect(() => {
-		// Retrieve access code from localStorage if it exists
-		const savedAccessCode =
-			localStorage.getItem("accessCode");
+		// Import the domain mapping function
+		const getAccessCodeFromDomain = async () => {
+			const { getAccessCodeFromDomain: getDomainCode } = await import(
+				"./utils/restaurantMapping"
+			);
+			return getDomainCode();
+		};
+
+		// Check if user is already authenticated
+		const savedAccessCode = localStorage.getItem("accessCode");
+
 		if (savedAccessCode) {
+			// User already authenticated
 			setAccessCode(savedAccessCode);
 			setShowNav(true);
+		} else {
+			// Try to detect domain and auto-authenticate
+			getAccessCodeFromDomain().then((domainCode) => {
+				if (domainCode) {
+					// Found matching domain, set access code for auto-submit
+					setAccessCode(domainCode);
+				}
+			});
 		}
 	}, []);
 
