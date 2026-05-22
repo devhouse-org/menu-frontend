@@ -33,11 +33,34 @@ import CategoriesBar from "../components/Menu/CategoriesBar";
 interface ItemType {
   id: string;
   name: string;
+  nameAr?: string | null;
   description?: string;
+  descriptionAr?: string | null;
   image?: string;
   price: number;
   category?: { id: string; name: string; orderNumber?: number };
 }
+
+/**
+ * Pick the right localized field for an item.
+ *
+ * The old design tried to translate names/descriptions through the
+ * generic Translation table, keyed by source text. Two items sharing
+ * the same English text (or identical name+description on one item)
+ * collided and the description value clobbered the name value.
+ *
+ * Now Arabic strings live on the Item row itself; this helper picks
+ * the right one based on the active i18n language, falling back to
+ * the base value when no Arabic variant is set.
+ */
+const pickLocalized = (
+  lang: string,
+  base: string | undefined | null,
+  ar: string | undefined | null,
+) => {
+  if (lang === 'ar' && ar && ar.trim()) return ar;
+  return base ?? '';
+};
 
 interface DealType {
   id: string;
@@ -66,7 +89,8 @@ const fetchDeals = async () => {
 };
 
 const MenuPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'en';
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term
@@ -125,16 +149,24 @@ const MenuPage: React.FC = () => {
     setSelectedCategory(categoryId);
   }, []);
 
-  // New function to filter items based on search term
+  // Filter items based on search term — search across BOTH languages so
+  // typing the Arabic word matches items that only have an English name.
   const filteredItems = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return items;
     return items.filter((item: ItemType) => {
-      const nameMatch = t(item.name).toLowerCase().includes(term);
-      const descMatch = t(item.description || "").toLowerCase().includes(term);
-      return nameMatch || descMatch;
+      const haystack = [
+        item.name,
+        item.nameAr,
+        item.description,
+        item.descriptionAr,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return haystack.includes(term);
     });
-  }, [items, searchTerm, t]);
+  }, [items, searchTerm]);
 
 
 
@@ -237,61 +269,65 @@ const MenuPage: React.FC = () => {
           </div>
         ) : filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredItems.map((item: ItemType) => (
-              <Dialog key={item.id}>
-                <DialogTrigger asChild>
-                  <Card className="cursor-pointer overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <div className="relative">
+            {filteredItems.map((item: ItemType) => {
+              const localName = pickLocalized(lang, item.name, item.nameAr);
+              const localDesc = pickLocalized(lang, item.description, item.descriptionAr);
+              return (
+                <Dialog key={item.id}>
+                  <DialogTrigger asChild>
+                    <Card className="cursor-pointer overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                      <div className="relative">
+                        {item.image && (
+                          <img
+                            src={item.image}
+                            alt={localName}
+                            className="w-full aspect-video object-cover"
+                            loading="lazy"
+                            decoding="async"
+                            sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
+                          />
+                        )}
+                        <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-sm font-semibold text-primary border">
+                          {t("IQD")} {item.price.toLocaleString()}
+                        </div>
+                      </div>
+                      <CardHeader>
+                        <CardTitle className="text-base md:text-lg font-semibold tracking-tight">
+                          {localName}
+                        </CardTitle>
+                        <CardDescription className="text-sm text-muted-foreground line-clamp-2">
+                          {localDesc}
+                        </CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{localName}</DialogTitle>
+                      <DialogDescription className="text-sm text-gray-500">
+                        {localDesc}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="p-4">
                       {item.image && (
                         <img
                           src={item.image}
-                          alt={t(item.name)}
-                          className="w-full aspect-video object-cover"
+                          alt={localName}
+                          className="w-full object-cover rounded-lg mb-4"
+                          style={{ maxHeight: "60vh" }}
                           loading="lazy"
                           decoding="async"
-                          sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
+                          sizes="100vw"
                         />
                       )}
-                      <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-sm font-semibold text-primary border">
+                      <p className="text-lg font-bold text-primary mb-2">
                         {t("IQD")} {item.price.toLocaleString()}
-                      </div>
+                      </p>
                     </div>
-                    <CardHeader>
-                      <CardTitle className="text-base md:text-lg font-semibold tracking-tight">
-                        {t(item.name)}
-                      </CardTitle>
-                      <CardDescription className="text-sm text-muted-foreground line-clamp-2">
-                        {t(item.description || "")}
-                      </CardDescription>
-                    </CardHeader>
-                  </Card>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{t(item.name)}</DialogTitle>
-                    <DialogDescription className="text-sm text-gray-500">
-                      {t(item.description || "")}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="p-4">
-                    {item.image && (
-                      <img
-                        src={item.image}
-                        alt={t(item.name)}
-                        className="w-full object-cover rounded-lg mb-4"
-                        style={{ maxHeight: "60vh" }}
-                        loading="lazy"
-                        decoding="async"
-                        sizes="100vw"
-                      />
-                    )}
-                    <p className="text-lg font-bold text-primary mb-2">
-                      {t("IQD")} {item.price.toLocaleString()}
-                    </p>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            ))}
+                  </DialogContent>
+                </Dialog>
+              );
+            })}
           </div>
         ) : (
           // Show a message when no items match the search
