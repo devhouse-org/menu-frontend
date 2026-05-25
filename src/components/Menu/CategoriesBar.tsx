@@ -9,8 +9,25 @@ import { iconOptions } from "@/utils/data";
 export interface CategoryType {
   id: string;
   name: string;
+  nameAr?: string | null;
   icon?: string;
 }
+
+// Prefer the Arabic name stored directly on the Category row.
+// Fall back to the legacy Translation-table lookup (t(name)) for rows that
+// haven't been backfilled yet, then to the English name as a last resort.
+const pickCategoryLabel = (
+  lang: string,
+  name: string,
+  nameAr: string | null | undefined,
+  t: (key: string) => string,
+) => {
+  if (lang === 'ar') {
+    if (nameAr && nameAr.trim()) return nameAr;
+    return t(name);
+  }
+  return name;
+};
 
 type Props = {
   onCategoryChange: (categoryId: string) => void;
@@ -156,7 +173,7 @@ const CategoriesBar: React.FC<Props> = ({ onCategoryChange }) => {
           {category.icon && (
             <span className="mx-2 text-lg">{getIconComponent(category.icon)}</span>
           )}
-          {t(category.name)}
+          {pickCategoryLabel(i18n.language, category.name, category.nameAr, t)}
         </button>
       ))}
       {isFetchingNextPage && (
