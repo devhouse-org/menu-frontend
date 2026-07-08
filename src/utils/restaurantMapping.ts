@@ -8,6 +8,7 @@ export const RESTAURANT_DOMAIN_MAP: Record<string, string> = {
     'sports-cafe-qrcode-menu.netlify.app': '123456',
     'indian-palace.netlify.app': '5421',
     'sallat-alasmak-qr.netlify.app': 'SAA',
+    'melodie.cafe': 'HHH',
 };
 
 /**
