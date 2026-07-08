@@ -36,10 +36,7 @@ interface ItemType {
   nameAr?: string | null;
   description?: string;
   descriptionAr?: string | null;
-  // The menu payload no longer inlines base64 images. `hasImage` says whether
-  // to build an <img> URL; `updatedAt` versions that URL for cache-busting.
-  hasImage?: boolean;
-  updatedAt?: string;
+  image?: string;
   price: number;
   category?: { id: string; name: string; orderNumber?: number };
 }
@@ -70,27 +67,10 @@ interface DealType {
   title: string;
   description: string;
   discount?: number;
-  hasImage?: boolean;
-  updatedAt?: string;
+  image?: string;
 }
 
 // Categories state is handled inside the extracted component
-
-// The API no longer inlines base64 images in the menu payload; each image is
-// fetched from its own cacheable endpoint. Build those URLs against the API
-// origin (the same host axios talks to), versioned by the row's updatedAt so a
-// changed image busts the browser's otherwise-immutable cache.
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
-
-const buildImageUrl = (
-  kind: 'item' | 'deal',
-  id: string,
-  updatedAt?: string,
-  size: 'thumb' | 'full' = 'thumb',
-) => {
-  const v = updatedAt ? `&v=${encodeURIComponent(updatedAt)}` : '';
-  return `${API_BASE}/${kind}/image/${id}?size=${size}${v}`;
-};
 
 const fetchItemsPage = async (categoryId: string, pageParam: number) => {
   const response = await axios.get(
@@ -103,7 +83,7 @@ const fetchItemsPage = async (categoryId: string, pageParam: number) => {
 
 const fetchDeals = async () => {
   const response = await axios.get(
-    `/deal/public?restaurantId=${localStorage.getItem("RestaurantID")}`
+    `/deal?restaurantId=${localStorage.getItem("RestaurantID")}&published=true`
   );
   return response.data.items;
 };
@@ -208,9 +188,9 @@ const MenuPage: React.FC = () => {
                   <div className="relative">
                     <Card className="overflow-hidden rounded-xl shadow-sm">
                       <CardContent className="p-0">
-                        {deal.hasImage && (
+                        {deal.image && (
                           <img
-                            src={buildImageUrl('deal', deal.id, deal.updatedAt, 'full')}
+                            src={deal.image}
                             alt={t(deal.title)}
                             className="w-full h-64 md:h-72 object-cover"
                             loading="lazy"
@@ -297,9 +277,9 @@ const MenuPage: React.FC = () => {
                   <DialogTrigger asChild>
                     <Card className="cursor-pointer overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
                       <div className="relative">
-                        {item.hasImage && (
+                        {item.image && (
                           <img
-                            src={buildImageUrl('item', item.id, item.updatedAt, 'thumb')}
+                            src={item.image}
                             alt={localName}
                             className="w-full aspect-video object-cover"
                             loading="lazy"
@@ -329,9 +309,9 @@ const MenuPage: React.FC = () => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="p-4">
-                      {item.hasImage && (
+                      {item.image && (
                         <img
-                          src={buildImageUrl('item', item.id, item.updatedAt, 'full')}
+                          src={item.image}
                           alt={localName}
                           className="w-full object-cover rounded-lg mb-4"
                           style={{ maxHeight: "60vh" }}
