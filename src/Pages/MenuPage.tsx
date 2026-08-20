@@ -37,6 +37,7 @@ interface ItemType {
   description?: string;
   descriptionAr?: string | null;
   image?: string;
+  imageThumb?: string;
   price: number;
   category?: { id: string; name: string; orderNumber?: number };
 }
@@ -279,7 +280,7 @@ const MenuPage: React.FC = () => {
                       <div className="relative">
                         {item.image && (
                           <img
-                            src={item.image}
+                            src={item.imageThumb || item.image}
                             alt={localName}
                             className="w-full aspect-video object-cover"
                             loading="lazy"
